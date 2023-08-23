@@ -1,0 +1,857 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Data Files Support" href="datafiles.html" /><link rel="prev" title="Development Mode (a.k.a. “Editable Installs”)" href="development_mode.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Entry Points - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="entry-points">
+<span id="id1"></span><h1>Entry Points<a class="headerlink" href="#entry-points" title="Permalink to this heading">#</a></h1>
+<p>Entry points are a type of metadata that can be exposed by packages on installation.
+They are a very useful feature of the Python ecosystem,
+and come specially handy in two scenarios:</p>
+<p>1. The package would like to provide commands to be run at the terminal.
+This functionality is known as <em>console</em> scripts. The command may also
+open up a GUI, in which case it is known as a <em>GUI</em> script. An example
+of a console script is the one provided by the <a class="reference external" href="https://pypi.org/project/pip">pip</a> package, which
+allows you to run commands like <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> in the terminal.</p>
+<p>2. A package would like to enable customization of its functionalities
+via <em>plugins</em>. For example, the test framework <a class="reference external" href="https://pypi.org/project/pytest">pytest</a> allows
+customization via the <code class="docutils literal notranslate"><span class="pre">pytest11</span></code> entry point, and the syntax
+highlighting tool <a class="reference external" href="https://pypi.org/project/pygments">pygments</a> allows specifying additional styles
+using the entry point <code class="docutils literal notranslate"><span class="pre">pygments.styles</span></code>.</p>
+<section id="console-scripts">
+<span id="id2"></span><h2>Console Scripts<a class="headerlink" href="#console-scripts" title="Permalink to this heading">#</a></h2>
+<p>Let us start with console scripts.
+First consider an example without entry points. Imagine a package
+defined thus:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins
+        ├── __init__.py
+        └── ...
+</pre></div>
+</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, suppose that we would like to provide some way of executing the
+function <code class="docutils literal notranslate"><span class="pre">hello_world()</span></code> from the command-line. One way to do this
+is to create a file <code class="docutils literal notranslate"><span class="pre">src/timmins/__main__.py</span></code> providing a hook as
+follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">hello_world</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">hello_world</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then, after installing the package <code class="docutils literal notranslate"><span class="pre">timmins</span></code>, we may invoke the <code class="docutils literal notranslate"><span class="pre">hello_world()</span></code>
+function as follows, through the <a class="reference external" href="https://docs.python.org/3/library/runpy.html">runpy</a>
+module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>timmins
+Hello<span class="w"> </span>world
+</pre></div>
+</div>
+<p>Instead of this approach using <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>, you can also create a
+user-friendly CLI executable that can be called directly without <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span></code>.
+In the above example, to create a command <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> that invokes
+<code class="docutils literal notranslate"><span class="pre">timmins.hello_world</span></code>, add a console script entry point to your
+configuration:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.scripts]</span>
+<span class="n">hello-world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;timmins:hello_world&quot;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options.entry_points]</span>
+<span class="na">console_scripts</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">hello-world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">timmins:hello_world</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;hello-world = timmins:hello_world&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After installing the package, a user may invoke that function by simply calling
+<code class="docutils literal notranslate"><span class="pre">hello-world</span></code> on the command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>hello-world
+Hello<span class="w"> </span>world
+</pre></div>
+</div>
+<p>Note that any function used as a console script, i.e. <code class="docutils literal notranslate"><span class="pre">hello_world()</span></code> in
+this example, should not accept any arguments. If your function requires any input
+from the user, you can use regular command-line argument parsing utilities like
+<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/argparse.html#module-argparse" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">argparse</span></code></a> within the body of
+the function to parse user input given via <a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/sys.html#sys.argv" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sys.argv</span></code></a>.</p>
+<p>You may have noticed that we have used a special syntax to specify the function
+that must be invoked by the console script, i.e. we have written <code class="docutils literal notranslate"><span class="pre">timmins:hello_world</span></code>
+with a colon <code class="docutils literal notranslate"><span class="pre">:</span></code> separating the package name and the function name. The full
+specification of this syntax is discussed in the <a class="reference external" href="#entry-points-syntax">last section</a>
+of this document, and this can be used to specify a function located anywhere in
+your package, not just in <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>.</p>
+</section>
+<section id="gui-scripts">
+<h2>GUI Scripts<a class="headerlink" href="#gui-scripts" title="Permalink to this heading">#</a></h2>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code>, Setuptools supports <code class="docutils literal notranslate"><span class="pre">gui_scripts</span></code>, which
+will launch a GUI application without running in a terminal window.</p>
+<p>For example, if we have a project with the same directory structure as before,
+with an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file containing the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PySimpleGUI</span> <span class="k">as</span> <span class="nn">sg</span>
+
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="n">sg</span><span class="o">.</span><span class="n">Window</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Hello world&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="p">[[]],</span> <span class="n">margins</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Then, we can add a GUI script entry point:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.gui-scripts]</span>
+<span class="n">hello-world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;timmins:hello_world&quot;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options.entry_points]</span>
+<span class="na">gui_scripts</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">hello-world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">timmins:hello_world</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;gui_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;hello-world = timmins:hello_world&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To be able to import <code class="docutils literal notranslate"><span class="pre">PySimpleGUI</span></code>, you need to add <code class="docutils literal notranslate"><span class="pre">pysimplegui</span></code> to your package dependencies.
+See <a class="reference internal" href="dependency_management.html"><span class="doc">Dependencies Management in Setuptools</span></a> for more information.</p>
+</div>
+<p>Now, running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>hello-world
+</pre></div>
+</div>
+<p>will open a small application window with the title ‘Hello world’.</p>
+<p>Note that just as with console scripts, any function used as a GUI script
+should not accept any arguments, and any user input can be parsed within the
+body of the function. GUI scripts also use the same syntax (discussed in the
+<a class="reference external" href="#entry-points-syntax">last section</a>) for specifying the function to be invoked.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The difference between <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code> and <code class="docutils literal notranslate"><span class="pre">gui_scripts</span></code> only affects
+Windows systems. <a class="footnote-reference brackets" href="#use-for-scripts" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code> are wrapped in a console
+executable, so they are attached to a console and can use <code class="docutils literal notranslate"><span class="pre">sys.stdin</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> for input and output. <code class="docutils literal notranslate"><span class="pre">gui_scripts</span></code> are
+wrapped in a GUI executable, so they can be started without a console, but
+cannot use standard streams unless application code redirects them. Other
+platforms do not have the same distinction.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Console and GUI scripts work because behind the scenes, installers like <a class="reference external" href="https://pypi.org/project/pip">pip</a>
+create wrapper scripts around the function(s) being invoked. For example,
+the <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> entry point in the above two examples would create a
+command <code class="docutils literal notranslate"><span class="pre">hello-world</span></code> launching a script like this: <a class="footnote-reference brackets" href="#use-for-scripts" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">timmins</span> <span class="kn">import</span> <span class="n">hello_world</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">hello_world</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="advertising-behavior">
+<span id="dynamic-discovery-of-services-and-plugins"></span><h2>Advertising Behavior<a class="headerlink" href="#advertising-behavior" title="Permalink to this heading">#</a></h2>
+<p>Console/GUI scripts are one use of the more general concept of entry points. Entry
+points more generally allow a packager to advertise behavior for discovery by
+other libraries and applications. This feature enables “plug-in”-like
+functionality, where one library solicits entry points and any number of other
+libraries provide those entry points.</p>
+<p>A good example of this plug-in behavior can be seen in
+<a class="reference external" href="https://docs.pytest.org/en/latest/writing_plugins.html">pytest plugins</a>,
+where pytest is a test framework that allows other libraries to extend
+or modify its functionality through the <code class="docutils literal notranslate"><span class="pre">pytest11</span></code> entry point.</p>
+<p>The console/GUI scripts work similarly, where libraries advertise their commands
+and tools like <code class="docutils literal notranslate"><span class="pre">pip</span></code> create wrapper scripts that invoke those commands.</p>
+</section>
+<section id="entry-points-for-plugins">
+<h2>Entry Points for Plugins<a class="headerlink" href="#entry-points-for-plugins" title="Permalink to this heading">#</a></h2>
+<p>Let us consider a simple example to understand how we can implement entry points
+corresponding to plugins. Say we have a package <code class="docutils literal notranslate"><span class="pre">timmins</span></code> with the following
+directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>timmins
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins
+        └── __init__.py
+</pre></div>
+</div>
+<p>and in <code class="docutils literal notranslate"><span class="pre">src/timmins/__init__.py</span></code> we have the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Basically, we have defined a <code class="docutils literal notranslate"><span class="pre">hello_world()</span></code> function which will print the text
+‘Hello world’. Now, let us say we want to print the text ‘Hello world’ in different
+ways. The current function just prints the text as it is - let us say we want another
+style in which the text is enclosed within exclamation marks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!!! Hello world !!!
+</pre></div>
+</div>
+<p>Let us see how this can be done using plugins. First, let us separate the style of
+printing the text from the text itself. In other words, we can change the code in
+<code class="docutils literal notranslate"><span class="pre">src/timmins/__init__.py</span></code> to something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="n">display</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">display()</span></code> function controls the style of printing the text, and the
+<code class="docutils literal notranslate"><span class="pre">hello_world()</span></code> function calls the <code class="docutils literal notranslate"><span class="pre">display()</span></code> function to print the text ‘Hello
+world`.</p>
+<p>Right now the <code class="docutils literal notranslate"><span class="pre">display()</span></code> function just prints the text as it is. In order to be able
+to customize it, we can do the following. Let us introduce a new <em>group</em> of entry points
+named <code class="docutils literal notranslate"><span class="pre">timmins.display</span></code>, and expect plugin packages implementing this entry point
+to supply a <code class="docutils literal notranslate"><span class="pre">display()</span></code>-like function. Next, to be able to automatically discover plugin
+packages that implement this entry point, we can use the
+<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/importlib.metadata.html#module-importlib.metadata" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code></a> module,
+as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+<span class="n">display_eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;timmins.display&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">importlib.metadata.EntryPoint</span></code> object is an object containing a <code class="docutils literal notranslate"><span class="pre">name</span></code>, a
+<code class="docutils literal notranslate"><span class="pre">group</span></code>, and a <code class="docutils literal notranslate"><span class="pre">value</span></code>. For example, after setting up the plugin package as
+described below, <code class="docutils literal notranslate"><span class="pre">display_eps</span></code> in the above code will look like this: <a class="footnote-reference brackets" href="#package-metadata" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">EntryPoint</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;excl&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;timmins_plugin_fancy:excl_display&#39;</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;timmins.display&#39;</span><span class="p">),</span>
+    <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">display_eps</span></code> will now be a list of <code class="docutils literal notranslate"><span class="pre">EntryPoint</span></code> objects, each referring to <code class="docutils literal notranslate"><span class="pre">display()</span></code>-like
+functions defined by one or more installed plugin packages. Then, to import a specific
+<code class="docutils literal notranslate"><span class="pre">display()</span></code>-like function - let us choose the one corresponding to the first discovered
+entry point - we can use the <code class="docutils literal notranslate"><span class="pre">load()</span></code> method as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">display</span> <span class="o">=</span> <span class="n">display_eps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, a sensible behaviour would be that if we cannot find any plugin packages customizing
+the <code class="docutils literal notranslate"><span class="pre">display()</span></code> function, we should fall back to our default implementation which prints
+the text as it is. With this behaviour included, the code in <code class="docutils literal notranslate"><span class="pre">src/timmins/__init__.py</span></code>
+finally becomes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+<span class="n">display_eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;timmins.display&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">display</span> <span class="o">=</span> <span class="n">display_eps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="n">display</span><span class="p">(</span><span class="s1">&#39;Hello world&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That finishes the setup on <code class="docutils literal notranslate"><span class="pre">timmins</span></code>’s side. Next, we need to implement a plugin
+which implements the entry point <code class="docutils literal notranslate"><span class="pre">timmins.display</span></code>. Let us name this plugin
+<code class="docutils literal notranslate"><span class="pre">timmins-plugin-fancy</span></code>, and set it up with the following directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>timmins-plugin-fancy
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins_plugin_fancy
+        └── __init__.py
+</pre></div>
+</div>
+<p>And then, inside <code class="docutils literal notranslate"><span class="pre">src/timmins_plugin_fancy/__init__.py</span></code>, we can put a function
+named <code class="docutils literal notranslate"><span class="pre">excl_display()</span></code> that prints the given text surrounded by exclamation marks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">excl_display</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;!!!&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="s1">&#39;!!!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is the <code class="docutils literal notranslate"><span class="pre">display()</span></code>-like function that we are looking to supply to the
+<code class="docutils literal notranslate"><span class="pre">timmins</span></code> package. We can do that by adding the following in the configuration
+of <code class="docutils literal notranslate"><span class="pre">timmins-plugin-fancy</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note the quotes around timmins.display in order to escape the dot .</span>
+<span class="k">[project.entry-points.&quot;timmins.display&quot;]</span>
+<span class="n">excl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;timmins_plugin_fancy:excl_display&quot;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options.entry_points]</span>
+<span class="na">timmins.display</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">excl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">timmins_plugin_fancy:excl_display</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">entry_points</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;timmins.display&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;excl = timmins_plugin_fancy:excl_display&#39;</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Basically, this configuration states that we are a supplying an entry point
+under the group <code class="docutils literal notranslate"><span class="pre">timmins.display</span></code>. The entry point is named <code class="docutils literal notranslate"><span class="pre">excl</span></code> and it
+refers to the function <code class="docutils literal notranslate"><span class="pre">excl_display</span></code> defined by the package <code class="docutils literal notranslate"><span class="pre">timmins-plugin-fancy</span></code>.</p>
+<p>Now, if we install both <code class="docutils literal notranslate"><span class="pre">timmins</span></code> and <code class="docutils literal notranslate"><span class="pre">timmins-plugin-fancy</span></code>, we should get
+the following:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">timmins</span> <span class="kn">import</span> <span class="n">hello_world</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hello_world</span><span class="p">()</span>
+<span class="go">!!! Hello world !!!</span>
+</pre></div>
+</div>
+<p>whereas if we only install <code class="docutils literal notranslate"><span class="pre">timmins</span></code> and not <code class="docutils literal notranslate"><span class="pre">timmins-plugin-fancy</span></code>, we should
+get the following:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">timmins</span> <span class="kn">import</span> <span class="n">hello_world</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hello_world</span><span class="p">()</span>
+<span class="go">Hello world</span>
+</pre></div>
+</div>
+<p>Therefore, our plugin works.</p>
+<p>Our plugin could have also defined multiple entry points under the group <code class="docutils literal notranslate"><span class="pre">timmins.display</span></code>.
+For example, in <code class="docutils literal notranslate"><span class="pre">src/timmins_plugin_fancy/__init__.py</span></code> we could have two <code class="docutils literal notranslate"><span class="pre">display()</span></code>-like
+functions, as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">excl_display</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;!!!&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="s1">&#39;!!!&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">lined_display</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;-&#39;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">text</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;-&#39;</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">text</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>The configuration of <code class="docutils literal notranslate"><span class="pre">timmins-plugin-fancy</span></code> would then change to:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.entry-points.&quot;timmins.display&quot;]</span>
+<span class="n">excl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;timmins_plugin_fancy:excl_display&quot;</span>
+<span class="n">lined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;timmins_plugin_fancy:lined_display&quot;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options.entry_points]</span>
+<span class="na">timmins.display</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">excl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">timmins_plugin_fancy:excl_display</span>
+<span class="w">    </span><span class="na">lined</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">timmins_plugin_fancy:lined_display</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">entry_points</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;timmins.display&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s1">&#39;excl = timmins_plugin_fancy:excl_display&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;lined = timmins_plugin_fancy:lined_display&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On the <code class="docutils literal notranslate"><span class="pre">timmins</span></code> side, we can also use a different strategy of loading entry
+points. For example, we can search for a specific display style:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">display_eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;timmins.display&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">display</span> <span class="o">=</span> <span class="n">display_eps</span><span class="p">[</span><span class="s1">&#39;lined&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="c1"># if the &#39;lined&#39; display is not available, use something else</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Or we can also load all plugins under the given group. Though this might not
+be of much use in our current example, there are several scenarios in which this
+is useful:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">display_eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;timmins.display&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">display_eps</span><span class="p">:</span>
+    <span class="n">display</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    <span class="c1"># do something with display</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Another point is that in this particular example, we have used plugins to
+customize the behaviour of a function (<code class="docutils literal notranslate"><span class="pre">display()</span></code>). In general, we can use entry
+points to enable plugins to not only customize the behaviour of functions, but also
+of entire classes and modules. This is unlike the case of console/GUI scripts,
+where entry points can only refer to functions. The syntax used for specifying the
+entry points remains the same as for console/GUI scripts, and is discussed in the
+<a class="reference external" href="#entry-points-syntax">last section</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The recommended approach for loading and importing entry points is the
+<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/importlib.metadata.html#module-importlib.metadata" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code></a> module,
+which is a part of the standard library since Python 3.8. For older versions of
+Python, its backport <a class="reference external" href="https://pypi.org/project/importlib_metadata">importlib_metadata</a> should be used. While using the
+backport, the only change that has to be made is to replace <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code>
+with <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code>, i.e.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib_metadata</span> <span class="kn">import</span> <span class="n">entry_points</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<p>In summary, entry points allow a package to open its functionalities for
+customization via plugins.
+The package soliciting the entry points need not have any dependency
+or prior knowledge about the plugins implementing the entry points, and
+downstream users are able to compose functionality by pulling together
+plugins implementing the entry points.</p>
+</section>
+<section id="entry-points-syntax">
+<h2>Entry Points Syntax<a class="headerlink" href="#entry-points-syntax" title="Permalink to this heading">#</a></h2>
+<p>The syntax for entry points is specified as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span><span class="p">[:</span><span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;</span><span class="p">[</span><span class="o">.&lt;</span><span class="n">attr</span><span class="o">&gt;</span><span class="p">[</span><span class="o">.&lt;</span><span class="n">nested</span><span class="o">-</span><span class="n">attr</span><span class="o">&gt;</span><span class="p">]</span><span class="o">*</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Here, the square brackets <code class="docutils literal notranslate"><span class="pre">[]</span></code> denote optionality and the asterisk <code class="docutils literal notranslate"><span class="pre">*</span></code>
+denotes repetition.
+<code class="docutils literal notranslate"><span class="pre">name</span></code> is the name of the script/entry point you want to create, the left hand
+side of <code class="docutils literal notranslate"><span class="pre">:</span></code> is the package or module that contains the object you want to invoke
+(think about it as something you would write in an import statement), and the right
+hand side is the object you want to invoke (e.g. a function).</p>
+<p>To make this syntax more clear, consider the following examples:</p>
+<dl>
+<dt>Package or module</dt><dd><p>If you supply:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>as the entry point, where <code class="docutils literal notranslate"><span class="pre">&lt;package_or_module&gt;</span></code> can contain <code class="docutils literal notranslate"><span class="pre">.</span></code> in the case
+of sub-modules or sub-packages, then, tools in the Python ecosystem will roughly
+interpret this value as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span>
+<span class="n">parsed_value</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Module-level object</dt><dd><p>If you supply:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;object&gt;</span></code> does not contain any <code class="docutils literal notranslate"><span class="pre">.</span></code>, this will be roughly interpreted
+as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;</span>
+<span class="n">parsed_value</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Nested object</dt><dd><p>If you supply:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;.&lt;</span><span class="n">attr</span><span class="o">&gt;.&lt;</span><span class="n">nested_attr</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>this will be roughly interpreted as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="o">&lt;</span><span class="n">package_or_module</span><span class="o">&gt;</span> <span class="kn">import</span> <span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;</span>
+<span class="n">parsed_value</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nb">object</span><span class="o">&gt;.&lt;</span><span class="n">attr</span><span class="o">&gt;.&lt;</span><span class="n">nested_attr</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>In the case of console/GUI scripts, this syntax can be used to specify a function, while
+in the general case of entry points as used for plugins, it can be used to specify a function,
+class or module.</p>
+<hr class="docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="use-for-scripts" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<p>Reference: <a class="reference external" href="https://packaging.python.org/en/latest/specifications/entry-points/#use-for-scripts">https://packaging.python.org/en/latest/specifications/entry-points/#use-for-scripts</a></p>
+</aside>
+<aside class="footnote brackets" id="package-metadata" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">2</a><span class="fn-bracket">]</span></span>
+<p>Reference: <a class="reference external" href="https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/#using-package-metadata">https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/#using-package-metadata</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="datafiles.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Data Files Support</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="development_mode.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Development Mode (a.k.a. “Editable Installs”)</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Entry Points</a><ul>
+<li><a class="reference internal" href="#console-scripts">Console Scripts</a></li>
+<li><a class="reference internal" href="#gui-scripts">GUI Scripts</a></li>
+<li><a class="reference internal" href="#advertising-behavior">Advertising Behavior</a></li>
+<li><a class="reference internal" href="#entry-points-for-plugins">Entry Points for Plugins</a></li>
+<li><a class="reference internal" href="#entry-points-syntax">Entry Points Syntax</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

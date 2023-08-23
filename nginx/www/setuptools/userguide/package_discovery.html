@@ -1,0 +1,910 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Dependencies Management in Setuptools" href="dependency_management.html" /><link rel="prev" title="Quickstart" href="quickstart.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Package Discovery and Namespace Packages - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="package-discovery-and-namespace-packages">
+<span id="package-discovery"></span><h1>Package Discovery and Namespace Packages<a class="headerlink" href="#package-discovery-and-namespace-packages" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>a full specification for the keywords supplied to <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> or
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code> can be found at <a class="reference internal" href="../references/keywords.html"><span class="doc">keywords reference</span></a></p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The examples provided here are only to demonstrate the functionality
+introduced. More metadata and options arguments need to be supplied
+if you want to replicate them on your system. If you are completely
+new to setuptools, the <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> section is a good place to start.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Setuptools</span></code> provides powerful tools to handle package discovery, including
+support for namespace packages.</p>
+<p>Normally, you would specify the packages to be included manually in the following manner:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">mypkg</span>
+<span class="w">    </span><span class="na">mypkg.subpkg1</span>
+<span class="w">    </span><span class="na">mypkg.subpkg2</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mypkg&#39;</span><span class="p">,</span> <span class="s1">&#39;mypkg.subpkg1&#39;</span><span class="p">,</span> <span class="s1">&#39;mypkg.subpkg2&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># ...</span>
+<span class="k">[tool.setuptools]</span>
+<span class="n">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;mypkg&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mypkg.subpkg1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mypkg.subpkg2&quot;</span><span class="p">]</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If your packages are not in the root of the repository or do not correspond
+exactly to the directory structure, you also need to configure <code class="docutils literal notranslate"><span class="pre">package_dir</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1"># ...</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+<span class="w">    </span><span class="c1"># directory containing all the packages (e.g.  src/mypkg, src/mypkg/subpkg1, ...)</span>
+<span class="c1"># OR</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">mypkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">lib</span>
+<span class="w">    </span><span class="c1"># mypkg.module corresponds to lib/module.py</span>
+<span class="w">    </span><span class="na">mypkg.subpkg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">lib1</span>
+<span class="w">    </span><span class="c1"># mypkg.subpkg1.module1 corresponds to lib1/module1.py</span>
+<span class="w">    </span><span class="na">mypkg.subpkg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">lib2</span>
+<span class="w">    </span><span class="c1"># mypkg.subpkg2.module2 corresponds to lib2/module2.py</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">package_dir</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">}</span>
+    <span class="c1"># directory containing all the packages (e.g.  src/mypkg, src/mypkg/subpkg1, ...)</span>
+<span class="p">)</span>
+
+<span class="c1"># OR</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">package_dir</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;mypkg&quot;</span><span class="p">:</span> <span class="s2">&quot;lib&quot;</span><span class="p">,</span>  <span class="c1"># mypkg.module corresponds to lib/module.py</span>
+        <span class="s2">&quot;mypkg.subpkg1&quot;</span><span class="p">:</span> <span class="s2">&quot;lib1&quot;</span><span class="p">,</span>  <span class="c1"># mypkg.subpkg1.module1 corresponds to lib1/module1.py</span>
+        <span class="s2">&quot;mypkg.subpkg2&quot;</span><span class="p">:</span> <span class="s2">&quot;lib2&quot;</span>   <span class="c1"># mypkg.subpkg2.module2 corresponds to lib2/module2.py</span>
+        <span class="c1"># ...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools]</span>
+<span class="c1"># ...</span>
+<span class="n">package-dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;src&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="c1"># directory containing all the packages (e.g.  src/mypkg1, src/mypkg2)</span>
+
+<span class="c1"># OR</span>
+
+<span class="k">[tool.setuptools.package-dir]</span>
+<span class="n">mypkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lib&quot;</span>
+<span class="c1"># mypkg.module corresponds to lib/module.py</span>
+<span class="s">&quot;mypkg.subpkg1&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lib1&quot;</span>
+<span class="c1"># mypkg.subpkg1.module1 corresponds to lib1/module1.py</span>
+<span class="s">&quot;mypkg.subpkg2&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lib2&quot;</span>
+<span class="c1"># mypkg.subpkg2.module2 corresponds to lib2/module2.py</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This can get tiresome really quickly. To speed things up, you can rely on
+setuptools automatic discovery, or use the provided tools, as explained in
+the following sections.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Although <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> allows developers to create a very complex mapping
+between directory names and package names, it is better to <em>keep it simple</em>
+and reflect the desired package hierarchy in the directory structure,
+preserving the same names.</p>
+</div>
+<section id="automatic-discovery">
+<span id="auto-discovery"></span><h2>Automatic discovery<a class="headerlink" href="#automatic-discovery" title="Permalink to this heading">#</a></h2>
+<p>By default <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will consider 2 popular project layouts, each one with
+its own set of advantages and disadvantages <a class="footnote-reference brackets" href="#layout1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#layout2" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> as
+discussed in the following sections.</p>
+<p>Setuptools will automatically scan your project directory looking for these
+layouts and try to guess the correct values for the <a class="hxr-hoverxref hxr-tooltip reference internal" href="declarative_config.html#declarative-config"><span class="std std-ref">packages</span></a> and <a class="reference internal" href="../references/keywords.html"><span class="doc">py_modules</span></a> configuration.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Automatic discovery will <strong>only</strong> be enabled if you <strong>don’t</strong> provide any
+configuration for <code class="docutils literal notranslate"><span class="pre">packages</span></code> and <code class="docutils literal notranslate"><span class="pre">py_modules</span></code>.
+If at least one of them is explicitly set, automatic discovery will not take place.</p>
+<p><strong>Note</strong>: specifying <code class="docutils literal notranslate"><span class="pre">ext_modules</span></code> might also prevent auto-discover from
+taking place, unless your opt into <a class="reference internal" href="pyproject_config.html"><span class="doc">Configuring setuptools using pyproject.toml files</span></a> (which will
+disable the backward compatible behaviour).</p>
+</div>
+<section id="src-layout">
+<span id="id3"></span><h3>src-layout<a class="headerlink" href="#src-layout" title="Permalink to this heading">#</a></h3>
+<p>The project should contain a <code class="docutils literal notranslate"><span class="pre">src</span></code> directory under the project root and
+all modules and packages meant for distribution are placed inside this
+directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── pyproject.toml  # AND/OR setup.cfg, setup.py
+├── ...
+└── src/
+    └── mypkg/
+        ├── __init__.py
+        ├── ...
+        ├── module.py
+        ├── subpkg1/
+        │   ├── __init__.py
+        │   ├── ...
+        │   └── module1.py
+        └── subpkg2/
+            ├── __init__.py
+            ├── ...
+            └── module2.py
+</pre></div>
+</div>
+<p>This layout is very handy when you wish to use automatic discovery,
+since you don’t have to worry about other Python files or folders in your
+project root being distributed by mistake. In some circumstances it can be
+also less error-prone for testing or when using <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>PEP 420</strong></a>-style packages.
+On the other hand you cannot rely on the implicit <code class="docutils literal notranslate"><span class="pre">PYTHONPATH=.</span></code> to fire
+up the Python REPL and play with your package (you will need an
+<a class="reference external" href="https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs">editable install</a> to be able to do that).</p>
+</section>
+<section id="flat-layout">
+<span id="id4"></span><h3>flat-layout<a class="headerlink" href="#flat-layout" title="Permalink to this heading">#</a></h3>
+<p><em>(also known as “adhoc”)</em></p>
+<p>The package folder(s) are placed directly under the project root:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── pyproject.toml  # AND/OR setup.cfg, setup.py
+├── ...
+└── mypkg/
+    ├── __init__.py
+    ├── ...
+    ├── module.py
+    ├── subpkg1/
+    │   ├── __init__.py
+    │   ├── ...
+    │   └── module1.py
+    └── subpkg2/
+        ├── __init__.py
+        ├── ...
+        └── module2.py
+</pre></div>
+</div>
+<p>This layout is very practical for using the REPL, but in some situations
+it can be more error-prone (e.g. during tests or if you have a bunch
+of folders or Python files hanging around your project root).</p>
+<p>To avoid confusion, file and folder names that are used by popular tools (or
+that correspond to well-known conventions, such as distributing documentation
+alongside the project code) are automatically filtered out in the case of
+<em>flat-layout</em>:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="setuptools.discovery.FlatLayoutPackageFinder.DEFAULT_EXCLUDE">
+<span class="sig-prename descclassname"><span class="pre">FlatLayoutPackageFinder.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_EXCLUDE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('ci',</span> <span class="pre">'ci.*',</span> <span class="pre">'bin',</span> <span class="pre">'bin.*',</span> <span class="pre">'debian',</span> <span class="pre">'debian.*',</span> <span class="pre">'doc',</span> <span class="pre">'doc.*',</span> <span class="pre">'docs',</span> <span class="pre">'docs.*',</span> <span class="pre">'documentation',</span> <span class="pre">'documentation.*',</span> <span class="pre">'manpages',</span> <span class="pre">'manpages.*',</span> <span class="pre">'news',</span> <span class="pre">'news.*',</span> <span class="pre">'newsfragments',</span> <span class="pre">'newsfragments.*',</span> <span class="pre">'changelog',</span> <span class="pre">'changelog.*',</span> <span class="pre">'test',</span> <span class="pre">'test.*',</span> <span class="pre">'tests',</span> <span class="pre">'tests.*',</span> <span class="pre">'unit_test',</span> <span class="pre">'unit_test.*',</span> <span class="pre">'unit_tests',</span> <span class="pre">'unit_tests.*',</span> <span class="pre">'example',</span> <span class="pre">'example.*',</span> <span class="pre">'examples',</span> <span class="pre">'examples.*',</span> <span class="pre">'scripts',</span> <span class="pre">'scripts.*',</span> <span class="pre">'tools',</span> <span class="pre">'tools.*',</span> <span class="pre">'util',</span> <span class="pre">'util.*',</span> <span class="pre">'utils',</span> <span class="pre">'utils.*',</span> <span class="pre">'python',</span> <span class="pre">'python.*',</span> <span class="pre">'build',</span> <span class="pre">'build.*',</span> <span class="pre">'dist',</span> <span class="pre">'dist.*',</span> <span class="pre">'venv',</span> <span class="pre">'venv.*',</span> <span class="pre">'env',</span> <span class="pre">'env.*',</span> <span class="pre">'requirements',</span> <span class="pre">'requirements.*',</span> <span class="pre">'tasks',</span> <span class="pre">'tasks.*',</span> <span class="pre">'fabfile',</span> <span class="pre">'fabfile.*',</span> <span class="pre">'site_scons',</span> <span class="pre">'site_scons.*',</span> <span class="pre">'benchmark',</span> <span class="pre">'benchmark.*',</span> <span class="pre">'benchmarks',</span> <span class="pre">'benchmarks.*',</span> <span class="pre">'exercise',</span> <span class="pre">'exercise.*',</span> <span class="pre">'exercises',</span> <span class="pre">'exercises.*',</span> <span class="pre">'htmlcov',</span> <span class="pre">'htmlcov.*',</span> <span class="pre">'[._]*',</span> <span class="pre">'[._]*.*')</span></em><a class="headerlink" href="#setuptools.discovery.FlatLayoutPackageFinder.DEFAULT_EXCLUDE" title="Permalink to this definition">#</a></dt>
+<dd><p>Reserved package names</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="setuptools.discovery.FlatLayoutModuleFinder.DEFAULT_EXCLUDE">
+<span class="sig-prename descclassname"><span class="pre">FlatLayoutModuleFinder.</span></span><span class="sig-name descname"><span class="pre">DEFAULT_EXCLUDE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('setup',</span> <span class="pre">'conftest',</span> <span class="pre">'test',</span> <span class="pre">'tests',</span> <span class="pre">'example',</span> <span class="pre">'examples',</span> <span class="pre">'build',</span> <span class="pre">'toxfile',</span> <span class="pre">'noxfile',</span> <span class="pre">'pavement',</span> <span class="pre">'dodo',</span> <span class="pre">'tasks',</span> <span class="pre">'fabfile',</span> <span class="pre">'[Ss][Cc]onstruct',</span> <span class="pre">'conanfile',</span> <span class="pre">'manage',</span> <span class="pre">'benchmark',</span> <span class="pre">'benchmarks',</span> <span class="pre">'exercise',</span> <span class="pre">'exercises',</span> <span class="pre">'[._]*')</span></em><a class="headerlink" href="#setuptools.discovery.FlatLayoutModuleFinder.DEFAULT_EXCLUDE" title="Permalink to this definition">#</a></dt>
+<dd><p>Reserved top-level module names</p>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you are using auto-discovery with <em>flat-layout</em>, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will
+refuse to create <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package" title="(in Python Packaging User Guide)"><span class="xref std std-term">distribution archives</span></a> with
+multiple top-level packages or modules.</p>
+<p>This is done to prevent common errors such as accidentally publishing code
+not meant for distribution (e.g. maintenance-related scripts).</p>
+<p>Users that purposefully want to create multi-package distributions are
+advised to use <a class="hxr-hoverxref hxr-tooltip reference internal" href="#custom-discovery"><span class="std std-ref">Custom discovery</span></a> or the <code class="docutils literal notranslate"><span class="pre">src-layout</span></code>.</p>
+</div>
+<p>There is also a handy variation of the <em>flat-layout</em> for utilities/libraries
+that can be implemented with a single Python file:</p>
+<section id="single-module-distribution">
+<h4>single-module distribution<a class="headerlink" href="#single-module-distribution" title="Permalink to this heading">#</a></h4>
+<p>A standalone module is placed directly under the project root, instead of
+inside a package folder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── pyproject.toml  # AND/OR setup.cfg, setup.py
+├── ...
+└── single_file_lib.py
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="custom-discovery">
+<span id="id5"></span><h2>Custom discovery<a class="headerlink" href="#custom-discovery" title="Permalink to this heading">#</a></h2>
+<p>If the automatic discovery does not work for you
+(e.g., you want to <em>include</em> in the distribution top-level packages with
+reserved names such as <code class="docutils literal notranslate"><span class="pre">tasks</span></code>, <code class="docutils literal notranslate"><span class="pre">example</span></code> or <code class="docutils literal notranslate"><span class="pre">docs</span></code>, or you want to
+<em>exclude</em> nested packages that would be otherwise included), you can use
+the provided tools for package discovery:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="c1">#or</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find_namespace:</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span>
+<span class="c1"># or</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_namespace_packages</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># ...</span>
+<span class="k">[tool.setuptools.packages]</span>
+<span class="n">find</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w">  </span><span class="c1"># Scanning implicit namespaces is active by default</span>
+<span class="c1"># OR</span>
+<span class="n">find</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">namespaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">false</span><span class="p">}</span><span class="w">  </span><span class="c1"># Disable implicit namespaces</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="finding-simple-packages">
+<h3>Finding simple packages<a class="headerlink" href="#finding-simple-packages" title="Permalink to this heading">#</a></h3>
+<p>Let’s start with the first tool. <code class="docutils literal notranslate"><span class="pre">find:</span></code> (<code class="docutils literal notranslate"><span class="pre">find_packages()</span></code>) takes a source
+directory and two lists of package name patterns to exclude and include, and
+then returns a list of <code class="docutils literal notranslate"><span class="pre">str</span></code> representing the packages it could find. To use
+it, consider the following directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mypkg
+├── pyproject.toml  # AND/OR setup.cfg, setup.py
+└── src
+    ├── pkg1
+    │   └── __init__.py
+    ├── pkg2
+    │   └── __init__.py
+    ├── additional
+    │   └── __init__.py
+    └── pkg
+        └── namespace
+            └── __init__.py
+</pre></div>
+</div>
+<p>To have setuptools to automatically include packages found
+in <code class="docutils literal notranslate"><span class="pre">src</span></code> that start with the name <code class="docutils literal notranslate"><span class="pre">pkg</span></code> and not <code class="docutils literal notranslate"><span class="pre">additional</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="s">src</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+<span class="na">include</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">pkg*</span>
+<span class="c1"># alternatively: `exclude = additional*`</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">pkg</span></code> does not contain an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file, therefore
+<code class="docutils literal notranslate"><span class="pre">pkg.namespace</span></code> is ignored by <code class="docutils literal notranslate"><span class="pre">find:</span></code> (see <code class="docutils literal notranslate"><span class="pre">find_namespace:</span></code> below).</p>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span>
+        <span class="n">where</span><span class="o">=</span><span class="s1">&#39;src&#39;</span><span class="p">,</span>
+        <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pkg*&#39;</span><span class="p">],</span>  <span class="c1"># alternatively: `exclude=[&#39;additional*&#39;]`</span>
+    <span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">}</span>
+    <span class="c1"># ...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">pkg</span></code> does not contain an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file, therefore
+<code class="docutils literal notranslate"><span class="pre">pkg.namespace</span></code> is ignored by <code class="docutils literal notranslate"><span class="pre">find_packages()</span></code>
+(see <code class="docutils literal notranslate"><span class="pre">find_namespace_packages()</span></code> below).</p>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+<span class="n">include</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;pkg*&quot;</span><span class="p">]</span><span class="w">  </span><span class="c1"># alternatively: `exclude = [&quot;additional*&quot;]`</span>
+<span class="n">namespaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using <code class="docutils literal notranslate"><span class="pre">tool.setuptools.packages.find</span></code> in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>,
+setuptools will consider <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>implicit namespaces</strong></a> by default when
+scanning your project directory.
+To avoid <code class="docutils literal notranslate"><span class="pre">pkg.namespace</span></code> from being added to your package list
+you can set <code class="docutils literal notranslate"><span class="pre">namespaces</span> <span class="pre">=</span> <span class="pre">false</span></code>. This will prevent any folder
+without an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file from being scanned.</p>
+</div>
+</div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code class="docutils literal notranslate"><span class="pre">include</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude</span></code> accept strings representing <a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/glob.html#module-glob" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">glob</span></code></a> patterns.
+These patterns should match the <strong>full</strong> name of the Python module (as if it
+was written in an <code class="docutils literal notranslate"><span class="pre">import</span></code> statement).</p>
+<p>For example if you have <code class="docutils literal notranslate"><span class="pre">util</span></code> pattern, it will match
+<code class="docutils literal notranslate"><span class="pre">util/__init__.py</span></code> but not <code class="docutils literal notranslate"><span class="pre">util/files/__init__.py</span></code>.</p>
+<p>The fact that the parent package is matched by the pattern will not dictate
+if the submodule will be included or excluded from the distribution.
+You will need to explicitly add a wildcard (e.g. <code class="docutils literal notranslate"><span class="pre">util*</span></code>)
+if you want the pattern to also match submodules.</p>
+</div>
+</section>
+<section id="finding-namespace-packages">
+<span id="namespace-packages"></span><h3>Finding namespace packages<a class="headerlink" href="#finding-namespace-packages" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">setuptools</span></code>  provides <code class="docutils literal notranslate"><span class="pre">find_namespace:</span></code> (<code class="docutils literal notranslate"><span class="pre">find_namespace_packages()</span></code>)
+which behaves similarly to <code class="docutils literal notranslate"><span class="pre">find:</span></code> but works with namespace packages.</p>
+<p>Before diving in, it is important to have a good understanding of what
+<span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>namespace packages</strong></a> are. Here is a quick recap.</p>
+<p>When you have two packages organized as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/Users/Desktop/timmins/foo/__init__.py
+/Library/timmins/bar/__init__.py
+</pre></div>
+</div>
+<p>If both <code class="docutils literal notranslate"><span class="pre">Desktop</span></code> and <code class="docutils literal notranslate"><span class="pre">Library</span></code> are on your <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>, then a
+namespace package called <code class="docutils literal notranslate"><span class="pre">timmins</span></code> will be created automatically for you when
+you invoke the import mechanism, allowing you to accomplish the following:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">timmins.foo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">timmins.bar</span>
+</pre></div>
+</div>
+<p>as if there is only one <code class="docutils literal notranslate"><span class="pre">timmins</span></code> on your system. The two packages can then
+be distributed separately and installed individually without affecting the
+other one.</p>
+<p>Now, suppose you decide to package the <code class="docutils literal notranslate"><span class="pre">foo</span></code> part for distribution and start
+by creating a project directory organized as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>foo
+├── pyproject.toml  # AND/OR setup.cfg, setup.py
+└── src
+    └── timmins
+        └── foo
+            └── __init__.py
+</pre></div>
+</div>
+<p>If you want the <code class="docutils literal notranslate"><span class="pre">timmins.foo</span></code> to be automatically included in the
+distribution, then you will need to specify:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="s">src</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find_namespace:</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">find:</span></code> won’t work because <code class="docutils literal notranslate"><span class="pre">timmins</span></code> doesn’t contain <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>
+directly, instead, you have to use <code class="docutils literal notranslate"><span class="pre">find_namespace:</span></code>.</p>
+<p>You can think of <code class="docutils literal notranslate"><span class="pre">find_namespace:</span></code> as identical to <code class="docutils literal notranslate"><span class="pre">find:</span></code> except it
+would count a directory as a package even if it doesn’t contain <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>
+file directly.</p>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_namespace_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s1">&#39;src&#39;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">}</span>
+    <span class="c1"># ...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>When you use <code class="docutils literal notranslate"><span class="pre">find_packages()</span></code>, all directories without an
+<code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file will be ignored.
+On the other hand, <code class="docutils literal notranslate"><span class="pre">find_namespace_packages()</span></code> will scan all
+directories.</p>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>When using <code class="docutils literal notranslate"><span class="pre">tool.setuptools.packages.find</span></code> in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>,
+setuptools will consider <span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>implicit namespaces</strong></a> by default when
+scanning your project directory.</p>
+</div>
+</div>
+<p>After installing the package distribution, <code class="docutils literal notranslate"><span class="pre">timmins.foo</span></code> would become
+available to your interpreter.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please have in mind that <code class="docutils literal notranslate"><span class="pre">find_namespace:</span></code> (setup.cfg),
+<code class="docutils literal notranslate"><span class="pre">find_namespace_packages()</span></code> (setup.py) and <code class="docutils literal notranslate"><span class="pre">find</span></code> (pyproject.toml) will
+scan <strong>all</strong> folders that you have in your project directory if you use a
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="#flat-layout"><span class="std std-ref">flat-layout</span></a>.</p>
+<p>If used naïvely, this might result in unwanted files being added to your
+final wheel. For example, with a project directory organized as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>foo
+├── docs
+│   └── conf.py
+├── timmins
+│   └── foo
+│       └── __init__.py
+└── tests
+    └── tests_foo
+        └── __init__.py
+</pre></div>
+</div>
+<p>final users will end up installing not only <code class="docutils literal notranslate"><span class="pre">timmins.foo</span></code>, but also
+<code class="docutils literal notranslate"><span class="pre">docs</span></code> and <code class="docutils literal notranslate"><span class="pre">tests.tests_foo</span></code>.</p>
+<p>A simple way to fix this is to adopt the aforementioned <a class="hxr-hoverxref hxr-tooltip reference internal" href="#src-layout"><span class="std std-ref">src-layout</span></a>,
+or make sure to properly configure the <code class="docutils literal notranslate"><span class="pre">include</span></code> and/or <code class="docutils literal notranslate"><span class="pre">exclude</span></code>
+accordingly.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>After <a class="hxr-hoverxref hxr-tooltip reference internal" href="../build_meta.html#building"><span class="std std-ref">building your package</span></a>, you can have a look if all
+the files are correct (nothing missing or extra), by running the following
+commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>tf<span class="w"> </span>dist/*.tar.gz
+unzip<span class="w"> </span>-l<span class="w"> </span>dist/*.whl
+</pre></div>
+</div>
+<p>This requires the <code class="docutils literal notranslate"><span class="pre">tar</span></code> and <code class="docutils literal notranslate"><span class="pre">unzip</span></code> to be installed in your OS.
+On Windows you can also use a GUI program such as <a class="reference external" href="https://www.7-zip.org">7zip</a>.</p>
+</div>
+</section>
+</section>
+<section id="legacy-namespace-packages">
+<h2>Legacy Namespace Packages<a class="headerlink" href="#legacy-namespace-packages" title="Permalink to this heading">#</a></h2>
+<p>The fact you can create namespace packages so effortlessly above is credited
+to <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>PEP 420</strong></a>. It used to be more
+cumbersome to accomplish the same result. Historically, there were two methods
+to create namespace packages. One is the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> style supported by
+<code class="docutils literal notranslate"><span class="pre">setuptools</span></code> and the other one being <code class="docutils literal notranslate"><span class="pre">pkgutils</span></code> style offered by
+<code class="docutils literal notranslate"><span class="pre">pkgutils</span></code> module in Python. Both are now considered <em>deprecated</em> despite the
+fact they still linger in many existing packages. These two differ in many
+subtle yet significant aspects and you can find out more on <a class="reference external" href="https://packaging.python.org/guides/packaging-namespace-packages/">Python packaging
+user guide</a>.</p>
+<section id="pkg-resource-style-namespace-package">
+<h3><code class="docutils literal notranslate"><span class="pre">pkg_resource</span></code> style namespace package<a class="headerlink" href="#pkg-resource-style-namespace-package" title="Permalink to this heading">#</a></h3>
+<p>This is the method <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> directly supports. Starting with the same
+layout, there are two pieces you need to add to it. First, an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>
+file directly under your namespace package directory that contains the
+following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;pkg_resources&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">declare_namespace</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And the <code class="docutils literal notranslate"><span class="pre">namespace_packages</span></code> keyword in your <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> or <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="na">namespace_packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">timmins</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">namespace_packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;timmins&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And your directory should look like this</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>foo
+├──<span class="w"> </span>pyproject.toml<span class="w">  </span><span class="c1"># AND/OR setup.cfg, setup.py</span>
+└──<span class="w"> </span>src
+<span class="w">    </span>└──<span class="w"> </span>timmins
+<span class="w">        </span>├──<span class="w"> </span>__init__.py
+<span class="w">        </span>└──<span class="w"> </span>foo
+<span class="w">            </span>└──<span class="w"> </span>__init__.py
+</pre></div>
+</div>
+<p>Repeat the same for other packages and you can achieve the same result as
+the previous section.</p>
+</section>
+<section id="pkgutil-style-namespace-package">
+<h3><code class="docutils literal notranslate"><span class="pre">pkgutil</span></code> style namespace package<a class="headerlink" href="#pkgutil-style-namespace-package" title="Permalink to this heading">#</a></h3>
+<p>This method is almost identical to the <code class="docutils literal notranslate"><span class="pre">pkg_resource</span></code> except that the
+<code class="docutils literal notranslate"><span class="pre">namespace_packages</span></code> declaration is omitted and the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>
+file contains the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">__path__</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;pkgutil&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">extend_path</span><span class="p">(</span><span class="n">__path__</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The project layout remains the same and <code class="docutils literal notranslate"><span class="pre">pyproject.toml/setup.cfg</span></code> remains the same.</p>
+<hr class="docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="layout1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure">https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure</a></p>
+</aside>
+<aside class="footnote brackets" id="layout2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://blog.ionelmc.ro/2017/09/25/rehashing-the-src-layout/">https://blog.ionelmc.ro/2017/09/25/rehashing-the-src-layout/</a></p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="dependency_management.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Dependencies Management in Setuptools</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="quickstart.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Quickstart</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Package Discovery and Namespace Packages</a><ul>
+<li><a class="reference internal" href="#automatic-discovery">Automatic discovery</a><ul>
+<li><a class="reference internal" href="#src-layout">src-layout</a></li>
+<li><a class="reference internal" href="#flat-layout">flat-layout</a><ul>
+<li><a class="reference internal" href="#setuptools.discovery.FlatLayoutPackageFinder.DEFAULT_EXCLUDE"><code class="docutils literal notranslate"><span class="pre">FlatLayoutPackageFinder.DEFAULT_EXCLUDE</span></code></a></li>
+<li><a class="reference internal" href="#setuptools.discovery.FlatLayoutModuleFinder.DEFAULT_EXCLUDE"><code class="docutils literal notranslate"><span class="pre">FlatLayoutModuleFinder.DEFAULT_EXCLUDE</span></code></a></li>
+<li><a class="reference internal" href="#single-module-distribution">single-module distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#custom-discovery">Custom discovery</a><ul>
+<li><a class="reference internal" href="#finding-simple-packages">Finding simple packages</a></li>
+<li><a class="reference internal" href="#finding-namespace-packages">Finding namespace packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#legacy-namespace-packages">Legacy Namespace Packages</a><ul>
+<li><a class="reference internal" href="#pkg-resource-style-namespace-package"><code class="docutils literal notranslate"><span class="pre">pkg_resource</span></code> style namespace package</a></li>
+<li><a class="reference internal" href="#pkgutil-style-namespace-package"><code class="docutils literal notranslate"><span class="pre">pkgutil</span></code> style namespace package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

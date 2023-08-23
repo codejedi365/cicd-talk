@@ -1,0 +1,1325 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Understanding the zip_safe flag" href="zip_safe.html" /><link rel="prev" title="The Internal Structure of Python Eggs" href="python_eggs.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Easy Install - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../userguide/index.html">User guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Backward compatibility &amp; deprecated practice</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="easy-install">
+<h1>Easy Install<a class="headerlink" href="#easy-install" title="Permalink to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Easy Install is deprecated. Do not use it. Instead use pip. If
+you think you need Easy Install, please reach out to the PyPA
+team (a ticket to pip or setuptools is fine), describing your
+use-case.</p>
+</div>
+<p>Easy Install is a python module (<code class="docutils literal notranslate"><span class="pre">easy_install</span></code>) bundled with <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>
+that lets you automatically download, build, install, and manage Python
+packages.</p>
+<p>Please share your experiences with us! If you encounter difficulty installing
+a package, please contact us via the <a class="reference external" href="http://mail.python.org/pipermail/distutils-sig/">distutils mailing list</a>.  (Note: please DO NOT send
+private email directly to the author of setuptools; it will be discarded.  The
+mailing list is a searchable archive of previously-asked and answered
+questions; you should begin your research there before reporting something as a
+bug – and then do so via list discussion first.)</p>
+<p>(Also, if you’d like to learn about how you can use <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> to make your
+own packages work better with EasyInstall, or provide EasyInstall-like features
+without requiring your users to use EasyInstall directly, you’ll probably want
+to check out the full documentation as well.)</p>
+<section id="using-easy-install">
+<h2>Using “Easy Install”<a class="headerlink" href="#using-easy-install" title="Permalink to this heading">#</a></h2>
+<section id="installing-easy-install">
+<span id="installation-instructions"></span><h3>Installing “Easy Install”<a class="headerlink" href="#installing-easy-install" title="Permalink to this heading">#</a></h3>
+<p>Please see the <a class="reference external" href="https://pypi.org/project/setuptools">setuptools</a> on the package index
+for download links and basic installation instructions for each of the
+supported platforms.</p>
+<p>You will need at least Python 3.5 or 2.7.  An <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> script will be
+installed in the normal location for Python scripts on your platform.</p>
+<p>Note that the instructions on the setuptools PyPI page assume that you are
+are installing to Python’s primary <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory.  If this is
+not the case, you should consult the section below on <a class="reference internal" href="#custom-installation-locations">Custom Installation
+Locations</a> before installing.  (And, on Windows, you should not use the
+<code class="docutils literal notranslate"><span class="pre">.exe</span></code> installer when installing to an alternate location.)</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> normally works by downloading files from the
+internet.  If you are behind an NTLM-based firewall that prevents Python
+programs from accessing the net directly, you may wish to first install and use
+the <a class="reference external" href="http://ntlmaps.sf.net/">APS proxy server</a>, which lets you get past such
+firewalls in the same way that your web browser(s) do.</p>
+<p>(Alternately, if you do not wish easy_install to actually download anything, you
+can restrict it from doing so with the <code class="docutils literal notranslate"><span class="pre">--allow-hosts</span></code> option; see the
+sections on <a class="reference internal" href="#restricting-downloads-with-allow-hosts">restricting downloads with –allow-hosts</a> and <a class="reference internal" href="#command-line-options">command-line
+options</a> for more details.)</p>
+<section id="troubleshooting">
+<h4>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">#</a></h4>
+<p>If EasyInstall/setuptools appears to install correctly, and you can run the
+<code class="docutils literal notranslate"><span class="pre">easy_install</span></code> command but it fails with an <code class="docutils literal notranslate"><span class="pre">ImportError</span></code>, the most likely
+cause is that you installed to a location other than <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>,
+without taking any of the steps described in the <a class="reference internal" href="#custom-installation-locations">Custom Installation
+Locations</a> section below.  Please see that section and follow the steps to
+make sure that your custom location will work correctly.  Then re-install.</p>
+<p>Similarly, if you can run <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>, and it appears to be installing
+packages, but then you can’t import them, the most likely issue is that you
+installed EasyInstall correctly but are using it to install packages to a
+non-standard location that hasn’t been properly prepared.  Again, see the
+section on <a class="reference internal" href="#custom-installation-locations">Custom Installation Locations</a> for more details.</p>
+</section>
+<section id="windows-notes">
+<h4>Windows Notes<a class="headerlink" href="#windows-notes" title="Permalink to this heading">#</a></h4>
+<p>Installing setuptools will provide an <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> command according to
+the techniques described in <a class="reference internal" href="#executables-and-launchers">Executables and Launchers</a>. If the
+<code class="docutils literal notranslate"><span class="pre">easy_install</span></code> command is not available after installation, that section
+provides details on how to configure Windows to make the commands available.</p>
+</section>
+</section>
+<section id="downloading-and-installing-a-package">
+<h3>Downloading and Installing a Package<a class="headerlink" href="#downloading-and-installing-a-package" title="Permalink to this heading">#</a></h3>
+<p>For basic use of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>, you need only supply the filename or URL of
+a source distribution or .egg file (<a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Egg</a>).</p>
+<p><strong>Example 1</strong>. Install a package by name, searching PyPI for the latest
+version, and automatically downloading, building, and installing it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="n">SQLObject</span>
+</pre></div>
+</div>
+<p><strong>Example 2</strong>. Install or upgrade a package by name and version by finding
+links on a given “download page”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">f</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">pythonpaste</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">package_index</span><span class="o">.</span><span class="n">html</span> <span class="n">SQLObject</span>
+</pre></div>
+</div>
+<p><strong>Example 3</strong>. Download a source distribution from a specified URL,
+automatically building and installing it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">MyPackage</span><span class="o">-</span><span class="mf">1.2.3</span><span class="o">.</span><span class="n">tgz</span>
+</pre></div>
+</div>
+<p><strong>Example 4</strong>. Install an already-downloaded .egg file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">/</span><span class="n">my_downloads</span><span class="o">/</span><span class="n">OtherPackage</span><span class="o">-</span><span class="mf">3.2.1</span><span class="o">-</span><span class="n">py2</span><span class="mf">.3</span><span class="o">.</span><span class="n">egg</span>
+</pre></div>
+</div>
+<p><strong>Example 5</strong>.  Upgrade an already-installed package to the latest version
+listed on PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">PyProtocols</span>
+</pre></div>
+</div>
+<p><strong>Example 6</strong>.  Install a source distribution that’s already downloaded and
+extracted in the current directory (New in 0.5a9):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>Example 7</strong>.  (New in 0.6a1) Find a source distribution or Subversion
+checkout URL for a package, and extract it or check it out to
+<code class="docutils literal notranslate"><span class="pre">~/projects/sqlobject</span></code> (the name will always be in all-lowercase), where it
+can be examined or edited.  (The package will not be installed, but it can
+easily be installed with <code class="docutils literal notranslate"><span class="pre">easy_install</span> <span class="pre">~/projects/sqlobject</span></code>.  See <a class="reference internal" href="#editing-and-viewing-source-packages">Editing
+and Viewing Source Packages</a> below for more info.):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">--</span><span class="n">editable</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">directory</span> <span class="o">~/</span><span class="n">projects</span> <span class="n">SQLObject</span>
+</pre></div>
+</div>
+<p><strong>Example 7</strong>. (New in 0.6.11) Install a distribution within your home dir:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">--</span><span class="n">user</span> <span class="n">SQLAlchemy</span>
+</pre></div>
+</div>
+<p>Easy Install accepts URLs, filenames, PyPI package names (i.e., <code class="docutils literal notranslate"><span class="pre">distutils</span></code>
+“distribution” names), and package+version specifiers.  In each case, it will
+attempt to locate the latest available version that meets your criteria.</p>
+<p>When downloading or processing downloaded files, Easy Install recognizes
+distutils source distribution files with extensions of .tgz, .tar, .tar.gz,
+.tar.bz2, or .zip.  And of course it handles already-built .egg
+distributions as well as <code class="docutils literal notranslate"><span class="pre">.win32.exe</span></code> installers built using distutils.</p>
+<p>By default, packages are installed to the running Python installation’s
+<code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory, unless you provide the <code class="docutils literal notranslate"><span class="pre">-d</span></code> or <code class="docutils literal notranslate"><span class="pre">--install-dir</span></code>
+option to specify an alternative directory, or specify an alternate location
+using distutils configuration files.  (See <a class="reference internal" href="#configuration-files">Configuration Files</a>, below.)</p>
+<p>By default, any scripts included with the package are installed to the running
+Python installation’s standard script installation location.  However, if you
+specify an installation directory via the command line or a config file, then
+the default directory for installing scripts will be the same as the package
+installation directory, to ensure that the script will have access to the
+installed package.  You can override this using the <code class="docutils literal notranslate"><span class="pre">-s</span></code> or <code class="docutils literal notranslate"><span class="pre">--script-dir</span></code>
+option.</p>
+<p>Installed packages are added to an <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> file in the install
+directory, so that Python will always use the most-recently-installed version
+of the package.  If you would like to be able to select which version to use at
+runtime, you should use the <code class="docutils literal notranslate"><span class="pre">-m</span></code> or <code class="docutils literal notranslate"><span class="pre">--multi-version</span></code> option.</p>
+</section>
+<section id="upgrading-a-package">
+<h3>Upgrading a Package<a class="headerlink" href="#upgrading-a-package" title="Permalink to this heading">#</a></h3>
+<p>You don’t need to do anything special to upgrade a package: just install the
+new version, either by requesting a specific version, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="s2">&quot;SomePackage==2.0&quot;</span>
+</pre></div>
+</div>
+<p>a version greater than the one you have now:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="s2">&quot;SomePackage&gt;2.0&quot;</span>
+</pre></div>
+</div>
+<p>using the upgrade flag, to find the latest available version on PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">SomePackage</span>
+</pre></div>
+</div>
+<p>or by using a download page, direct download URL, or package filename:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">f</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">downloads</span> <span class="n">ExamplePackage</span>
+
+<span class="n">easy_install</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">downloads</span><span class="o">/</span><span class="n">ExamplePackage</span><span class="o">-</span><span class="mf">2.0</span><span class="o">-</span><span class="n">py2</span><span class="mf">.4</span><span class="o">.</span><span class="n">egg</span>
+
+<span class="n">easy_install</span> <span class="n">my_downloads</span><span class="o">/</span><span class="n">ExamplePackage</span><span class="o">-</span><span class="mf">2.0</span><span class="o">.</span><span class="n">tgz</span>
+</pre></div>
+</div>
+<p>If you’re using <code class="docutils literal notranslate"><span class="pre">-m</span></code> or <code class="docutils literal notranslate"><span class="pre">--multi-version</span></code> , using the <code class="docutils literal notranslate"><span class="pre">require()</span></code>
+function at runtime automatically selects the newest installed version of a
+package that meets your version criteria.  So, installing a newer version is
+the only step needed to upgrade such packages.</p>
+<p>If you’re installing to a directory on PYTHONPATH, or a configured “site”
+directory (and not using <code class="docutils literal notranslate"><span class="pre">-m</span></code>), installing a package automatically replaces
+any previous version in the <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> file, so that Python will
+import the most-recently installed version by default.  So, again, installing
+the newer version is the only upgrade step needed.</p>
+<p>If you haven’t suppressed script installation (using <code class="docutils literal notranslate"><span class="pre">--exclude-scripts</span></code> or
+<code class="docutils literal notranslate"><span class="pre">-x</span></code>), then the upgraded version’s scripts will be installed, and they will
+be automatically patched to <code class="docutils literal notranslate"><span class="pre">require()</span></code> the corresponding version of the
+package, so that you can use them even if they are installed in multi-version
+mode.</p>
+<p><code class="docutils literal notranslate"><span class="pre">easy_install</span></code> never actually deletes packages (unless you’re installing a
+package with the same name and version number as an existing package), so if
+you want to get rid of older versions of a package, please see <a class="reference internal" href="#uninstalling-packages">Uninstalling
+Packages</a>, below.</p>
+</section>
+<section id="changing-the-active-version">
+<h3>Changing the Active Version<a class="headerlink" href="#changing-the-active-version" title="Permalink to this heading">#</a></h3>
+<p>If you’ve upgraded a package, but need to revert to a previously-installed
+version, you can do so like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="n">PackageName</span><span class="o">==</span><span class="mf">1.2.3</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">1.2.3</span></code> is replaced by the exact version number you wish to switch to.
+If a package matching the requested name and version is not already installed
+in a directory on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>, it will be located via PyPI and installed.</p>
+<p>If you’d like to switch to the latest installed version of <code class="docutils literal notranslate"><span class="pre">PackageName</span></code>, you
+can do so like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="n">PackageName</span>
+</pre></div>
+</div>
+<p>This will activate the latest installed version.  (Note: if you have set any
+<code class="docutils literal notranslate"><span class="pre">find_links</span></code> via distutils configuration files, those download pages will be
+checked for the latest available version of the package, and it will be
+downloaded and installed if it is newer than your current version.)</p>
+<p>Note that changing the active version of a package will install the newly
+active version’s scripts, unless the <code class="docutils literal notranslate"><span class="pre">--exclude-scripts</span></code> or <code class="docutils literal notranslate"><span class="pre">-x</span></code> option is
+specified.</p>
+</section>
+<section id="uninstalling-packages">
+<h3>Uninstalling Packages<a class="headerlink" href="#uninstalling-packages" title="Permalink to this heading">#</a></h3>
+<p>If you have replaced a package with another version, then you can just delete
+the package(s) you don’t need by deleting the PackageName-versioninfo.egg file
+or directory (found in the installation directory).</p>
+<p>If you want to delete the currently installed version of a package (or all
+versions of a package), you should first run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">m</span> <span class="n">PackageName</span>
+</pre></div>
+</div>
+<p>This will ensure that Python doesn’t continue to search for a package you’re
+planning to remove. After you’ve done this, you can safely delete the .egg
+files or directories, along with any scripts you wish to remove.</p>
+</section>
+<section id="managing-scripts">
+<h3>Managing Scripts<a class="headerlink" href="#managing-scripts" title="Permalink to this heading">#</a></h3>
+<p>Whenever you install, upgrade, or change versions of a package, EasyInstall
+automatically installs the scripts for the selected package version, unless
+you tell it not to with <code class="docutils literal notranslate"><span class="pre">-x</span></code> or <code class="docutils literal notranslate"><span class="pre">--exclude-scripts</span></code>.  If any scripts in
+the script directory have the same name, they are overwritten.</p>
+<p>Thus, you do not normally need to manually delete scripts for older versions of
+a package, unless the newer version of the package does not include a script
+of the same name.  However, if you are completely uninstalling a package, you
+may wish to manually delete its scripts.</p>
+<p>EasyInstall’s default behavior means that you can normally only run scripts
+from one version of a package at a time.  If you want to keep multiple versions
+of a script available, however, you can simply use the <code class="docutils literal notranslate"><span class="pre">--multi-version</span></code> or
+<code class="docutils literal notranslate"><span class="pre">-m</span></code> option, and rename the scripts that EasyInstall creates.  This works
+because EasyInstall installs scripts as short code stubs that <code class="docutils literal notranslate"><span class="pre">require()</span></code> the
+matching version of the package the script came from, so renaming the script
+has no effect on what it executes.</p>
+<p>For example, suppose you want to use two versions of the <code class="docutils literal notranslate"><span class="pre">rst2html</span></code> tool
+provided by the <a class="reference external" href="http://docutils.sf.net/">docutils</a> package.  You might
+first install one version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">m</span> <span class="n">docutils</span><span class="o">==</span><span class="mf">0.3.9</span>
+</pre></div>
+</div>
+<p>then rename the <code class="docutils literal notranslate"><span class="pre">rst2html.py</span></code> to <code class="docutils literal notranslate"><span class="pre">r2h_039</span></code>, and install another version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">m</span> <span class="n">docutils</span><span class="o">==</span><span class="mf">0.3.10</span>
+</pre></div>
+</div>
+<p>This will create another <code class="docutils literal notranslate"><span class="pre">rst2html.py</span></code> script, this one using docutils
+version 0.3.10 instead of 0.3.9.  You now have two scripts, each using a
+different version of the package.  (Notice that we used <code class="docutils literal notranslate"><span class="pre">-m</span></code> for both
+installations, so that Python won’t lock us out of using anything but the most
+recently-installed version of the package.)</p>
+</section>
+<section id="executables-and-launchers">
+<h3>Executables and Launchers<a class="headerlink" href="#executables-and-launchers" title="Permalink to this heading">#</a></h3>
+<p>On Unix systems, scripts are installed with as natural files with a “#!”
+header and no extension and they launch under the Python version indicated in
+the header.</p>
+<p>On Windows, there is no mechanism to “execute” files without extensions, so
+EasyInstall provides two techniques to mirror the Unix behavior. The behavior
+is indicated by the SETUPTOOLS_LAUNCHER environment variable, which may be
+“executable” (default) or “natural”.</p>
+<p>Regardless of the technique used, the script(s) will be installed to a Scripts
+directory (by default in the Python installation directory). It is recommended
+for EasyInstall that you ensure this directory is in the PATH environment
+variable. The easiest way to ensure the Scripts directory is in the PATH is
+to run <code class="docutils literal notranslate"><span class="pre">Tools\Scripts\win_add2path.py</span></code> from the Python directory.</p>
+<p>Note that instead of changing your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> to include the Python scripts
+directory, you can also retarget the installation location for scripts so they
+go on a directory that’s already on the <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.  For more information see
+<a class="reference internal" href="#command-line-options">Command-Line Options</a> and <a class="reference internal" href="#configuration-files">Configuration Files</a>.  During installation,
+pass command line options (such as <code class="docutils literal notranslate"><span class="pre">--script-dir</span></code>) to control where
+scripts will be installed.</p>
+<section id="windows-executable-launcher">
+<h4>Windows Executable Launcher<a class="headerlink" href="#windows-executable-launcher" title="Permalink to this heading">#</a></h4>
+<p>If the “executable” launcher is used, EasyInstall will create a ‘.exe’
+launcher of the same name beside each installed script (including
+<code class="docutils literal notranslate"><span class="pre">easy_install</span></code> itself). These small .exe files launch the script of the
+same name using the Python version indicated in the ‘#!’ header.</p>
+<p>This behavior is currently default. To force
+the use of executable launchers, set <code class="docutils literal notranslate"><span class="pre">SETUPTOOLS_LAUNCHER</span></code> to “executable”.</p>
+</section>
+<section id="natural-script-launcher">
+<h4>Natural Script Launcher<a class="headerlink" href="#natural-script-launcher" title="Permalink to this heading">#</a></h4>
+<p>EasyInstall also supports deferring to an external launcher such as
+<a class="reference external" href="https://bitbucket.org/pypa/pylauncher">pylauncher</a> for launching scripts.
+Enable this experimental functionality by setting the
+<code class="docutils literal notranslate"><span class="pre">SETUPTOOLS_LAUNCHER</span></code> environment variable to “natural”. EasyInstall will
+then install scripts as simple
+scripts with a .pya (or .pyw) extension appended. If these extensions are
+associated with the pylauncher and listed in the PATHEXT environment variable,
+these scripts can then be invoked simply and directly just like any other
+executable. This behavior may become default in a future version.</p>
+<p>EasyInstall uses the .pya extension instead of simply
+the typical ‘.py’ extension. This distinct extension is necessary to prevent
+Python
+from treating the scripts as importable modules (where name conflicts exist).
+Current releases of pylauncher do not yet associate with .pya files by
+default, but future versions should do so.</p>
+</section>
+</section>
+<section id="tips-techniques">
+<h3>Tips &amp; Techniques<a class="headerlink" href="#tips-techniques" title="Permalink to this heading">#</a></h3>
+<section id="multiple-python-versions">
+<h4>Multiple Python Versions<a class="headerlink" href="#multiple-python-versions" title="Permalink to this heading">#</a></h4>
+<p>EasyInstall installs itself under two names:
+<code class="docutils literal notranslate"><span class="pre">easy_install</span></code> and <code class="docutils literal notranslate"><span class="pre">easy_install-N.N</span></code>, where <code class="docutils literal notranslate"><span class="pre">N.N</span></code> is the Python version
+used to install it.  Thus, if you install EasyInstall for both Python 3.2 and
+2.7, you can use the <code class="docutils literal notranslate"><span class="pre">easy_install-3.2</span></code> or <code class="docutils literal notranslate"><span class="pre">easy_install-2.7</span></code> scripts to
+install packages for the respective Python version.</p>
+<p>Setuptools also supplies easy_install as a runnable module which may be
+invoked using <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">easy_install</span></code> for any Python with Setuptools
+installed.</p>
+</section>
+<section id="restricting-downloads-with-allow-hosts">
+<h4>Restricting Downloads with <code class="docutils literal notranslate"><span class="pre">--allow-hosts</span></code><a class="headerlink" href="#restricting-downloads-with-allow-hosts" title="Permalink to this heading">#</a></h4>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">--allow-hosts</span></code> (<code class="docutils literal notranslate"><span class="pre">-H</span></code>) option to restrict what domains
+EasyInstall will look for links and downloads on.  <code class="docutils literal notranslate"><span class="pre">--allow-hosts=None</span></code>
+prevents downloading altogether.  You can also use wildcards, for example
+to restrict downloading to hosts in your own intranet.  See the section below
+on <a class="reference internal" href="#command-line-options">Command-Line Options</a> for more details on the <code class="docutils literal notranslate"><span class="pre">--allow-hosts</span></code> option.</p>
+<p>By default, there are no host restrictions in effect, but you can change this
+default by editing the appropriate <a class="reference internal" href="#configuration-files">configuration files</a> and adding:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[easy_install]</span>
+<span class="na">allow_hosts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">*.myintranet.example.com,*.python.org</span>
+</pre></div>
+</div>
+<p>The above example would then allow downloads only from hosts in the
+<code class="docutils literal notranslate"><span class="pre">python.org</span></code> and <code class="docutils literal notranslate"><span class="pre">myintranet.example.com</span></code> domains, unless overridden on the
+command line.</p>
+</section>
+<section id="installing-on-un-networked-machines">
+<h4>Installing on Un-networked Machines<a class="headerlink" href="#installing-on-un-networked-machines" title="Permalink to this heading">#</a></h4>
+<p>Just copy the eggs or source packages you need to a directory on the target
+machine, then use the <code class="docutils literal notranslate"><span class="pre">-f</span></code> or <code class="docutils literal notranslate"><span class="pre">--find-links</span></code> option to specify that
+directory’s location.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">H</span> <span class="kc">None</span> <span class="o">-</span><span class="n">f</span> <span class="n">somedir</span> <span class="n">SomePackage</span>
+</pre></div>
+</div>
+<p>will attempt to install SomePackage using only eggs and source packages found
+in <code class="docutils literal notranslate"><span class="pre">somedir</span></code> and disallowing all remote access.  You should of course make
+sure you have all of SomePackage’s dependencies available in somedir.</p>
+<p>If you have another machine of the same operating system and library versions
+(or if the packages aren’t platform-specific), you can create the directory of
+eggs using a command like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">zmaxd</span> <span class="n">somedir</span> <span class="n">SomePackage</span>
+</pre></div>
+</div>
+<p>This will tell EasyInstall to put zipped eggs or source packages for
+SomePackage and all its dependencies into <code class="docutils literal notranslate"><span class="pre">somedir</span></code>, without creating any
+scripts or .pth files.  You can then copy the contents of <code class="docutils literal notranslate"><span class="pre">somedir</span></code> to the
+target machine.  (<code class="docutils literal notranslate"><span class="pre">-z</span></code> means zipped eggs, <code class="docutils literal notranslate"><span class="pre">-m</span></code> means multi-version, which
+prevents .pth files from being used, <code class="docutils literal notranslate"><span class="pre">-a</span></code> means to copy all the eggs needed,
+even if they’re installed elsewhere on the machine, and <code class="docutils literal notranslate"><span class="pre">-d</span></code> indicates the
+directory to place the eggs in.)</p>
+<p>You can also build the eggs from local development packages that were installed
+with the <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">develop</span></code> command, by including the <code class="docutils literal notranslate"><span class="pre">-l</span></code> option, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">zmaxld</span> <span class="n">somedir</span> <span class="n">SomePackage</span>
+</pre></div>
+</div>
+<p>This will use locally-available source distributions to build the eggs.</p>
+</section>
+<section id="packaging-others-projects-as-eggs">
+<h4>Packaging Others’ Projects As Eggs<a class="headerlink" href="#packaging-others-projects-as-eggs" title="Permalink to this heading">#</a></h4>
+<p>Need to distribute a package that isn’t published in egg form?  You can use
+EasyInstall to build eggs for a project.  You’ll want to use the <code class="docutils literal notranslate"><span class="pre">--zip-ok</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--exclude-scripts</span></code>, and possibly <code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> options (<code class="docutils literal notranslate"><span class="pre">-z</span></code>, <code class="docutils literal notranslate"><span class="pre">-x</span></code> and
+<code class="docutils literal notranslate"><span class="pre">-N</span></code>, respectively).  Use <code class="docutils literal notranslate"><span class="pre">-d</span></code> or <code class="docutils literal notranslate"><span class="pre">--install-dir</span></code> to specify the location
+where you’d like the eggs placed.  By placing them in a directory that is
+published to the web, you can then make the eggs available for download, either
+in an intranet or to the internet at large.</p>
+<p>If someone distributes a package in the form of a single <code class="docutils literal notranslate"><span class="pre">.py</span></code> file, you can
+wrap it in an egg by tacking an <code class="docutils literal notranslate"><span class="pre">#egg=name-version</span></code> suffix on the file’s URL.
+So, something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">f</span> <span class="s2">&quot;http://some.example.com/downloads/foo.py#egg=foo-1.0&quot;</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<p>will install the package as an egg, and this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">easy_install</span> <span class="o">-</span><span class="n">zmaxd</span><span class="o">.</span> \
+    <span class="o">-</span><span class="n">f</span> <span class="s2">&quot;http://some.example.com/downloads/foo.py#egg=foo-1.0&quot;</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<p>will create a <code class="docutils literal notranslate"><span class="pre">.egg</span></code> file in the current directory.</p>
+</section>
+<section id="creating-your-own-package-index">
+<h4>Creating your own Package Index<a class="headerlink" href="#creating-your-own-package-index" title="Permalink to this heading">#</a></h4>
+<p>In addition to local directories and the Python Package Index, EasyInstall can
+find download links on most any web page whose URL is given to the <code class="docutils literal notranslate"><span class="pre">-f</span></code>
+(<code class="docutils literal notranslate"><span class="pre">--find-links</span></code>) option.  In the simplest case, you can simply have a web
+page with links to eggs or Python source packages, even an automatically
+generated directory listing (such as the Apache web server provides).</p>
+<p>If you are setting up an intranet site for package downloads, you may want to
+configure the target machines to use your download site by default, adding
+something like this to their <a class="reference internal" href="#configuration-files">configuration files</a>:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[easy_install]</span>
+<span class="na">find_links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">http://mypackages.example.com/somedir/</span>
+<span class="w">             </span><span class="na">http</span><span class="o">:</span><span class="s">//turbogears.org/download/</span>
+<span class="w">             </span><span class="na">http</span><span class="o">:</span><span class="s">//peak.telecommunity.com/dist/</span>
+</pre></div>
+</div>
+<p>As you can see, you can list multiple URLs separated by whitespace, continuing
+on multiple lines if necessary (as long as the subsequent lines are indented.</p>
+<p>If you are more ambitious, you can also create an entirely custom package index
+or PyPI mirror.  See the <code class="docutils literal notranslate"><span class="pre">--index-url</span></code> option under <a class="reference internal" href="#command-line-options">Command-Line Options</a>,
+below, and also the section on <a class="reference internal" href="#package-index-api">Package Index “API”</a>.</p>
+</section>
+</section>
+<section id="password-protected-sites">
+<h3>Password-Protected Sites<a class="headerlink" href="#password-protected-sites" title="Permalink to this heading">#</a></h3>
+<p>If a site you want to download from is password-protected using HTTP “Basic”
+authentication, you can specify your credentials in the URL, like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">some_userid</span><span class="p">:</span><span class="n">some_password</span><span class="nd">@some</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">some_path</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>You can do this with both index page URLs and direct download URLs.  As long
+as any HTML pages read by easy_install use <em>relative</em> links to point to the
+downloads, the same user ID and password will be used to do the downloading.</p>
+</section>
+<section id="using-pypirc-credentials">
+<h3>Using .pypirc Credentials<a class="headerlink" href="#using-pypirc-credentials" title="Permalink to this heading">#</a></h3>
+<p>In additional to supplying credentials in the URL, <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> will also
+honor credentials if present in the .pypirc file. Teams maintaining a private
+repository of packages may already have defined access credentials for
+uploading packages according to the distutils documentation. <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>
+will attempt to honor those if present. Refer to the distutils documentation
+for Python 2.5 or later for details on the syntax.</p>
+<section id="controlling-build-options">
+<h4>Controlling Build Options<a class="headerlink" href="#controlling-build-options" title="Permalink to this heading">#</a></h4>
+<p>EasyInstall respects standard distutils <a class="reference internal" href="#configuration-files">Configuration Files</a>, so you can use
+them to configure build options for packages that it installs from source.  For
+example, if you are on Windows using the MinGW compiler, you can configure the
+default compiler by putting something like this:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[build]</span>
+<span class="na">compiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">mingw32</span>
+</pre></div>
+</div>
+<p>into the appropriate distutils configuration file.  In fact, since this is just
+normal distutils configuration, it will affect any builds using that config
+file, not just ones done by EasyInstall.  For example, if you add those lines
+to <code class="docutils literal notranslate"><span class="pre">distutils.cfg</span></code> in the <code class="docutils literal notranslate"><span class="pre">distutils</span></code> package directory, it will be the
+default compiler for <em>all</em> packages you build.  See <a class="reference internal" href="#configuration-files">Configuration Files</a>
+below for a list of the standard configuration file locations, and links to
+more documentation on using distutils configuration files.</p>
+</section>
+<section id="editing-and-viewing-source-packages">
+<h4>Editing and Viewing Source Packages<a class="headerlink" href="#editing-and-viewing-source-packages" title="Permalink to this heading">#</a></h4>
+<p>Sometimes a package’s source distribution  contains additional documentation,
+examples, configuration files, etc., that are not part of its actual code.  If
+you want to be able to examine these files, you can use the <code class="docutils literal notranslate"><span class="pre">--editable</span></code>
+option to EasyInstall, and EasyInstall will look for a source distribution
+or Subversion URL for the package, then download and extract it or check it out
+as a subdirectory of the <code class="docutils literal notranslate"><span class="pre">--build-directory</span></code> you specify.  If you then wish
+to install the package after editing or configuring it, you can do so by
+rerunning EasyInstall with that directory as the target.</p>
+<p>Note that using <code class="docutils literal notranslate"><span class="pre">--editable</span></code> stops EasyInstall from actually building or
+installing the package; it just finds, obtains, and possibly unpacks it for
+you.  This allows you to make changes to the package if necessary, and to
+either install it in development mode using <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">develop</span></code> (if the
+package uses setuptools, that is), or by running <code class="docutils literal notranslate"><span class="pre">easy_install</span> <span class="pre">projectdir</span></code>
+(where <code class="docutils literal notranslate"><span class="pre">projectdir</span></code> is the subdirectory EasyInstall created for the
+downloaded package.</p>
+<p>In order to use <code class="docutils literal notranslate"><span class="pre">--editable</span></code> (<code class="docutils literal notranslate"><span class="pre">-e</span></code> for short), you <em>must</em> also supply a
+<code class="docutils literal notranslate"><span class="pre">--build-directory</span></code> (<code class="docutils literal notranslate"><span class="pre">-b</span></code> for short).  The project will be placed in a
+subdirectory of the build directory.  The subdirectory will have the same
+name as the project itself, but in all-lowercase.  If a file or directory of
+that name already exists, EasyInstall will print an error message and exit.</p>
+<p>Also, when using <code class="docutils literal notranslate"><span class="pre">--editable</span></code>, you cannot use URLs or filenames as arguments.
+You <em>must</em> specify project names (and optional version requirements) so that
+EasyInstall knows what directory name(s) to create.  If you need to force
+EasyInstall to use a particular URL or filename, you should specify it as a
+<code class="docutils literal notranslate"><span class="pre">--find-links</span></code> item (<code class="docutils literal notranslate"><span class="pre">-f</span></code> for short), and then also specify
+the project name, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>easy_install -eb ~/projects \
+ -fhttp://prdownloads.sourceforge.net/ctypes/ctypes-0.9.6.tar.gz?download \
+ ctypes==0.9.6
+</pre></div>
+</div>
+</section>
+<section id="dealing-with-installation-conflicts">
+<h4>Dealing with Installation Conflicts<a class="headerlink" href="#dealing-with-installation-conflicts" title="Permalink to this heading">#</a></h4>
+<p>(NOTE: As of 0.6a11, this section is obsolete; it is retained here only so that
+people using older versions of EasyInstall can consult it.  As of version
+0.6a11, installation conflicts are handled automatically without deleting the
+old or system-installed packages, and without ignoring the issue.  Instead,
+eggs are automatically shifted to the front of <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> using special
+code added to the <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> file.  So, if you are using version
+0.6a11 or better of setuptools, you do not need to worry about conflicts,
+and the following issues do not apply to you.)</p>
+<p>EasyInstall installs distributions in a “managed” way, such that each
+distribution can be independently activated or deactivated on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.
+However, packages that were not installed by EasyInstall are “unmanaged”,
+in that they usually live all in one directory and cannot be independently
+activated or deactivated.</p>
+<p>As a result, if you are using EasyInstall to upgrade an existing package, or
+to install a package with the same name as an existing package, EasyInstall
+will warn you of the conflict.  (This is an improvement over <code class="docutils literal notranslate"><span class="pre">setup.py</span>
+<span class="pre">install</span></code>, because the <code class="docutils literal notranslate"><span class="pre">distutils</span></code> just install new packages on top of old
+ones, possibly combining two unrelated packages or leaving behind modules that
+have been deleted in the newer version of the package.)</p>
+<p>EasyInstall will stop the installation if it detects a conflict
+between an existing, “unmanaged” package, and a module or package in any of
+the distributions you’re installing.  It will display a list of all of the
+existing files and directories that would need to be deleted for the new
+package to be able to function correctly.  To proceed, you must manually
+delete these conflicting files and directories and re-run EasyInstall.</p>
+<p>Of course, once you’ve replaced all of your existing “unmanaged” packages with
+versions managed by EasyInstall, you won’t have any more conflicts to worry
+about!</p>
+</section>
+<section id="compressed-installation">
+<h4>Compressed Installation<a class="headerlink" href="#compressed-installation" title="Permalink to this heading">#</a></h4>
+<p>EasyInstall tries to install packages in zipped form, if it can.  Zipping
+packages can improve Python’s overall import performance if you’re not using
+the <code class="docutils literal notranslate"><span class="pre">--multi-version</span></code> option, because Python processes zipfile entries on
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code> much faster than it does directories.</p>
+<p>As of version 0.5a9, EasyInstall analyzes packages to determine whether they
+can be safely installed as a zipfile, and then acts on its analysis.  (Previous
+versions would not install a package as a zipfile unless you used the
+<code class="docutils literal notranslate"><span class="pre">--zip-ok</span></code> option.)</p>
+<p>The current analysis approach is fairly conservative; it currently looks for:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Any use of the <code class="docutils literal notranslate"><span class="pre">__file__</span></code> or <code class="docutils literal notranslate"><span class="pre">__path__</span></code> variables (which should be
+replaced with <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> API calls)</p></li>
+<li><p>Possible use of <code class="docutils literal notranslate"><span class="pre">inspect</span></code> functions that expect to manipulate source files
+(e.g. <code class="docutils literal notranslate"><span class="pre">inspect.getsource()</span></code>)</p></li>
+<li><p>Top-level modules that might be scripts used with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span></code> (Python 2.4)</p></li>
+</ul>
+</div></blockquote>
+<p>If any of the above are found in the package being installed, EasyInstall will
+assume that the package cannot be safely run from a zipfile, and unzip it to
+a directory instead.  You can override this analysis with the <code class="docutils literal notranslate"><span class="pre">-zip-ok</span></code> flag,
+which will tell EasyInstall to install the package as a zipfile anyway.  Or,
+you can use the <code class="docutils literal notranslate"><span class="pre">--always-unzip</span></code> flag, in which case EasyInstall will always
+unzip, even if its analysis says the package is safe to run as a zipfile.</p>
+<p>Normally, however, it is simplest to let EasyInstall handle the determination
+of whether to zip or unzip, and only specify overrides when needed to work
+around a problem.  If you find you need to override EasyInstall’s guesses, you
+may want to contact the package author and the EasyInstall maintainers, so that
+they can make appropriate changes in future versions.</p>
+<p>(Note: If a package uses <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> in its setup script, the package author
+has the option to declare the package safe or unsafe for zipped usage via the
+<code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> argument to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.  If the package author makes such a
+declaration, EasyInstall believes the package’s author and does not perform its
+own analysis.  However, your command-line option, if any, will still override
+the package author’s choice.)</p>
+</section>
+</section>
+</section>
+<section id="reference-manual">
+<h2>Reference Manual<a class="headerlink" href="#reference-manual" title="Permalink to this heading">#</a></h2>
+<section id="configuration-files">
+<h3>Configuration Files<a class="headerlink" href="#configuration-files" title="Permalink to this heading">#</a></h3>
+<p>(New in 0.4a2)</p>
+<p>You may specify default options for EasyInstall using the standard
+distutils configuration files, under the command heading <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>.
+EasyInstall will look first for a <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> file in the current directory,
+then a <code class="docutils literal notranslate"><span class="pre">~/.pydistutils.cfg</span></code> or <code class="docutils literal notranslate"><span class="pre">$HOME\\pydistutils.cfg</span></code> (on Unix-like OSes
+and Windows, respectively), and finally a <code class="docutils literal notranslate"><span class="pre">distutils.cfg</span></code> file in the
+<code class="docutils literal notranslate"><span class="pre">distutils</span></code> package directory.  Here’s a simple example:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[easy_install]</span>
+
+<span class="c1"># set the default location to install packages</span>
+<span class="na">install_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/home/me/lib/python</span>
+
+<span class="c1"># Notice that indentation can be used to continue an option</span>
+<span class="c1"># value; this is especially useful for the &quot;--find-links&quot;</span>
+<span class="c1"># option, which tells easy_install to use download links on</span>
+<span class="c1"># these pages before consulting PyPI:</span>
+<span class="c1">#</span>
+<span class="na">find_links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">http://sqlobject.org/</span>
+<span class="w">             </span><span class="na">http</span><span class="o">:</span><span class="s">//peak.telecommunity.com/dist/</span>
+</pre></div>
+</div>
+<p>In addition to accepting configuration for its own options under
+<code class="docutils literal notranslate"><span class="pre">[easy_install]</span></code>, EasyInstall also respects defaults specified for other
+distutils commands.  For example, if you don’t set an <code class="docutils literal notranslate"><span class="pre">install_dir</span></code> for
+<code class="docutils literal notranslate"><span class="pre">[easy_install]</span></code>, but <em>have</em> set an <code class="docutils literal notranslate"><span class="pre">install_lib</span></code> for the <code class="docutils literal notranslate"><span class="pre">[install]</span></code>
+command, this will become EasyInstall’s default installation directory.  Thus,
+if you are already using distutils configuration files to set default install
+locations, build options, etc., EasyInstall will respect your existing settings
+until and unless you override them explicitly in an <code class="docutils literal notranslate"><span class="pre">[easy_install]</span></code> section.</p>
+<p>For more information, see also the current Python documentation on the <a class="reference external" href="https://docs.python.org/install/index.html#inst-config-files">use and
+location of distutils configuration files</a>.</p>
+<p>Notice that <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> will use the <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> from the current
+working directory only if it was triggered from <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> through the
+<code class="docutils literal notranslate"><span class="pre">install_requires</span></code> option. The standalone command will not use that file.</p>
+</section>
+<section id="command-line-options">
+<h3>Command-Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this heading">#</a></h3>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--zip-ok,</span> <span class="pre">-z</span></code></dt><dd><p>Install all packages as zip files, even if they are marked as unsafe for
+running as a zipfile.  This can be useful when EasyInstall’s analysis
+of a non-setuptools package is too conservative, but keep in mind that
+the package may not work correctly.  (Changed in 0.5a9; previously this
+option was required in order for zipped installation to happen at all.)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--always-unzip,</span> <span class="pre">-Z</span></code></dt><dd><p>Don’t install any packages as zip files, even if the packages are marked
+as safe for running as a zipfile.  This can be useful if a package does
+something unsafe, but not in a way that EasyInstall can easily detect.
+EasyInstall’s default analysis is currently very conservative, however, so
+you should only use this option if you’ve had problems with a particular
+package, and <em>after</em> reporting the problem to the package’s maintainer and
+to the EasyInstall maintainers.</p>
+<p>(Note: the <code class="docutils literal notranslate"><span class="pre">-z/-Z</span></code> options only affect the installation of newly-built
+or downloaded packages that are not already installed in the target
+directory; if you want to convert an existing installed version from
+zipped to unzipped or vice versa, you’ll need to delete the existing
+version first, and re-run EasyInstall.)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--multi-version,</span> <span class="pre">-m</span></code></dt><dd><p>“Multi-version” mode. Specifying this option prevents <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> from
+adding an <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> entry for the package being installed, and
+if an entry for any version the package already exists, it will be removed
+upon successful installation. In multi-version mode, no specific version of
+the package is available for importing, unless you use
+<code class="docutils literal notranslate"><span class="pre">pkg_resources.require()</span></code> to put it on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>. This can be as
+simple as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">require</span>
+<span class="n">require</span><span class="p">(</span><span class="s2">&quot;SomePackage&quot;</span><span class="p">,</span> <span class="s2">&quot;OtherPackage&quot;</span><span class="p">,</span> <span class="s2">&quot;MyPackage&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will put the latest installed version of the specified packages on
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code> for you. (For more advanced uses, like selecting specific
+versions and enabling optional dependencies, see the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> API
+doc.)</p>
+<p>Changed in 0.6a10: this option is no longer silently enabled when
+installing to a non-PYTHONPATH, non-“site” directory.  You must always
+explicitly use this option if you want it to be active.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--upgrade,</span> <span class="pre">-U</span></code>   (New in 0.5a4)</dt><dd><p>By default, EasyInstall only searches online if a project/version
+requirement can’t be met by distributions already installed
+on sys.path or the installation directory.  However, if you supply the
+<code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> or <code class="docutils literal notranslate"><span class="pre">-U</span></code> flag, EasyInstall will always check the package
+index and <code class="docutils literal notranslate"><span class="pre">--find-links</span></code> URLs before selecting a version to install.  In
+this way, you can force EasyInstall to use the latest available version of
+any package it installs (subject to any version requirements that might
+exclude such later versions).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--install-dir=DIR,</span> <span class="pre">-d</span> <span class="pre">DIR</span></code></dt><dd><p>Set the installation directory. It is up to you to ensure that this
+directory is on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> at runtime, and to use
+<code class="docutils literal notranslate"><span class="pre">pkg_resources.require()</span></code> to enable the installed package(s) that you
+need.</p>
+<p>(New in 0.4a2) If this option is not directly specified on the command line
+or in a distutils configuration file, the distutils default installation
+location is used.  Normally, this would be the <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory,
+but if you are using distutils configuration files, setting things like
+<code class="docutils literal notranslate"><span class="pre">prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">install_lib</span></code>, then those settings are taken into
+account when computing the default installation directory, as is the
+<code class="docutils literal notranslate"><span class="pre">--prefix</span></code> option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--script-dir=DIR,</span> <span class="pre">-s</span> <span class="pre">DIR</span></code></dt><dd><p>Set the script installation directory.  If you don’t supply this option
+(via the command line or a configuration file), but you <em>have</em> supplied
+an <code class="docutils literal notranslate"><span class="pre">--install-dir</span></code> (via command line or config file), then this option
+defaults to the same directory, so that the scripts will be able to find
+their associated package installation.  Otherwise, this setting defaults
+to the location where the distutils would normally install scripts, taking
+any distutils configuration file settings into account.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--exclude-scripts,</span> <span class="pre">-x</span></code></dt><dd><p>Don’t install scripts.  This is useful if you need to install multiple
+versions of a package, but do not want to reset the version that will be
+run by scripts that are already installed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--user</span></code> (New in 0.6.11)</dt><dd><p>Use the user-site-packages as specified in <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0370/"><strong>PEP 370</strong></a>
+instead of the global site-packages.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--always-copy,</span> <span class="pre">-a</span></code>   (New in 0.5a4)</dt><dd><p>Copy all needed distributions to the installation directory, even if they
+are already present in a directory on sys.path.  In older versions of
+EasyInstall, this was the default behavior, but now you must explicitly
+request it.  By default, EasyInstall will no longer copy such distributions
+from other sys.path directories to the installation directory, unless you
+explicitly gave the distribution’s filename on the command line.</p>
+<p>Note that as of 0.6a10, using this option excludes “system” and
+“development” eggs from consideration because they can’t be reliably
+copied.  This may cause EasyInstall to choose an older version of a package
+than what you expected, or it may cause downloading and installation of a
+fresh copy of something that’s already installed.  You will see warning
+messages for any eggs that EasyInstall skips, before it falls back to an
+older version or attempts to download a fresh copy.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--find-links=URLS_OR_FILENAMES,</span> <span class="pre">-f</span> <span class="pre">URLS_OR_FILENAMES</span></code></dt><dd><p>Scan the specified “download pages” or directories for direct links to eggs
+or other distributions.  Any existing file or directory names or direct
+download URLs are immediately added to EasyInstall’s search cache, and any
+indirect URLs (ones that don’t point to eggs or other recognized archive
+formats) are added to a list of additional places to search for download
+links.  As soon as EasyInstall has to go online to find a package (either
+because it doesn’t exist locally, or because <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> or <code class="docutils literal notranslate"><span class="pre">-U</span></code> was
+used), the specified URLs will be downloaded and scanned for additional
+direct links.</p>
+<p>Eggs and archives found by way of <code class="docutils literal notranslate"><span class="pre">--find-links</span></code> are only downloaded if
+they are needed to meet a requirement specified on the command line; links
+to unneeded packages are ignored.</p>
+<p>If all requested packages can be found using links on the specified
+download pages, the Python Package Index will not be consulted unless you
+also specified the <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> or <code class="docutils literal notranslate"><span class="pre">-U</span></code> option.</p>
+<p>(Note: if you want to refer to a local HTML file containing links, you must
+use a <code class="docutils literal notranslate"><span class="pre">file:</span></code> URL, as filenames that do not refer to a directory, egg, or
+archive are ignored.)</p>
+<p>You may specify multiple URLs or file/directory names with this option,
+separated by whitespace.  Note that on the command line, you will probably
+have to surround the URL list with quotes, so that it is recognized as a
+single option value.  You can also specify URLs in a configuration file;
+see <a class="reference internal" href="#configuration-files">Configuration Files</a>, above.</p>
+<p>Changed in 0.6a10: previously all URLs and directories passed to this
+option were scanned as early as possible, but from 0.6a10 on, only
+directories and direct archive links are scanned immediately; URLs are not
+retrieved unless a package search was already going to go online due to a
+package not being available locally, or due to the use of the <code class="docutils literal notranslate"><span class="pre">--update</span></code>
+or <code class="docutils literal notranslate"><span class="pre">-U</span></code> option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-find-links</span></code> Blocks the addition of any link.</dt><dd><p>This parameter is useful if you want to avoid adding links defined in a
+project easy_install is installing (whether it’s a requested project or a
+dependency). When used, <code class="docutils literal notranslate"><span class="pre">--find-links</span></code> is ignored.</p>
+<p>Added in Distribute 0.6.11 and Setuptools 0.7.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--index-url=URL,</span> <span class="pre">-i</span> <span class="pre">URL</span></code> (New in 0.4a1; default changed in 0.6c7)</dt><dd><p>Specifies the base URL of the Python Package Index.  The default is
+<a class="reference external" href="https://pypi.org/simple/">https://pypi.org/simple/</a> if not specified.  When a package is requested
+that is not locally available or linked from a <code class="docutils literal notranslate"><span class="pre">--find-links</span></code> download
+page, the package index will be searched for download pages for the needed
+package, and those download pages will be searched for links to download
+an egg or source distribution.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--editable,</span> <span class="pre">-e</span></code> (New in 0.6a1)</dt><dd><p>Only find and download source distributions for the specified projects,
+unpacking them to subdirectories of the specified <code class="docutils literal notranslate"><span class="pre">--build-directory</span></code>.
+EasyInstall will not actually build or install the requested projects or
+their dependencies; it will just find and extract them for you.  See
+<a class="reference internal" href="#editing-and-viewing-source-packages">Editing and Viewing Source Packages</a> above for more details.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--build-directory=DIR,</span> <span class="pre">-b</span> <span class="pre">DIR</span></code> (UPDATED in 0.6a1)</dt><dd><p>Set the directory used to build source packages.  If a package is built
+from a source distribution or checkout, it will be extracted to a
+subdirectory of the specified directory.  The subdirectory will have the
+same name as the extracted distribution’s project, but in all-lowercase.
+If a file or directory of that name already exists in the given directory,
+a warning will be printed to the console, and the build will take place in
+a temporary directory instead.</p>
+<p>This option is most useful in combination with the <code class="docutils literal notranslate"><span class="pre">--editable</span></code> option,
+which forces EasyInstall to <em>only</em> find and extract (but not build and
+install) source distributions.  See <a class="reference internal" href="#editing-and-viewing-source-packages">Editing and Viewing Source Packages</a>,
+above, for more information.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--verbose,</span> <span class="pre">-v,</span> <span class="pre">--quiet,</span> <span class="pre">-q</span></code> (New in 0.4a4)</dt><dd><p>Control the level of detail of EasyInstall’s progress messages.  The
+default detail level is “info”, which prints information only about
+relatively time-consuming operations like running a setup script, unpacking
+an archive, or retrieving a URL.  Using <code class="docutils literal notranslate"><span class="pre">-q</span></code> or <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> drops the
+detail level to “warn”, which will only display installation reports,
+warnings, and errors.  Using <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> increases the detail
+level to include individual file-level operations, link analysis messages,
+and distutils messages from any setup scripts that get run.  If you include
+the <code class="docutils literal notranslate"><span class="pre">-v</span></code> option more than once, the second and subsequent uses are passed
+down to any setup scripts, increasing the verbosity of their reporting as
+well.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--dry-run,</span> <span class="pre">-n</span></code> (New in 0.4a4)</dt><dd><p>Don’t actually install the package or scripts.  This option is passed down
+to any setup scripts run, so packages should not actually build either.
+This does <em>not</em> skip downloading, nor does it skip extracting source
+distributions to a temporary/build directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--optimize=LEVEL</span></code>, <code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">LEVEL</span></code> (New in 0.4a4)</dt><dd><p>If you are installing from a source distribution, and are <em>not</em> using the
+<code class="docutils literal notranslate"><span class="pre">--zip-ok</span></code> option, this option controls the optimization level for
+compiling installed <code class="docutils literal notranslate"><span class="pre">.py</span></code> files to <code class="docutils literal notranslate"><span class="pre">.pyo</span></code> files.  It does not affect
+the compilation of modules contained in <code class="docutils literal notranslate"><span class="pre">.egg</span></code> files, only those in
+<code class="docutils literal notranslate"><span class="pre">.egg</span></code> directories.  The optimization level can be set to 0, 1, or 2;
+the default is 0 (unless it’s set under <code class="docutils literal notranslate"><span class="pre">install</span></code> or <code class="docutils literal notranslate"><span class="pre">install_lib</span></code> in
+one of your distutils configuration files).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--record=FILENAME</span></code>  (New in 0.5a4)</dt><dd><p>Write a record of all installed files to FILENAME.  This is basically the
+same as the same option for the standard distutils “install” command, and
+is included for compatibility with tools that expect to pass this option
+to “setup.py install”.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--site-dirs=DIRLIST,</span> <span class="pre">-S</span> <span class="pre">DIRLIST</span></code>   (New in 0.6a1)</dt><dd><p>Specify one or more custom “site” directories (separated by commas).
+“Site” directories are directories where <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files are processed, such
+as the main Python <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory.  As of 0.6a10, EasyInstall
+automatically detects whether a given directory processes <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files
+(or can be made to do so), so you should not normally need to use this
+option.  It is is now only necessary if you want to override EasyInstall’s
+judgment and force an installation directory to be treated as if it
+supported <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-deps,</span> <span class="pre">-N</span></code>  (New in 0.6a6)</dt><dd><p>Don’t install any dependencies.  This is intended as a convenience for
+tools that wrap eggs in a platform-specific packaging system.  (We don’t
+recommend that you use it for anything else.)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--allow-hosts=PATTERNS,</span> <span class="pre">-H</span> <span class="pre">PATTERNS</span></code>   (New in 0.6a6)</dt><dd><p>Restrict downloading and spidering to hosts matching the specified glob
+patterns.  E.g. <code class="docutils literal notranslate"><span class="pre">-H</span> <span class="pre">*.python.org</span></code> restricts web access so that only
+packages listed and downloadable from machines in the <code class="docutils literal notranslate"><span class="pre">python.org</span></code>
+domain.  The glob patterns must match the <em>entire</em> user/host/port section of
+the target URL(s).  For example, <code class="docutils literal notranslate"><span class="pre">*.python.org</span></code> will NOT accept a URL
+like <code class="docutils literal notranslate"><span class="pre">http://python.org/foo</span></code> or <code class="docutils literal notranslate"><span class="pre">http://www.python.org:8080/</span></code>.
+Multiple patterns can be specified by separating them with commas.  The
+default pattern is <code class="docutils literal notranslate"><span class="pre">*</span></code>, which matches anything.</p>
+<p>In general, this option is mainly useful for blocking EasyInstall’s web
+access altogether (e.g. <code class="docutils literal notranslate"><span class="pre">-Hlocalhost</span></code>), or to restrict it to an intranet
+or other trusted site.  EasyInstall will do the best it can to satisfy
+dependencies given your host restrictions, but of course can fail if it
+can’t find suitable packages.  EasyInstall displays all blocked URLs, so
+that you can adjust your <code class="docutils literal notranslate"><span class="pre">--allow-hosts</span></code> setting if it is more strict
+than you intended.  Some sites may wish to define a restrictive default
+setting for this option in their <a class="reference internal" href="#configuration-files">configuration files</a>, and then manually
+override the setting on the command line as needed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--prefix=DIR</span></code> (New in 0.6a10)</dt><dd><p>Use the specified directory as a base for computing the default
+installation and script directories.  On Windows, the resulting default
+directories will be <code class="docutils literal notranslate"><span class="pre">prefix\\Lib\\site-packages</span></code> and <code class="docutils literal notranslate"><span class="pre">prefix\\Scripts</span></code>,
+while on other platforms the defaults will be
+<code class="docutils literal notranslate"><span class="pre">prefix/lib/python2.X/site-packages</span></code> (with the appropriate version
+substituted) for libraries and <code class="docutils literal notranslate"><span class="pre">prefix/bin</span></code> for scripts.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">--prefix</span></code> option only sets the <em>default</em> installation and
+script directories, and does not override the ones set on the command line
+or in a configuration file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--local-snapshots-ok,</span> <span class="pre">-l</span></code> (New in 0.6c6)</dt><dd><p>Normally, EasyInstall prefers to only install <em>released</em> versions of
+projects, not in-development ones, because such projects may not
+have a currently-valid version number.  So, it usually only installs them
+when their <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> directory is explicitly passed on the command line.</p>
+<p>However, if this option is used, then any in-development projects that were
+installed using the <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">develop</span></code> command, will be used to build
+eggs, effectively upgrading the “in-development” project to a snapshot
+release.  Normally, this option is used only in conjunction with the
+<code class="docutils literal notranslate"><span class="pre">--always-copy</span></code> option to create a distributable snapshot of every egg
+needed to run an application.</p>
+<p>Note that if you use this option, you must make sure that there is a valid
+version number (such as an SVN revision number tag) for any in-development
+projects that may be used, as otherwise EasyInstall may not be able to tell
+what version of the project is “newer” when future installations or
+upgrades are attempted.</p>
+</dd>
+</dl>
+</section>
+<section id="custom-installation-locations">
+<span id="non-root-installation"></span><h3>Custom Installation Locations<a class="headerlink" href="#custom-installation-locations" title="Permalink to this heading">#</a></h3>
+<p>By default, EasyInstall installs python packages into Python’s main <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory,
+and manages them using a custom <code class="docutils literal notranslate"><span class="pre">.pth</span></code> file in that same directory.</p>
+<p>Very often though, a user or developer wants <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> to install and manage python packages
+in an alternative location, usually for one of 3 reasons:</p>
+<ol class="arabic simple">
+<li><p>They don’t have access to write to the main Python site-packages directory.</p></li>
+<li><p>They want a user-specific stash of packages, that is not visible to other users.</p></li>
+<li><p>They want to isolate a set of packages to a specific python application, usually to minimize
+the possibility of version conflicts.</p></li>
+</ol>
+<p>Historically, there have been many approaches to achieve custom installation.
+The following section lists only the easiest and most relevant approaches <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<p><a class="reference internal" href="#use-the-user-option">Use the “–user” option</a></p>
+<p><a class="reference internal" href="#use-the-user-option-and-customize-pythonuserbase">Use the “–user” option and customize “PYTHONUSERBASE”</a></p>
+<p><a class="reference internal" href="#use-virtualenv">Use “virtualenv”</a></p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>There are older ways to achieve custom installation using various <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">install</span></code> options, combined with <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> and/or <code class="docutils literal notranslate"><span class="pre">PYTHONUSERBASE</span></code> alterations, but all of these are effectively deprecated by the User scheme brought in by <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0370/"><strong>PEP 370</strong></a>.</p>
+</aside>
+</aside>
+<section id="use-the-user-option">
+<h4>Use the “–user” option<a class="headerlink" href="#use-the-user-option" title="Permalink to this heading">#</a></h4>
+<p>Python provides a User scheme for installation, which means that all
+python distributions support an alternative install location that is specific to a user <a class="footnote-reference brackets" href="#id5" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.
+The Default location for each OS is explained in the python documentation
+for the <code class="docutils literal notranslate"><span class="pre">site.USER_BASE</span></code> variable.  This mode of installation can be turned on by
+specifying the <code class="docutils literal notranslate"><span class="pre">--user</span></code> option to <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">install</span></code> or <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>.
+This approach serves the need to have a user-specific stash of packages.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">3</a><span class="fn-bracket">]</span></span>
+<p>Prior to the User scheme, there was the Home scheme, which is still available, but requires more effort than the User scheme to get packages recognized.</p>
+</aside>
+</aside>
+</section>
+<section id="use-the-user-option-and-customize-pythonuserbase">
+<h4>Use the “–user” option and customize “PYTHONUSERBASE”<a class="headerlink" href="#use-the-user-option-and-customize-pythonuserbase" title="Permalink to this heading">#</a></h4>
+<p>The User scheme install location can be customized by setting the <code class="docutils literal notranslate"><span class="pre">PYTHONUSERBASE</span></code> environment
+variable, which updates the value of <code class="docutils literal notranslate"><span class="pre">site.USER_BASE</span></code>.  To isolate packages to a specific
+application, simply set the OS environment of that application to a specific value of
+<code class="docutils literal notranslate"><span class="pre">PYTHONUSERBASE</span></code>, that contains just those packages.</p>
+</section>
+<section id="use-virtualenv">
+<h4>Use “virtualenv”<a class="headerlink" href="#use-virtualenv" title="Permalink to this heading">#</a></h4>
+<p>“virtualenv” is a 3rd-party python package that effectively “clones” a python installation, thereby
+creating an isolated location to install packages.  The evolution of “virtualenv” started before the existence
+of the User installation scheme.  “virtualenv” provides a version of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> that is
+scoped to the cloned python install and is used in the normal way. “virtualenv” does offer various features
+that the User installation scheme alone does not provide, e.g. the ability to hide the main python site-packages.</p>
+<p>Please refer to the <a class="reference external" href="https://pypi.org/project/virtualenv">virtualenv</a> documentation for more details.</p>
+</section>
+</section>
+<section id="package-index-api">
+<h3>Package Index “API”<a class="headerlink" href="#package-index-api" title="Permalink to this heading">#</a></h3>
+<p>Custom package indexes (and PyPI) must follow the following rules for
+EasyInstall to be able to look up and download packages:</p>
+<ol class="arabic">
+<li><p>Except where stated otherwise, “pages” are HTML or XHTML, and “links”
+refer to <code class="docutils literal notranslate"><span class="pre">href</span></code> attributes.</p></li>
+<li><p>Individual project version pages’ URLs must be of the form
+<code class="docutils literal notranslate"><span class="pre">base/projectname/version</span></code>, where <code class="docutils literal notranslate"><span class="pre">base</span></code> is the package index’s base URL.</p></li>
+<li><p>Omitting the <code class="docutils literal notranslate"><span class="pre">/version</span></code> part of a project page’s URL (but keeping the
+trailing <code class="docutils literal notranslate"><span class="pre">/</span></code>) should result in a page that is either:</p>
+<ol class="loweralpha simple">
+<li><p>The single active version of that project, as though the version had been
+explicitly included, OR</p></li>
+<li><p>A page with links to all of the active version pages for that project.</p></li>
+</ol>
+</li>
+<li><p>Individual project version pages should contain direct links to downloadable
+distributions where possible.  It is explicitly permitted for a project’s
+“long_description” to include URLs, and these should be formatted as HTML
+links by the package index, as EasyInstall does no special processing to
+identify what parts of a page are index-specific and which are part of the
+project’s supplied description.</p></li>
+<li><p>Where available, MD5 information should be added to download URLs by
+appending a fragment identifier of the form <code class="docutils literal notranslate"><span class="pre">#md5=...</span></code>, where <code class="docutils literal notranslate"><span class="pre">...</span></code> is
+the 32-character hex MD5 digest.  EasyInstall will verify that the
+downloaded file’s MD5 digest matches the given value.</p></li>
+<li><p>Individual project version pages should identify any “homepage” or
+“download” URLs using <code class="docutils literal notranslate"><span class="pre">rel=&quot;homepage&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">rel=&quot;download&quot;</span></code> attributes
+on the HTML elements linking to those URLs. Use of these attributes will
+cause EasyInstall to always follow the provided links, unless it can be
+determined by inspection that they are downloadable distributions. If the
+links are not to downloadable distributions, they are retrieved, and if they
+are HTML, they are scanned for download links. They are <em>not</em> scanned for
+additional “homepage” or “download” links, as these are only processed for
+pages that are part of a package index site.</p></li>
+<li><p>The root URL of the index, if retrieved with a trailing <code class="docutils literal notranslate"><span class="pre">/</span></code>, must result
+in a page containing links to <em>all</em> projects’ active version pages.</p>
+<p>(Note: This requirement is a workaround for the absence of case-insensitive
+<code class="docutils literal notranslate"><span class="pre">safe_name()</span></code> matching of project names in URL paths. If project names are
+matched in this fashion (e.g. via the PyPI server, mod_rewrite, or a similar
+mechanism), then it is not necessary to include this all-packages listing
+page.)</p>
+</li>
+<li><p>If a package index is accessed via a <code class="docutils literal notranslate"><span class="pre">file://</span></code> URL, then EasyInstall will
+automatically use <code class="docutils literal notranslate"><span class="pre">index.html</span></code> files, if present, when trying to read a
+directory with a trailing <code class="docutils literal notranslate"><span class="pre">/</span></code> on the URL.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="zip_safe.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="python_eggs.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">The Internal Structure of Python Eggs</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Easy Install</a><ul>
+<li><a class="reference internal" href="#using-easy-install">Using “Easy Install”</a><ul>
+<li><a class="reference internal" href="#installing-easy-install">Installing “Easy Install”</a><ul>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li><a class="reference internal" href="#windows-notes">Windows Notes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#downloading-and-installing-a-package">Downloading and Installing a Package</a></li>
+<li><a class="reference internal" href="#upgrading-a-package">Upgrading a Package</a></li>
+<li><a class="reference internal" href="#changing-the-active-version">Changing the Active Version</a></li>
+<li><a class="reference internal" href="#uninstalling-packages">Uninstalling Packages</a></li>
+<li><a class="reference internal" href="#managing-scripts">Managing Scripts</a></li>
+<li><a class="reference internal" href="#executables-and-launchers">Executables and Launchers</a><ul>
+<li><a class="reference internal" href="#windows-executable-launcher">Windows Executable Launcher</a></li>
+<li><a class="reference internal" href="#natural-script-launcher">Natural Script Launcher</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tips-techniques">Tips &amp; Techniques</a><ul>
+<li><a class="reference internal" href="#multiple-python-versions">Multiple Python Versions</a></li>
+<li><a class="reference internal" href="#restricting-downloads-with-allow-hosts">Restricting Downloads with <code class="docutils literal notranslate"><span class="pre">--allow-hosts</span></code></a></li>
+<li><a class="reference internal" href="#installing-on-un-networked-machines">Installing on Un-networked Machines</a></li>
+<li><a class="reference internal" href="#packaging-others-projects-as-eggs">Packaging Others’ Projects As Eggs</a></li>
+<li><a class="reference internal" href="#creating-your-own-package-index">Creating your own Package Index</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#password-protected-sites">Password-Protected Sites</a></li>
+<li><a class="reference internal" href="#using-pypirc-credentials">Using .pypirc Credentials</a><ul>
+<li><a class="reference internal" href="#controlling-build-options">Controlling Build Options</a></li>
+<li><a class="reference internal" href="#editing-and-viewing-source-packages">Editing and Viewing Source Packages</a></li>
+<li><a class="reference internal" href="#dealing-with-installation-conflicts">Dealing with Installation Conflicts</a></li>
+<li><a class="reference internal" href="#compressed-installation">Compressed Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reference-manual">Reference Manual</a><ul>
+<li><a class="reference internal" href="#configuration-files">Configuration Files</a></li>
+<li><a class="reference internal" href="#command-line-options">Command-Line Options</a></li>
+<li><a class="reference internal" href="#custom-installation-locations">Custom Installation Locations</a><ul>
+<li><a class="reference internal" href="#use-the-user-option">Use the “–user” option</a></li>
+<li><a class="reference internal" href="#use-the-user-option-and-customize-pythonuserbase">Use the “–user” option and customize “PYTHONUSERBASE”</a></li>
+<li><a class="reference internal" href="#use-virtualenv">Use “virtualenv”</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-index-api">Package Index “API”</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

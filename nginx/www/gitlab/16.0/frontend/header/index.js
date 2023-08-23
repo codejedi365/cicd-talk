@@ -1,0 +1,1 @@
+!function(){"use strict";document.addEventListener("DOMContentLoaded",(function(){var e=document.querySelector(".mobile-nav-toggle"),t=[document.querySelector(".main"),document.querySelector(".nav-wrapper")];e&&e.addEventListener("click",(function(){return t.forEach((function(e){e.classList.toggle("active")}))}))}))}();

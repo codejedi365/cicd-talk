@@ -1,0 +1,745 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Development Mode (a.k.a. “Editable Installs”)" href="development_mode.html" /><link rel="prev" title="Package Discovery and Namespace Packages" href="package_discovery.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Dependencies Management in Setuptools - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="dependencies-management-in-setuptools">
+<h1>Dependencies Management in Setuptools<a class="headerlink" href="#dependencies-management-in-setuptools" title="Permalink to this heading">#</a></h1>
+<p>There are three types of dependency styles offered by setuptools:
+1) build system requirement, 2) required dependency and 3) optional
+dependency.</p>
+<p>Each dependency, regardless of type, needs to be specified according to <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0508/"><strong>PEP 508</strong></a>
+and <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/"><strong>PEP 440</strong></a>.
+This allows adding version <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/#version-specifiers"><strong>range restrictions</strong></a>
+and <a class="hxr-hoverxref hxr-tooltip reference internal" href="#environment-markers"><span class="std std-ref">environment markers</span></a>.</p>
+<section id="build-system-requirement">
+<span id="build-requires"></span><h2>Build system requirement<a class="headerlink" href="#build-system-requirement" title="Permalink to this heading">#</a></h2>
+<p>After organizing all the scripts and files and getting ready for packaging,
+there needs to be a way to specify what programs and libraries are actually needed
+do the packaging (in our case, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> of course).
+This needs to be specified in your <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file
+(if you have forgot what this is, go to <a class="reference internal" href="quickstart.html"><span class="doc">Quickstart</span></a> or <a class="reference internal" href="../build_meta.html"><span class="doc">Build System Support</span></a>):</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[build-system]</span>
+<span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;setuptools&quot;</span><span class="p">]</span>
+<span class="c1">#...</span>
+</pre></div>
+</div>
+<p>Please note that you should also include here any other <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> plugin
+(e.g., <a class="reference external" href="https://pypi.org/project/setuptools-scm">setuptools-scm</a>, <a class="reference external" href="https://pypi.org/project/setuptools-golang">setuptools-golang</a>, <a class="reference external" href="https://pypi.org/project/setuptools-rust">setuptools-rust</a>)
+or build-time dependency (e.g., <a class="reference external" href="https://pypi.org/project/Cython">Cython</a>, <a class="reference external" href="https://pypi.org/project/cppy">cppy</a>, <a class="reference external" href="https://pypi.org/project/pybind11">pybind11</a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In previous versions of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>,
+this used to be accomplished with the <code class="docutils literal notranslate"><span class="pre">setup_requires</span></code> keyword but is
+now considered deprecated in favor of the <span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a> style described above.
+To peek into how this legacy keyword is used, consult our <a class="reference internal" href="../deprecated/index.html"><span class="doc">guide on
+deprecated practice (WIP)</span></a>.</p>
+</div>
+</section>
+<section id="declaring-required-dependency">
+<span id="declaring-dependencies"></span><h2>Declaring required dependency<a class="headerlink" href="#declaring-required-dependency" title="Permalink to this heading">#</a></h2>
+<p>This is where a package declares its core dependencies, without which it won’t
+be able to run. <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> supports automatically downloading and installing
+these dependencies when the package is installed. Although there is more
+finesse to it, let’s start with a simple example.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="c1"># ...</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s">&quot;docutils&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;BazSpam == 1.1&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">install_requires</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">docutils</span>
+<span class="w">    </span><span class="na">BazSpam</span><span class="w"> </span><span class="o">=</span><span class="s">=1.1</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;docutils&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;BazSpam ==1.1&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When your project is installed (e.g., using <a class="reference external" href="https://pypi.org/project/pip">pip</a>), all of the dependencies not
+already installed will be located (via <a class="reference external" href="https://pypi.org">PyPI</a>), downloaded, built (if necessary),
+and installed and 2) Any scripts in your project will be installed with wrappers
+that verify the availability of the specified dependencies at runtime.</p>
+<section id="platform-specific-dependencies">
+<span id="environment-markers"></span><h3>Platform specific dependencies<a class="headerlink" href="#platform-specific-dependencies" title="Permalink to this heading">#</a></h3>
+<p>Setuptools offers the capability to evaluate certain conditions before blindly
+installing everything listed in <code class="docutils literal notranslate"><span class="pre">install_requires</span></code>. This is great for platform
+specific dependencies. For example, the <code class="docutils literal notranslate"><span class="pre">enum</span></code> package was added in Python
+3.4, therefore, package that depends on it can elect to install it only when
+the Python version is older than 3.4. To accomplish this</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="c1"># ...</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s">&quot;enum34; python_version&lt;&#39;3.4&#39;&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">install_requires</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">enum34;python_version&lt;&#39;3.4&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;enum34;python_version&lt;&#39;3.4&#39;&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Similarly, if you also wish to declare <code class="docutils literal notranslate"><span class="pre">pywin32</span></code> with a minimal version of 1.0
+and only install it if the user is using a Windows operating system:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="c1"># ...</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s">&quot;enum34; python_version&lt;&#39;3.4&#39;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;pywin32 &gt;= 1.0; platform_system==&#39;Windows&#39;&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">install_requires</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">enum34;python_version&lt;&#39;3.4&#39;</span>
+<span class="w">    </span><span class="na">pywin32 &gt;</span><span class="o">=</span><span class="w"> </span><span class="s">1.0</span><span class="c1">;platform_system==&#39;Windows&#39;</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;enum34;python_version&lt;&#39;3.4&#39;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pywin32 &gt;= 1.0;platform_system==&#39;Windows&#39;&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The environmental markers that may be used for testing platform types are
+detailed in <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0508/"><strong>PEP 508</strong></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Alternatively, a <a class="hxr-hoverxref hxr-tooltip reference internal" href="../build_meta.html#backend-wrapper"><span class="std std-ref">backend wrapper</span></a> can be used for
+specific use cases where environment markers aren’t sufficient.</p>
+</div>
+</section>
+<section id="direct-url-dependencies">
+<h3>Direct URL dependencies<a class="headerlink" href="#direct-url-dependencies" title="Permalink to this heading">#</a></h3>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p><a class="reference external" href="https://pypi.org">PyPI</a> and other standards-conformant package indices <strong>do not</strong> accept
+packages that declare dependencies using direct URLs. <code class="docutils literal notranslate"><span class="pre">pip</span></code> will accept them
+when installing packages from the local filesystem or from another URL,
+however.</p>
+</div>
+<p>Dependencies that are not available on a package index but can be downloaded
+elsewhere in the form of a source repository or archive may be specified
+using a variant of <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/#direct-references"><strong>PEP 440’s direct references</strong></a>:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="c1"># ...</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s">&quot;Package-A @ git+https://example.net/package-a.git@main&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Package-B @ https://example.net/archives/package-b.whl&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">install_requires</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">Package-A @ git+https</span><span class="o">:</span><span class="s">//example.net/package-a.git@main</span>
+<span class="w">    </span><span class="na">Package-B @ https</span><span class="o">:</span><span class="s">//example.net/archives/package-b.whl</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+       <span class="s2">&quot;Package-A @ git+https://example.net/package-a.git@main&quot;</span><span class="p">,</span>
+       <span class="s2">&quot;Package-B @ https://example.net/archives/package-b.whl&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For source repository URLs, a list of supported protocols and VCS-specific
+features such as selecting certain branches or tags can be found in pip’s
+documentation on <a class="reference external" href="https://pip.pypa.io/en/latest/topics/vcs-support/">VCS support</a>.
+Supported formats for archive URLs are sdists and wheels.</p>
+</section>
+</section>
+<section id="optional-dependencies">
+<h2>Optional dependencies<a class="headerlink" href="#optional-dependencies" title="Permalink to this heading">#</a></h2>
+<p>Setuptools allows you to declare dependencies that are not installed by default.
+This effectively means that you can create a “variant” of your package with a
+set of extra functionalities.</p>
+<p>For example, let’s consider a <code class="docutils literal notranslate"><span class="pre">Package-A</span></code> that offers
+optional PDF support and requires two other dependencies for it to work:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Package-A&quot;</span>
+<span class="c1"># ...</span>
+<span class="k">[project.optional-dependencies]</span>
+<span class="n">PDF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;ReportLab&gt;=1.2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;RXP&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[metadata]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Package-A</span>
+
+<span class="k">[options.extras_require]</span>
+<span class="na">PDF</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">ReportLab&gt;</span><span class="o">=</span><span class="s">1.2</span>
+<span class="w">    </span><span class="na">RXP</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Package-A&quot;</span><span class="p">,</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="n">extras_require</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;PDF&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ReportLab&gt;=1.2&quot;</span><span class="p">,</span> <span class="s2">&quot;RXP&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<aside class="sidebar">
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>It is also convenient to declare optional requirements for
+ancillary tasks such as running tests and or building docs.</p>
+</div>
+</aside>
+<p>The name <code class="docutils literal notranslate"><span class="pre">PDF</span></code> is an arbitrary <span class="target" id="index-6"></span><a class="pep reference external" href="https://peps.python.org/pep-0685/"><strong>identifier</strong></a> of such a list of dependencies, to
+which other components can refer and have them installed.</p>
+<p>A use case for this approach is that other package can use this “extra” for their
+own dependencies. For example, if <code class="docutils literal notranslate"><span class="pre">Package-B</span></code> needs <code class="docutils literal notranslate"><span class="pre">Package-A</span></code> with PDF support
+installed, it might declare the dependency like this:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Package-B&quot;</span>
+<span class="c1"># ...</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s">&quot;Package-A[PDF]&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[metadata]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Package-B</span>
+<span class="c1">#...</span>
+
+<span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">install_requires</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">Package-A[PDF]</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Package-B&quot;</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Package-A[PDF]&quot;</span><span class="p">],</span>
+    <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This will cause <code class="docutils literal notranslate"><span class="pre">ReportLab</span></code> to be installed along with <code class="docutils literal notranslate"><span class="pre">Package-A</span></code>, if <code class="docutils literal notranslate"><span class="pre">Package-B</span></code> is
+installed – even if <code class="docutils literal notranslate"><span class="pre">Package-A</span></code> was already installed.  In this way, a project
+can encapsulate groups of optional “downstream dependencies” under a feature
+name, so that packages that depend on it don’t have to know what the downstream
+dependencies are.  If a later version of <code class="docutils literal notranslate"><span class="pre">Package-A</span></code> builds in PDF support and
+no longer needs <code class="docutils literal notranslate"><span class="pre">ReportLab</span></code>, or if it ends up needing other dependencies besides
+<code class="docutils literal notranslate"><span class="pre">ReportLab</span></code> in order to provide PDF support, <code class="docutils literal notranslate"><span class="pre">Package-B</span></code>’s setup information does
+not need to change, but the right packages will still be installed if needed.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Best practice: if a project ends up no longer needing any other packages to
+support a feature, it should keep an empty requirements list for that feature
+in its <code class="docutils literal notranslate"><span class="pre">extras_require</span></code> argument, so that packages depending on that feature
+don’t break (due to an invalid feature name).</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Historically <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> also used to support extra dependencies in console
+scripts, for example:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--6-input--1" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[metadata]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Package-A</span>
+<span class="c1">#...</span>
+
+<span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">entry_points</span><span class="o">=</span>
+<span class="w">    </span><span class="k">[console_scripts]</span>
+<span class="w">    </span><span class="na">rst2pdf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">project_a.tools.pdfgen [PDF]</span>
+<span class="w">    </span><span class="na">rst2html</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">project_a.tools.htmlgen</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--6-input--2" name="tab-set--6" type="radio"><label class="tab-label" for="tab-set--6-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Package-A&quot;</span><span class="p">,</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;console_scripts&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;rst2pdf = project_a.tools.pdfgen [PDF]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rst2html = project_a.tools.htmlgen&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This syntax indicates that the entry point (in this case a console script)
+is only valid when the PDF extra is installed. It is up to the installer
+to determine how to handle the situation where PDF was not indicated
+(e.g., omit the console script, provide a warning when attempting to load
+the entry point, assume the extras are present and let the implementation
+fail later).</p>
+<p><strong>However</strong>, <code class="docutils literal notranslate"><span class="pre">pip</span></code> and other tools might not support this use case for extra
+dependencies, therefore this practice is considered <strong>deprecated</strong>.
+See <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/specifications/entry-points/" title="(in Python Packaging User Guide)"><span>Entry points specification</span></a>.</p>
+</div>
+</section>
+<section id="python-requirement">
+<h2>Python requirement<a class="headerlink" href="#python-requirement" title="Permalink to this heading">#</a></h2>
+<p>In some cases, you might need to specify the minimum required python version.
+This can be configured as shown in the example below.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--7-input--1" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--1">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Package-B&quot;</span>
+<span class="n">requires-python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&gt;=3.6&quot;</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--2" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--2">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[metadata]</span>
+<span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Package-B</span>
+<span class="c1">#...</span>
+
+<span class="k">[options]</span>
+<span class="c1">#...</span>
+<span class="na">python_requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&gt;=3.6</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--7-input--3" name="tab-set--7" type="radio"><label class="tab-label" for="tab-set--7-input--3">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Package-B&quot;</span><span class="p">,</span>
+    <span class="n">python_requires</span><span class="o">=</span><span class="s2">&quot;&gt;=3.6&quot;</span><span class="p">,</span>
+    <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="development_mode.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Development Mode (a.k.a. “Editable Installs”)</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="package_discovery.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Package Discovery and Namespace Packages</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Dependencies Management in Setuptools</a><ul>
+<li><a class="reference internal" href="#build-system-requirement">Build system requirement</a></li>
+<li><a class="reference internal" href="#declaring-required-dependency">Declaring required dependency</a><ul>
+<li><a class="reference internal" href="#platform-specific-dependencies">Platform specific dependencies</a></li>
+<li><a class="reference internal" href="#direct-url-dependencies">Direct URL dependencies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optional-dependencies">Optional dependencies</a></li>
+<li><a class="reference internal" href="#python-requirement">Python requirement</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

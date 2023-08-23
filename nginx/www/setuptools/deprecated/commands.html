@@ -1,0 +1,915 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="History" href="../history.html" /><link rel="prev" title="“Eggsecutable” Scripts" href="functionalities.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Running setuptools commands - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../userguide/index.html">User guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Backward compatibility &amp; deprecated practice</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="running-setuptools-commands">
+<h1>Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands<a class="headerlink" href="#running-setuptools-commands" title="Permalink to this heading">#</a></h1>
+<p>Historically, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> allowed running commands via a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script
+at the root of a Python project, as indicated in the examples below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span><span class="o">-</span><span class="n">commands</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">version</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">bdist_wheel</span>
+</pre></div>
+</div>
+<p>You could also run commands in other circumstances:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">setuptools</span></code> projects without <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>-only):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;from setuptools import setup; setup()&quot;</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">distutils</span></code> projects (with a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> importing <code class="docutils literal notranslate"><span class="pre">distutils</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import setuptools; with open(&#39;setup.py&#39;) as f: exec(compile(f.read(), &#39;setup.py&#39;, &#39;exec&#39;))&quot;</span> <span class="n">develop</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>That is, you can simply list the normal setup commands and options following the quoted part.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While it is perfectly fine that users write <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> files to configure
+a package build (e.g. to specify binary extensions or customize commands),
+on recent versions of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>, running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span></code> directly
+as a script is considered <strong>deprecated</strong>. This also means that users should
+avoid running commands directly via <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">&lt;command&gt;</span></code>.</p>
+<p>If you want to create <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist" title="(in Python Packaging User Guide)"><span class="xref std std-term">sdist</span></a> or <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Wheel" title="(in Python Packaging User Guide)"><span class="xref std std-term">wheel</span></a>
+distributions the recommendation is to use the command line tool provided by <a class="reference external" href="https://pypi.org/project/build">build</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">build</span>  <span class="c1"># needs to be installed first</span>
+
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">build</span>  <span class="c1"># builds both sdist and wheel</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">build</span> <span class="o">--</span><span class="n">sdist</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">build</span> <span class="o">--</span><span class="n">wheel</span>
+</pre></div>
+</div>
+<p>Build will automatically download <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> and build the package in an
+isolated environment. You can also specify specific versions of
+<code class="docutils literal notranslate"><span class="pre">setuptools</span></code>, by setting the <a class="reference internal" href="../build_meta.html"><span class="doc">build requirements in pyproject.toml</span></a>.</p>
+<p>If you want to install a package, you can use <a class="reference external" href="https://pypi.org/project/pip">pip</a> or <a class="reference external" href="https://pypi.org/project/installer">installer</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">wheel</span><span class="o">/</span><span class="n">file</span><span class="o">.</span><span class="n">whl</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sdist</span><span class="o">/</span><span class="n">file</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>  <span class="c1"># replacement for python setup.py install</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">editable</span> <span class="o">.</span>  <span class="c1"># replacement for python setup.py develop</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="n">installer</span>  <span class="c1"># needs to be installed first</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">installer</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">wheel</span><span class="o">/</span><span class="n">file</span><span class="o">.</span><span class="n">whl</span>
+</pre></div>
+</div>
+</div>
+<section id="command-reference">
+<h2>Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this heading">#</a></h2>
+<section id="alias-define-shortcuts-for-commonly-used-commands">
+<span id="alias"></span><h3><code class="docutils literal notranslate"><span class="pre">alias</span></code> - Define shortcuts for commonly used commands<a class="headerlink" href="#alias-define-shortcuts-for-commonly-used-commands" title="Permalink to this heading">#</a></h3>
+<p>Sometimes, you need to use the same commands over and over, but you can’t
+necessarily set them as defaults.  For example, if you produce both development
+snapshot releases and “stable” releases of a project, you may want to put
+the distributions in different places, or use different <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> tagging
+options, etc.  In these cases, it doesn’t make sense to set the options in
+a distutils configuration file, because the values of the options changed based
+on what you’re trying to do.</p>
+<p>Setuptools therefore allows you to define “aliases” - shortcut names for
+an arbitrary string of commands and options, using <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">alias</span> <span class="pre">aliasname</span>
+<span class="pre">expansion</span></code>, where aliasname is the name of the new alias, and the remainder of
+the command line supplies its expansion.  For example, this command defines
+a sitewide alias called “daily”, that sets various <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> tagging
+options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">alias</span> <span class="o">--</span><span class="k">global</span><span class="o">-</span><span class="n">config</span> <span class="n">daily</span> <span class="n">egg_info</span> <span class="o">--</span><span class="n">tag</span><span class="o">-</span><span class="n">build</span><span class="o">=</span><span class="n">development</span>
+</pre></div>
+</div>
+<p>Once the alias is defined, it can then be used with other setup commands,
+e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">daily</span> <span class="n">bdist_egg</span>        <span class="c1"># generate a daily-build .egg file</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">daily</span> <span class="n">sdist</span>            <span class="c1"># generate a daily-build source distro</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">daily</span> <span class="n">sdist</span> <span class="n">bdist_egg</span>  <span class="c1"># generate both</span>
+</pre></div>
+</div>
+<p>The above commands are interpreted as if the word <code class="docutils literal notranslate"><span class="pre">daily</span></code> were replaced with
+<code class="docutils literal notranslate"><span class="pre">egg_info</span> <span class="pre">--tag-build=development</span></code>.</p>
+<p>Note that setuptools will expand each alias <em>at most once</em> in a given command
+line.  This serves two purposes.  First, if you accidentally create an alias
+loop, it will have no effect; you’ll instead get an error message about an
+unknown command.  Second, it allows you to define an alias for a command, that
+uses that command.  For example, this (project-local) alias:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">alias</span> <span class="n">bdist_egg</span> <span class="n">bdist_egg</span> <span class="n">rotate</span> <span class="o">-</span><span class="n">k1</span> <span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">egg</span>
+</pre></div>
+</div>
+<p>redefines the <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> command so that it always runs the <code class="docutils literal notranslate"><span class="pre">rotate</span></code>
+command afterwards to delete all but the newest egg file.  It doesn’t loop
+indefinitely on <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> because the alias is only expanded once when
+used.</p>
+<p>You can remove a defined alias with the <code class="docutils literal notranslate"><span class="pre">--remove</span></code> (or <code class="docutils literal notranslate"><span class="pre">-r</span></code>) option, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">alias</span> <span class="o">--</span><span class="k">global</span><span class="o">-</span><span class="n">config</span> <span class="o">--</span><span class="n">remove</span> <span class="n">daily</span>
+</pre></div>
+</div>
+<p>would delete the “daily” alias we defined above.</p>
+<p>Aliases can be defined on a project-specific, per-user, or sitewide basis.  The
+default is to define or remove a project-specific alias, but you can use any of
+the <a class="reference internal" href="#configuration-file-options">configuration file options</a> (listed under the <a class="reference internal" href="#saveopts">saveopts</a> command, below)
+to determine which distutils configuration file an aliases will be added to
+(or removed from).</p>
+<p>Note that if you omit the “expansion” argument to the <code class="docutils literal notranslate"><span class="pre">alias</span></code> command,
+you’ll get output showing that alias’ current definition (and what
+configuration file it’s defined in).  If you omit the alias name as well,
+you’ll get a listing of all current aliases along with their configuration
+file locations.</p>
+</section>
+<section id="bdist-egg-create-a-python-egg-for-the-project">
+<h3><code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> - Create a Python Egg for the project<a class="headerlink" href="#bdist-egg-create-a-python-egg-for-the-project" title="Permalink to this heading">#</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>eggs</strong> are deprecated in favor of wheels, and not supported by pip.</p>
+</div>
+<p>This command generates a Python Egg (<code class="docutils literal notranslate"><span class="pre">.egg</span></code> file) for the project.  Python
+Eggs are the preferred binary distribution format for EasyInstall, because they
+are cross-platform (for “pure” packages), directly importable, and contain
+project metadata including scripts and information about the project’s
+dependencies.  They can be simply downloaded and added to <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>
+directly, or they can be placed in a directory on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> and then
+automatically discovered by the egg runtime system.</p>
+<p>This command runs the <a class="reference internal" href="#egg-info">egg_info</a> command (if it hasn’t already run) to update
+the project’s metadata (<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code>) directory.  If you have added any extra
+metadata files to the <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> directory, those files will be included in
+the new egg file’s metadata directory, for use by the egg runtime system or by
+any applications or frameworks that use that metadata.</p>
+<p>You won’t usually need to specify any special options for this command; just
+use <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> and you’re done.  But there are a few options that may
+be occasionally useful:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--dist-dir=DIR,</span> <span class="pre">-d</span> <span class="pre">DIR</span></code></dt><dd><p>Set the directory where the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> file will be placed.  If you don’t
+supply this, then the <code class="docutils literal notranslate"><span class="pre">--dist-dir</span></code> setting of the <code class="docutils literal notranslate"><span class="pre">bdist</span></code> command
+will be used, which is usually a directory named <code class="docutils literal notranslate"><span class="pre">dist</span></code> in the project
+directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--plat-name=PLATFORM,</span> <span class="pre">-p</span> <span class="pre">PLATFORM</span></code></dt><dd><p>Set the platform name string that will be embedded in the egg’s filename
+(assuming the egg contains C extensions).  This can be used to override
+the distutils default platform name with something more meaningful.  Keep
+in mind, however, that the egg runtime system expects to see eggs with
+distutils platform names, so it may ignore or reject eggs with non-standard
+platform names.  Similarly, the EasyInstall program may ignore them when
+searching web pages for download links.  However, if you are
+cross-compiling or doing some other unusual things, you might find a use
+for this option.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--exclude-source-files</span></code></dt><dd><p>Don’t include any modules’ <code class="docutils literal notranslate"><span class="pre">.py</span></code> files in the egg, just compiled Python,
+C, and data files.  (Note that this doesn’t affect any <code class="docutils literal notranslate"><span class="pre">.py</span></code> files in the
+EGG-INFO directory or its subdirectories, since for example there may be
+scripts with a <code class="docutils literal notranslate"><span class="pre">.py</span></code> extension which must still be retained.)  We don’t
+recommend that you use this option except for packages that are being
+bundled for proprietary end-user applications, or for “embedded” scenarios
+where space is at an absolute premium.  On the other hand, if your package
+is going to be installed and used in compressed form, you might as well
+exclude the source because Python’s <code class="docutils literal notranslate"><span class="pre">traceback</span></code> module doesn’t currently
+understand how to display zipped source code anyway, or how to deal with
+files that are in a different place from where their code was compiled.</p>
+</dd>
+</dl>
+<p>There are also some options you will probably never need, but which are there
+because they were copied from similar <code class="docutils literal notranslate"><span class="pre">bdist</span></code> commands used as an example for
+creating this one.  They may be useful for testing and debugging, however,
+which is why we kept them:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--keep-temp,</span> <span class="pre">-k</span></code></dt><dd><p>Keep the contents of the <code class="docutils literal notranslate"><span class="pre">--bdist-dir</span></code> tree around after creating the
+<code class="docutils literal notranslate"><span class="pre">.egg</span></code> file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--bdist-dir=DIR,</span> <span class="pre">-b</span> <span class="pre">DIR</span></code></dt><dd><p>Set the temporary directory for creating the distribution.  The entire
+contents of this directory are zipped to create the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> file, after
+running various installation commands to copy the package’s modules, data,
+and extensions here.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--skip-build</span></code></dt><dd><p>Skip doing any “build” commands; just go straight to the
+install-and-compress phases.</p>
+</dd>
+</dl>
+</section>
+<section id="develop-deploy-the-project-source-in-development-mode">
+<span id="develop"></span><h3><code class="docutils literal notranslate"><span class="pre">develop</span></code> - Deploy the project source in “Development Mode”<a class="headerlink" href="#develop-deploy-the-project-source-in-development-mode" title="Permalink to this heading">#</a></h3>
+<p>This command allows you to deploy your project’s source for use in one or more
+“staging areas” where it will be available for importing.  This deployment is
+done in such a way that changes to the project source are immediately available
+in the staging area(s), without needing to run a build or install step after
+each change.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">develop</span></code> command works by creating an <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> file (named for the
+project) in the given staging area.  If the staging area is Python’s
+<code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory, it also updates an <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> file so
+that the project is on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> by default for all programs run using that
+Python installation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">develop</span></code> command also installs wrapper scripts in the staging area (or
+a separate directory, as specified) that will ensure the project’s dependencies
+are available on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> before running the project’s source scripts.
+And, it ensures that any missing project dependencies are available in the
+staging area, by downloading and installing them if necessary.</p>
+<p>Last, but not least, the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command invokes the <code class="docutils literal notranslate"><span class="pre">build_ext</span> <span class="pre">-i</span></code>
+command to ensure any C extensions in the project have been built and are
+up-to-date, and the <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> command to ensure the project’s metadata is
+updated (so that the runtime and wrappers know what the project’s dependencies
+are).  If you make any changes to the project’s setup script or C extensions,
+you should rerun the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command against all relevant staging areas to
+keep the project’s scripts, metadata and extensions up-to-date.  Most other
+kinds of changes to your project should not require any build operations or
+rerunning <code class="docutils literal notranslate"><span class="pre">develop</span></code>, but keep in mind that even minor changes to the setup
+script (e.g. changing an entry point definition) require you to re-run the
+<code class="docutils literal notranslate"><span class="pre">develop</span></code> or <code class="docutils literal notranslate"><span class="pre">test</span></code> commands to keep the distribution updated.</p>
+<p>Here are some of the options that the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command accepts.  Note that
+they affect the project’s dependencies as well as the project itself, so if you
+have dependencies that need to be installed and you use <code class="docutils literal notranslate"><span class="pre">--exclude-scripts</span></code>
+(for example), the dependencies’ scripts will not be installed either!  For
+this reason, you may want to use pip to install the project’s dependencies
+before using the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command, if you need finer control over the
+installation options for dependencies.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--uninstall,</span> <span class="pre">-u</span></code></dt><dd><p>Un-deploy the current project.  You may use the <code class="docutils literal notranslate"><span class="pre">--install-dir</span></code> or <code class="docutils literal notranslate"><span class="pre">-d</span></code>
+option to designate the staging area.  The created <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> file will
+be removed, if present and it is still pointing to the project directory.
+The project directory will be removed from <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> if the
+staging area is Python’s <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory.</p>
+<p>Note that this option currently does <em>not</em> uninstall script wrappers!  You
+must uninstall them yourself, or overwrite them by using pip to install a
+different version of the package.  You can also avoid installing script
+wrappers in the first place, if you use the <code class="docutils literal notranslate"><span class="pre">--exclude-scripts</span></code> (aka
+<code class="docutils literal notranslate"><span class="pre">-x</span></code>) option when you run <code class="docutils literal notranslate"><span class="pre">develop</span></code> to deploy the project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--multi-version,</span> <span class="pre">-m</span></code></dt><dd><p>“Multi-version” mode. Specifying this option prevents <code class="docutils literal notranslate"><span class="pre">develop</span></code> from
+adding an <code class="docutils literal notranslate"><span class="pre">easy-install.pth</span></code> entry for the project(s) being deployed, and
+if an entry for any version of a project already exists, the entry will be
+removed upon successful deployment.  In multi-version mode, no specific
+version of the package is available for importing, unless you use
+<code class="docutils literal notranslate"><span class="pre">pkg_resources.require()</span></code> to put it on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>, or you are running
+a wrapper script generated by <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>.  (In which case the wrapper
+script calls <code class="docutils literal notranslate"><span class="pre">require()</span></code> for you.)</p>
+<p>Note that if you install to a directory other than <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>,
+this option is automatically in effect, because <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files can only be
+used in <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> (at least in Python 2.3 and 2.4). So, if you use
+the <code class="docutils literal notranslate"><span class="pre">--install-dir</span></code> or <code class="docutils literal notranslate"><span class="pre">-d</span></code> option (or they are set via configuration
+file(s)) your project and its dependencies will be deployed in
+multi-version mode.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--install-dir=DIR,</span> <span class="pre">-d</span> <span class="pre">DIR</span></code></dt><dd><p>Set the installation directory (staging area).  If this option is not
+directly specified on the command line or in a distutils configuration
+file, the distutils default installation location is used.  Normally, this
+will be the <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory, but if you are using distutils
+configuration files, setting things like <code class="docutils literal notranslate"><span class="pre">prefix</span></code> or <code class="docutils literal notranslate"><span class="pre">install_lib</span></code>,
+then those settings are taken into account when computing the default
+staging area.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--script-dir=DIR,</span> <span class="pre">-s</span> <span class="pre">DIR</span></code></dt><dd><p>Set the script installation directory.  If you don’t supply this option
+(via the command line or a configuration file), but you <em>have</em> supplied
+an <code class="docutils literal notranslate"><span class="pre">--install-dir</span></code> (via command line or config file), then this option
+defaults to the same directory, so that the scripts will be able to find
+their associated package installation.  Otherwise, this setting defaults
+to the location where the distutils would normally install scripts, taking
+any distutils configuration file settings into account.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--exclude-scripts,</span> <span class="pre">-x</span></code></dt><dd><p>Don’t deploy script wrappers.  This is useful if you don’t want to disturb
+existing versions of the scripts in the staging area.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--always-copy,</span> <span class="pre">-a</span></code></dt><dd><p>Copy all needed distributions to the staging area, even if they
+are already present in another directory on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.  By default, if
+a requirement can be met using a distribution that is already available in
+a directory on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>, it will not be copied to the staging area.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--egg-path=DIR</span></code></dt><dd><p>Force the generated <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> file to use a specified relative path
+to the source directory.  This can be useful in circumstances where your
+installation directory is being shared by code running under multiple
+platforms (e.g. Mac and Windows) which have different absolute locations
+for the code under development, but the same <em>relative</em> locations with
+respect to the installation directory.  If you use this option when
+installing, you must supply the same relative path when uninstalling.</p>
+</dd>
+</dl>
+<p>In addition to the above options, the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command also accepts all of
+the same options accepted by <code class="docutils literal notranslate"><span class="pre">easy_install</span></code>.  If you’ve configured any
+<code class="docutils literal notranslate"><span class="pre">easy_install</span></code> settings in your <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> (or other distutils config
+files), the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command will use them as defaults, unless you override
+them in a <code class="docutils literal notranslate"><span class="pre">[develop]</span></code> section or on the command line.</p>
+</section>
+<section id="egg-info-create-egg-metadata-and-set-build-tags">
+<span id="egg-info"></span><h3><code class="docutils literal notranslate"><span class="pre">egg_info</span></code> - Create egg metadata and set build tags<a class="headerlink" href="#egg-info-create-egg-metadata-and-set-build-tags" title="Permalink to this heading">#</a></h3>
+<p>This command performs two operations: it updates a project’s <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code>
+metadata directory (used by the <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code>, <code class="docutils literal notranslate"><span class="pre">develop</span></code>, and <code class="docutils literal notranslate"><span class="pre">test</span></code>
+commands), and it allows you to temporarily change a project’s version string,
+to support “daily builds” or “snapshot” releases.  It is run automatically by
+the <code class="docutils literal notranslate"><span class="pre">sdist</span></code>, <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code>, <code class="docutils literal notranslate"><span class="pre">develop</span></code>, and <code class="docutils literal notranslate"><span class="pre">test</span></code> commands in order to
+update the project’s metadata, but you can also specify it explicitly in order
+to temporarily change the project’s version string while executing other
+commands.  (It also generates the <code class="docutils literal notranslate"><span class="pre">.egg-info/SOURCES.txt</span></code> manifest file, which
+is used when you are building source distributions.)</p>
+<p>In addition to writing the core egg metadata defined by <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> and
+required by <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>, this command can be extended to write other
+metadata files as well, by defining entry points in the <code class="docutils literal notranslate"><span class="pre">egg_info.writers</span></code>
+group.  See the section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/extension.html#adding-new-egg-info-files"><span class="std std-ref">Adding new EGG-INFO Files</span></a> below for more details.
+Note that using additional metadata writers may require you to include a
+<code class="docutils literal notranslate"><span class="pre">setup_requires</span></code> argument to <code class="docutils literal notranslate"><span class="pre">setup()</span></code> in order to ensure that the desired
+writers are available on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.</p>
+<section id="release-tagging-options">
+<h4>Release Tagging Options<a class="headerlink" href="#release-tagging-options" title="Permalink to this heading">#</a></h4>
+<p>The following options can be used to modify the project’s version string for
+all remaining commands on the setup command line.  The options are processed
+in the order shown, so if you use more than one, the requested tags will be
+added in the following order:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--tag-build=NAME,</span> <span class="pre">-b</span> <span class="pre">NAME</span></code></dt><dd><p>Append NAME to the project’s version string.  Due to the way setuptools
+processes “pre-release” version suffixes beginning with the letters “a”
+through “e” (like “alpha”, “beta”, and “candidate”), you will usually want
+to use a tag like “.build” or “.dev”, as this will cause the version number
+to be considered <em>lower</em> than the project’s default version.  (If you
+want to make the version number <em>higher</em> than the default version, you can
+always leave off –tag-build and then use one or both of the following
+options.)</p>
+<p>If you have a default build tag set in your <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, you can suppress
+it on the command line using <code class="docutils literal notranslate"><span class="pre">-b</span> <span class="pre">&quot;&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">--tag-build=&quot;&quot;</span></code> as an argument
+to the <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> command.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--tag-date,</span> <span class="pre">-d</span></code></dt><dd><p>Add a date stamp of the form “-YYYYMMDD” (e.g. “-20050528”) to the
+project’s version number.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-date,</span> <span class="pre">-D</span></code></dt><dd><p>Don’t include a date stamp in the version number.  This option is included
+so you can override a default setting in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>.</p>
+</dd>
+</dl>
+<p>(Note: Because these options modify the version number used for source and
+binary distributions of your project, you should first make sure that you know
+how the resulting version numbers will be interpreted by automated tools
+like pip.  See the section above on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/distribution.html#specifying-your-project-s-version"><span class="std std-ref">Specifying Your Project’s Version</span></a> for an
+explanation of pre- and post-release tags, as well as tips on how to choose and
+verify a versioning scheme for your project.)</p>
+<p>For advanced uses, there is one other option that can be set, to change the
+location of the project’s <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> directory.  Commands that need to find
+the project’s source directory or metadata should get it from this setting:</p>
+</section>
+<section id="other-egg-info-options">
+<h4>Other <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> Options<a class="headerlink" href="#other-egg-info-options" title="Permalink to this heading">#</a></h4>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--egg-base=SOURCEDIR,</span> <span class="pre">-e</span> <span class="pre">SOURCEDIR</span></code></dt><dd><p>Specify the directory that should contain the .egg-info directory.  This
+should normally be the root of your project’s source tree (which is not
+necessarily the same as your project directory; some projects use a <code class="docutils literal notranslate"><span class="pre">src</span></code>
+or <code class="docutils literal notranslate"><span class="pre">lib</span></code> subdirectory as the source root).  You should not normally need
+to specify this directory, as it is normally determined from the
+<code class="docutils literal notranslate"><span class="pre">package_dir</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">setup()</span></code> function, if any.  If there is
+no <code class="docutils literal notranslate"><span class="pre">package_dir</span></code> set, this option defaults to the current directory.</p>
+</dd>
+</dl>
+</section>
+<section id="egg-info-examples">
+<h4><code class="docutils literal notranslate"><span class="pre">egg_info</span></code> Examples<a class="headerlink" href="#egg-info-examples" title="Permalink to this heading">#</a></h4>
+<p>Creating a dated “nightly build” snapshot egg:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">egg_info</span> <span class="o">--</span><span class="n">tag</span><span class="o">-</span><span class="n">date</span> <span class="o">--</span><span class="n">tag</span><span class="o">-</span><span class="n">build</span><span class="o">=</span><span class="n">DEV</span> <span class="n">bdist_egg</span>
+</pre></div>
+</div>
+<p>Creating a release with no version tags, even if some default tags are
+specified in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">egg_info</span> <span class="o">-</span><span class="n">RDb</span> <span class="s2">&quot;&quot;</span> <span class="n">sdist</span> <span class="n">bdist_egg</span>
+</pre></div>
+</div>
+<p>(Notice that <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> must always appear on the command line <em>before</em> any
+commands that you want the version changes to apply to.)</p>
+</section>
+</section>
+<section id="rotate-delete-outdated-distribution-files">
+<span id="rotate"></span><h3><code class="docutils literal notranslate"><span class="pre">rotate</span></code> - Delete outdated distribution files<a class="headerlink" href="#rotate-delete-outdated-distribution-files" title="Permalink to this heading">#</a></h3>
+<p>As you develop new versions of your project, your distribution (<code class="docutils literal notranslate"><span class="pre">dist</span></code>)
+directory will gradually fill up with older source and/or binary distribution
+files.  The <code class="docutils literal notranslate"><span class="pre">rotate</span></code> command lets you automatically clean these up, keeping
+only the N most-recently modified files matching a given pattern.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--match=PATTERNLIST,</span> <span class="pre">-m</span> <span class="pre">PATTERNLIST</span></code></dt><dd><p>Comma-separated list of glob patterns to match.  This option is <em>required</em>.
+The project name and <code class="docutils literal notranslate"><span class="pre">-*</span></code> is prepended to the supplied patterns, in order
+to match only distributions belonging to the current project (in case you
+have a shared distribution directory for multiple projects).  Typically,
+you will use a glob pattern like <code class="docutils literal notranslate"><span class="pre">.zip</span></code> or <code class="docutils literal notranslate"><span class="pre">.egg</span></code> to match files of
+the specified type.  Note that each supplied pattern is treated as a
+distinct group of files for purposes of selecting files to delete.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--keep=COUNT,</span> <span class="pre">-k</span> <span class="pre">COUNT</span></code></dt><dd><p>Number of matching distributions to keep.  For each group of files
+identified by a pattern specified with the <code class="docutils literal notranslate"><span class="pre">--match</span></code> option, delete all
+but the COUNT most-recently-modified files in that group.  This option is
+<em>required</em>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--dist-dir=DIR,</span> <span class="pre">-d</span> <span class="pre">DIR</span></code></dt><dd><p>Directory where the distributions are.  This defaults to the value of the
+<code class="docutils literal notranslate"><span class="pre">bdist</span></code> command’s <code class="docutils literal notranslate"><span class="pre">--dist-dir</span></code> option, which will usually be the
+project’s <code class="docutils literal notranslate"><span class="pre">dist</span></code> subdirectory.</p>
+</dd>
+</dl>
+<p><strong>Example 1</strong>: Delete all .tar.gz files from the distribution directory, except
+for the 3 most recently modified ones:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">rotate</span> <span class="o">--</span><span class="n">match</span><span class="o">=.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">--</span><span class="n">keep</span><span class="o">=</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p><strong>Example 2</strong>: Delete all Python 2.3 or Python 2.4 eggs from the distribution
+directory, except the most recently modified one for each Python version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">rotate</span> <span class="o">--</span><span class="n">match</span><span class="o">=-</span><span class="n">py2</span><span class="mf">.3</span><span class="o">*.</span><span class="n">egg</span><span class="p">,</span><span class="o">-</span><span class="n">py2</span><span class="mf">.4</span><span class="o">*.</span><span class="n">egg</span> <span class="o">--</span><span class="n">keep</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+<section id="saveopts-save-used-options-to-a-configuration-file">
+<span id="saveopts"></span><h3><code class="docutils literal notranslate"><span class="pre">saveopts</span></code> - Save used options to a configuration file<a class="headerlink" href="#saveopts-save-used-options-to-a-configuration-file" title="Permalink to this heading">#</a></h3>
+<p>Finding and editing <code class="docutils literal notranslate"><span class="pre">distutils</span></code> configuration files can be a pain, especially
+since you also have to translate the configuration options from command-line
+form to the proper configuration file format.  You can avoid these hassles by
+using the <code class="docutils literal notranslate"><span class="pre">saveopts</span></code> command.  Just add it to the command line to save the
+options you used.  For example, this command builds the project using
+the <code class="docutils literal notranslate"><span class="pre">mingw32</span></code> C compiler, then saves the –compiler setting as the default
+for future builds (even those run implicitly by the <code class="docutils literal notranslate"><span class="pre">install</span></code> command):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">mingw32</span> <span class="n">saveopts</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">saveopts</span></code> command saves all options for every command specified on the
+command line to the project’s local <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> file, unless you use one of
+the <a class="reference internal" href="#configuration-file-options">configuration file options</a> to change where the options are saved.  For
+example, this command does the same as above, but saves the compiler setting
+to the site-wide (global) distutils configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">mingw32</span> <span class="n">saveopts</span> <span class="o">-</span><span class="n">g</span>
+</pre></div>
+</div>
+<p>Note that it doesn’t matter where you place the <code class="docutils literal notranslate"><span class="pre">saveopts</span></code> command on the
+command line; it will still save all the options specified for all commands.
+For example, this is another valid way to spell the last example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">saveopts</span> <span class="o">-</span><span class="n">g</span> <span class="n">build</span> <span class="o">--</span><span class="n">compiler</span><span class="o">=</span><span class="n">mingw32</span>
+</pre></div>
+</div>
+<p>Note, however, that all of the commands specified are always run, regardless of
+where <code class="docutils literal notranslate"><span class="pre">saveopts</span></code> is placed on the command line.</p>
+<section id="configuration-file-options">
+<h4>Configuration File Options<a class="headerlink" href="#configuration-file-options" title="Permalink to this heading">#</a></h4>
+<p>Normally, settings such as options and aliases are saved to the project’s
+local <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> file.  But you can override this and save them to the
+global or per-user configuration files, or to a manually-specified filename.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--global-config,</span> <span class="pre">-g</span></code></dt><dd><p>Save settings to the global <code class="docutils literal notranslate"><span class="pre">distutils.cfg</span></code> file inside the <code class="docutils literal notranslate"><span class="pre">distutils</span></code>
+package directory.  You must have write access to that directory to use
+this option.  You also can’t combine this option with <code class="docutils literal notranslate"><span class="pre">-u</span></code> or <code class="docutils literal notranslate"><span class="pre">-f</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--user-config,</span> <span class="pre">-u</span></code></dt><dd><p>Save settings to the current user’s <code class="docutils literal notranslate"><span class="pre">~/.pydistutils.cfg</span></code> (POSIX) or
+<code class="docutils literal notranslate"><span class="pre">$HOME/pydistutils.cfg</span></code> (Windows) file.  You can’t combine this option
+with <code class="docutils literal notranslate"><span class="pre">-g</span></code> or <code class="docutils literal notranslate"><span class="pre">-f</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--filename=FILENAME,</span> <span class="pre">-f</span> <span class="pre">FILENAME</span></code></dt><dd><p>Save settings to the specified configuration file to use.  You can’t
+combine this option with <code class="docutils literal notranslate"><span class="pre">-g</span></code> or <code class="docutils literal notranslate"><span class="pre">-u</span></code>.  Note that if you specify a
+non-standard filename, the <code class="docutils literal notranslate"><span class="pre">distutils</span></code> and <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will not
+use the file’s contents.  This option is mainly included for use in
+testing.</p>
+</dd>
+</dl>
+<p>These options are used by other <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands that modify
+configuration files, such as the <a class="reference internal" href="#alias">alias</a> and <a class="reference internal" href="#setopt">setopt</a> commands.</p>
+</section>
+</section>
+<section id="setopt-set-a-distutils-or-setuptools-option-in-a-config-file">
+<span id="setopt"></span><h3><code class="docutils literal notranslate"><span class="pre">setopt</span></code> - Set a distutils or setuptools option in a config file<a class="headerlink" href="#setopt-set-a-distutils-or-setuptools-option-in-a-config-file" title="Permalink to this heading">#</a></h3>
+<p>This command is mainly for use by scripts, but it can also be used as a quick
+and dirty way to change a distutils configuration option without having to
+remember what file the options are in and then open an editor.</p>
+<p><strong>Example 1</strong>.  Set the default C compiler to <code class="docutils literal notranslate"><span class="pre">mingw32</span></code> (using long option
+names):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">setopt</span> <span class="o">--</span><span class="n">command</span><span class="o">=</span><span class="n">build</span> <span class="o">--</span><span class="n">option</span><span class="o">=</span><span class="n">compiler</span> <span class="o">--</span><span class="nb">set</span><span class="o">-</span><span class="n">value</span><span class="o">=</span><span class="n">mingw32</span>
+</pre></div>
+</div>
+<p><strong>Example 2</strong>.  Remove any setting for the distutils default package
+installation directory (short option names):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">setopt</span> <span class="o">-</span><span class="n">c</span> <span class="n">install</span> <span class="o">-</span><span class="n">o</span> <span class="n">install_lib</span> <span class="o">-</span><span class="n">r</span>
+</pre></div>
+</div>
+<p>Options for the <code class="docutils literal notranslate"><span class="pre">setopt</span></code> command:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">--command=COMMAND,</span> <span class="pre">-c</span> <span class="pre">COMMAND</span></code></dt><dd><p>Command to set the option for.  This option is required.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--option=OPTION,</span> <span class="pre">-o</span> <span class="pre">OPTION</span></code></dt><dd><p>The name of the option to set.  This option is required.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--set-value=VALUE,</span> <span class="pre">-s</span> <span class="pre">VALUE</span></code></dt><dd><p>The value to set the option to.  Not needed if <code class="docutils literal notranslate"><span class="pre">-r</span></code> or <code class="docutils literal notranslate"><span class="pre">--remove</span></code> is
+set.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--remove,</span> <span class="pre">-r</span></code></dt><dd><p>Remove (unset) the option, instead of setting it.</p>
+</dd>
+</dl>
+<p>In addition to the above options, you may use any of the <a class="reference internal" href="#configuration-file-options">configuration file
+options</a> (listed under the <a class="reference internal" href="#saveopts">saveopts</a> command, above) to determine which
+distutils configuration file the option will be added to (or removed from).</p>
+</section>
+<section id="test-build-package-and-run-a-unittest-suite">
+<span id="test"></span><h3><code class="docutils literal notranslate"><span class="pre">test</span></code> - Build package and run a unittest suite<a class="headerlink" href="#test-build-package-and-run-a-unittest-suite" title="Permalink to this heading">#</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">test</span></code> is deprecated and will be removed in a future version. Users
+looking for a generic test entry point independent of test runner are
+encouraged to use <a class="reference external" href="https://tox.readthedocs.io">tox</a>.</p>
+</div>
+<p>When doing test-driven development, or running automated builds that need
+testing before they are deployed for downloading or use, it’s often useful
+to be able to run a project’s unit tests without actually deploying the project
+anywhere, even using the <code class="docutils literal notranslate"><span class="pre">develop</span></code> command.  The <code class="docutils literal notranslate"><span class="pre">test</span></code> command runs a
+project’s unit tests without actually deploying it, by temporarily putting the
+project’s source on <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>, after first running <code class="docutils literal notranslate"><span class="pre">build_ext</span> <span class="pre">-i</span></code> and
+<code class="docutils literal notranslate"><span class="pre">egg_info</span></code> to ensure that any C extensions and project metadata are
+up-to-date.</p>
+<p>To use this command, your project’s tests must be wrapped in a <code class="docutils literal notranslate"><span class="pre">unittest</span></code>
+test suite by either a function, a <code class="docutils literal notranslate"><span class="pre">TestCase</span></code> class or method, or a module
+or package containing <code class="docutils literal notranslate"><span class="pre">TestCase</span></code> classes.  If the named suite is a module,
+and the module has an <code class="docutils literal notranslate"><span class="pre">additional_tests()</span></code> function, it is called and the
+result (which must be a <code class="docutils literal notranslate"><span class="pre">unittest.TestSuite</span></code>) is added to the tests to be
+run.  If the named suite is a package, any submodules and subpackages are
+recursively added to the overall test suite.  (Note: if your project specifies
+a <code class="docutils literal notranslate"><span class="pre">test_loader</span></code>, the rules for processing the chosen <code class="docutils literal notranslate"><span class="pre">test_suite</span></code> may
+differ; see the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../references/keywords.html#test-loader"><span class="std std-ref">test_loader</span></a> documentation for more details.)</p>
+<p>Note that many test systems including <code class="docutils literal notranslate"><span class="pre">doctest</span></code> support wrapping their
+non-<code class="docutils literal notranslate"><span class="pre">unittest</span></code> tests in <code class="docutils literal notranslate"><span class="pre">TestSuite</span></code> objects.  So, if you are using a test
+package that does not support this, we suggest you encourage its developers to
+implement test suite support, as this is a convenient and standard way to
+aggregate a collection of tests to be run under a common test harness.</p>
+<p>By default, tests will be run in the “verbose” mode of the <code class="docutils literal notranslate"><span class="pre">unittest</span></code>
+package’s text test runner, but you can get the “quiet” mode (just dots) if
+you supply the <code class="docutils literal notranslate"><span class="pre">-q</span></code> or <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> option, either as a global option to
+the setup script (e.g. <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">-q</span> <span class="pre">test</span></code>) or as an option for the <code class="docutils literal notranslate"><span class="pre">test</span></code>
+command itself (e.g. <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">test</span> <span class="pre">-q</span></code>).  There is one other option
+available:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">--test-suite=NAME,</span> <span class="pre">-s</span> <span class="pre">NAME</span></code></dt><dd><p>Specify the test suite (or module, class, or method) to be run
+(e.g. <code class="docutils literal notranslate"><span class="pre">some_module.test_suite</span></code>).  The default for this option can be
+set by giving a <code class="docutils literal notranslate"><span class="pre">test_suite</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">setup()</span></code> function, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="n">test_suite</span><span class="o">=</span><span class="s2">&quot;my_package.tests.test_all&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>If you did not set a <code class="docutils literal notranslate"><span class="pre">test_suite</span></code> in your <code class="docutils literal notranslate"><span class="pre">setup()</span></code> call, and do not
+provide a <code class="docutils literal notranslate"><span class="pre">--test-suite</span></code> option, an error will occur.</p>
+</dd>
+</dl>
+<p>New in 41.5.0: Deprecated the test command.</p>
+</section>
+<section id="upload-upload-source-and-or-egg-distributions-to-pypi">
+<span id="upload"></span><h3><code class="docutils literal notranslate"><span class="pre">upload</span></code> - Upload source and/or egg distributions to PyPI<a class="headerlink" href="#upload-upload-source-and-or-egg-distributions-to-pypi" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">upload</span></code> command was deprecated in version 40.0 and removed in version
+42.0. Use <a class="reference external" href="https://pypi.org/p/twine">twine</a> instead.</p>
+<p>For  more information on the current best practices in uploading your packages
+to PyPI, see the Python Packaging User Guide’s “Packaging Python Projects”
+tutorial specifically the section on <a class="reference external" href="https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives">uploading the distribution archives</a>.</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="../history.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">History</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="functionalities.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">“Eggsecutable” Scripts</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a><ul>
+<li><a class="reference internal" href="#command-reference">Command Reference</a><ul>
+<li><a class="reference internal" href="#alias-define-shortcuts-for-commonly-used-commands"><code class="docutils literal notranslate"><span class="pre">alias</span></code> - Define shortcuts for commonly used commands</a></li>
+<li><a class="reference internal" href="#bdist-egg-create-a-python-egg-for-the-project"><code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> - Create a Python Egg for the project</a></li>
+<li><a class="reference internal" href="#develop-deploy-the-project-source-in-development-mode"><code class="docutils literal notranslate"><span class="pre">develop</span></code> - Deploy the project source in “Development Mode”</a></li>
+<li><a class="reference internal" href="#egg-info-create-egg-metadata-and-set-build-tags"><code class="docutils literal notranslate"><span class="pre">egg_info</span></code> - Create egg metadata and set build tags</a><ul>
+<li><a class="reference internal" href="#release-tagging-options">Release Tagging Options</a></li>
+<li><a class="reference internal" href="#other-egg-info-options">Other <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> Options</a></li>
+<li><a class="reference internal" href="#egg-info-examples"><code class="docutils literal notranslate"><span class="pre">egg_info</span></code> Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rotate-delete-outdated-distribution-files"><code class="docutils literal notranslate"><span class="pre">rotate</span></code> - Delete outdated distribution files</a></li>
+<li><a class="reference internal" href="#saveopts-save-used-options-to-a-configuration-file"><code class="docutils literal notranslate"><span class="pre">saveopts</span></code> - Save used options to a configuration file</a><ul>
+<li><a class="reference internal" href="#configuration-file-options">Configuration File Options</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setopt-set-a-distutils-or-setuptools-option-in-a-config-file"><code class="docutils literal notranslate"><span class="pre">setopt</span></code> - Set a distutils or setuptools option in a config file</a></li>
+<li><a class="reference internal" href="#test-build-package-and-run-a-unittest-suite"><code class="docutils literal notranslate"><span class="pre">test</span></code> - Build package and run a unittest suite</a></li>
+<li><a class="reference internal" href="#upload-upload-source-and-or-egg-distributions-to-pypi"><code class="docutils literal notranslate"><span class="pre">upload</span></code> - Upload source and/or egg distributions to PyPI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

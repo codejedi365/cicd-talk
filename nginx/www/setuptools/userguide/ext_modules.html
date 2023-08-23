@@ -1,0 +1,564 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Specifying Your Project’s Version" href="distribution.html" /><link rel="prev" title="Data Files Support" href="datafiles.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Building Extension Modules - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="building-extension-modules">
+<h1>Building Extension Modules<a class="headerlink" href="#building-extension-modules" title="Permalink to this heading">#</a></h1>
+<p>Setuptools can build C/C++ extension modules.  The keyword argument
+<code class="docutils literal notranslate"><span class="pre">ext_modules</span></code> of <code class="docutils literal notranslate"><span class="pre">setup()</span></code> should be a list of instances of the
+<a class="reference internal" href="#setuptools.Extension" title="setuptools.Extension"><code class="xref py py-class docutils literal notranslate"><span class="pre">setuptools.Extension</span></code></a> class.</p>
+<p>For example, let’s consider a simple project with only one extension module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;project_folder&gt;
+├── pyproject.toml
+└── foo.c
+</pre></div>
+</div>
+<p>and all project metadata configuration in the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># pyproject.toml</span>
+<span class="k">[build-system]</span>
+<span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;setuptools&quot;</span><span class="p">]</span>
+<span class="n">build-backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;setuptools.build_meta&quot;</span>
+
+<span class="k">[project]</span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;mylib-foo&quot;</span><span class="w">  </span><span class="c1"># as it would appear on PyPI</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.42&quot;</span>
+</pre></div>
+</div>
+<p>To instruct setuptools to compile the <code class="docutils literal notranslate"><span class="pre">foo.c</span></code> file into the extension module
+<code class="docutils literal notranslate"><span class="pre">mylib.foo</span></code>, we need to add a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file similar to the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">Extension</span><span class="p">,</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">ext_modules</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Extension</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mylib.foo&quot;</span><span class="p">,</span>  <span class="c1"># as it would be imported</span>
+                               <span class="c1"># may include packages/namespaces separated by `.`</span>
+
+            <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;foo.c&quot;</span><span class="p">],</span> <span class="c1"># all sources are compiled into a single binary file</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>You can find more information on the <a class="reference external" href="https://docs.python.org/3/extending/extending.html">Python docs about C/C++ extensions</a>.
+Alternatively, you might also be interested in learning about <a class="reference external" href="https://cython.readthedocs.io/en/stable/index.html">Cython</a>.</p>
+<p>If you plan to distribute a package that uses extensions across multiple
+platforms, <a class="reference external" href="https://pypi.org/project/cibuildwheel">cibuildwheel</a> can also be helpful.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>All files used to compile your extension need to be available on the system
+when building the package, so please make sure to include some documentation
+on how developers interested in building your package from source
+can obtain operating system level dependencies
+(e.g. compilers and external binary libraries/artifacts).</p>
+<p>You will also need to make sure that all auxiliary files that are contained
+inside your <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Project" title="(in Python Packaging User Guide)"><span class="xref std std-term">project</span></a> (e.g. C headers authored by you or your team)
+are configured to be included in your <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist" title="(in Python Packaging User Guide)"><span class="xref std std-term">sdist</span></a>.
+Please have a look on our section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="miscellaneous.html#controlling-files-in-the-distribution"><span class="std std-ref">Controlling files in the distribution</span></a>.</p>
+</div>
+<section id="compiler-and-linker-options">
+<h2>Compiler and linker options<a class="headerlink" href="#compiler-and-linker-options" title="Permalink to this heading">#</a></h2>
+<p>The command <code class="docutils literal notranslate"><span class="pre">build_ext</span></code> builds C/C++ extension modules.  It creates
+a command line for running the compiler and linker by combining
+compiler and linker options from various sources:</p>
+<ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">sysconfig</span></code> variables <code class="docutils literal notranslate"><span class="pre">CC</span></code>, <code class="docutils literal notranslate"><span class="pre">CXX</span></code>, <code class="docutils literal notranslate"><span class="pre">CCSHARED</span></code>,
+<code class="docutils literal notranslate"><span class="pre">LDSHARED</span></code>, and <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>,</p></li>
+<li><p>the environment variables <code class="docutils literal notranslate"><span class="pre">CC</span></code>, <code class="docutils literal notranslate"><span class="pre">CPP</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CXX</span></code>, <code class="docutils literal notranslate"><span class="pre">LDSHARED</span></code> and <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CPPFLAGS</span></code>, <code class="docutils literal notranslate"><span class="pre">LDFLAGS</span></code>,</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">Extension</span></code> attributes <code class="docutils literal notranslate"><span class="pre">include_dirs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">library_dirs</span></code>, <code class="docutils literal notranslate"><span class="pre">extra_compile_args</span></code>, <code class="docutils literal notranslate"><span class="pre">extra_link_args</span></code>,
+<code class="docutils literal notranslate"><span class="pre">runtime_library_dirs</span></code>.</p></li>
+</ul>
+<p>Specifically, if the environment variables <code class="docutils literal notranslate"><span class="pre">CC</span></code>, <code class="docutils literal notranslate"><span class="pre">CPP</span></code>, <code class="docutils literal notranslate"><span class="pre">CXX</span></code>, and <code class="docutils literal notranslate"><span class="pre">LDSHARED</span></code>
+are set, they will be used instead of the <code class="docutils literal notranslate"><span class="pre">sysconfig</span></code> variables of the same names.</p>
+<p>The compiler options appear in the command line in the following order:</p>
+<ul class="simple">
+<li><p>first, the options provided by the <code class="docutils literal notranslate"><span class="pre">sysconfig</span></code> variable <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>,</p></li>
+<li><p>then, the options provided by the environment variables <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code> and <code class="docutils literal notranslate"><span class="pre">CPPFLAGS</span></code>,</p></li>
+<li><p>then, the options provided by the <code class="docutils literal notranslate"><span class="pre">sysconfig</span></code> variable <code class="docutils literal notranslate"><span class="pre">CCSHARED</span></code>,</p></li>
+<li><p>then, a <code class="docutils literal notranslate"><span class="pre">-I</span></code> option for each element of <code class="docutils literal notranslate"><span class="pre">Extension.include_dirs</span></code>,</p></li>
+<li><p>finally, the options provided by <code class="docutils literal notranslate"><span class="pre">Extension.extra_compile_args</span></code>.</p></li>
+</ul>
+<p>The linker options appear in the command line in the following order:</p>
+<ul class="simple">
+<li><p>first, the options provided by environment variables and <code class="docutils literal notranslate"><span class="pre">sysconfig</span></code> variables,</p></li>
+<li><p>then, a <code class="docutils literal notranslate"><span class="pre">-L</span></code> option for each element of <code class="docutils literal notranslate"><span class="pre">Extension.library_dirs</span></code>,</p></li>
+<li><p>then, a linker-specific option like <code class="docutils literal notranslate"><span class="pre">-Wl,-rpath</span></code> for each element of <code class="docutils literal notranslate"><span class="pre">Extension.runtime_library_dirs</span></code>,</p></li>
+<li><p>finally, the options provided by <code class="docutils literal notranslate"><span class="pre">Extension.extra_link_args</span></code>.</p></li>
+</ul>
+<p>The resulting command line is then processed by the compiler and linker.
+According to the GCC manual sections on <a class="reference external" href="https://gcc.gnu.org/onlinedocs/gcc/Directory-Options.html">directory options</a> and
+<a class="reference external" href="https://gcc.gnu.org/onlinedocs/gcc/Environment-Variables.html">environment variables</a>, the C/C++ compiler searches for files named in
+<code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;file&gt;</span></code> directives in the following order:</p>
+<ul class="simple">
+<li><p>first, in directories given by <code class="docutils literal notranslate"><span class="pre">-I</span></code> options (in left-to-right order),</p></li>
+<li><p>then, in directories given by the environment variable <code class="docutils literal notranslate"><span class="pre">CPATH</span></code> (in left-to-right order),</p></li>
+<li><p>then, in directories given by <code class="docutils literal notranslate"><span class="pre">-isystem</span></code> options (in left-to-right order),</p></li>
+<li><p>then, in directories given by the environment variable <code class="docutils literal notranslate"><span class="pre">C_INCLUDE_PATH</span></code> (for C) and <code class="docutils literal notranslate"><span class="pre">CPLUS_INCLUDE_PATH</span></code> (for C++),</p></li>
+<li><p>then, in standard system directories,</p></li>
+<li><p>finally, in directories given by <code class="docutils literal notranslate"><span class="pre">-idirafter</span></code> options (in left-to-right order).</p></li>
+</ul>
+<p>The linker searches for libraries in the following order:</p>
+<ul class="simple">
+<li><p>first, in directories given by <code class="docutils literal notranslate"><span class="pre">-L</span></code> options (in left-to-right order),</p></li>
+<li><p>then, in directories given by the environment variable <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> (in left-to-right order).</p></li>
+</ul>
+</section>
+<section id="distributing-extensions-compiled-with-cython">
+<h2>Distributing Extensions compiled with Cython<a class="headerlink" href="#distributing-extensions-compiled-with-cython" title="Permalink to this heading">#</a></h2>
+<p>When your <a class="reference external" href="https://pypi.org/project/Cython">Cython</a> extension modules <em>are declared using the</em>
+<a class="reference internal" href="#setuptools.Extension" title="setuptools.Extension"><code class="xref py py-class docutils literal notranslate"><span class="pre">setuptools.Extension</span></code></a> <em>class</em>, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will detect at build time
+whether Cython is installed or not.</p>
+<p>If Cython is present, then <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will use it to build the <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will try to find and compile the equivalent <code class="docutils literal notranslate"><span class="pre">.c</span></code> files
+(instead of <code class="docutils literal notranslate"><span class="pre">.pyx</span></code>). These files can be generated using the
+<a class="reference external" href="https://cython.readthedocs.io/en/stable/src/userguide/source_files_and_compilation.html">cython command line tool</a>.</p>
+<p>You can ensure that Cython is always automatically installed into the build
+environment by including it as a <a class="hxr-hoverxref hxr-tooltip reference internal" href="dependency_management.html#build-requires"><span class="std std-ref">build dependency</span></a> in
+your <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[build-system]</span>
+<span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...,</span><span class="w"> </span><span class="s">&quot;cython&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Alternatively, you can include the <code class="docutils literal notranslate"><span class="pre">.c</span></code> code that is pre-compiled by Cython
+into your source distribution, alongside the original <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files (this
+might save a few seconds when building from an <code class="docutils literal notranslate"><span class="pre">sdist</span></code>).
+To improve version compatibility, you probably also want to include current
+<code class="docutils literal notranslate"><span class="pre">.c</span></code> files in your <a class="reference external" href="https://wikipedia.org/wiki/revision control system">revision control system</a>, and rebuild them whenever
+you check changes in for the <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> source files.
+This will ensure that people tracking your project will be able to build it
+without installing Cython, and that there will be no variation due to small
+differences in the generate C files.
+Please checkout our docs on <a class="hxr-hoverxref hxr-tooltip reference internal" href="miscellaneous.html#controlling-files-in-the-distribution"><span class="std std-ref">Controlling files in the distribution</span></a> for
+more information.</p>
+</section>
+<hr class="docutils" />
+<section id="extension-api-reference">
+<h2>Extension API Reference<a class="headerlink" href="#extension-api-reference" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="setuptools.Extension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">setuptools.</span></span><span class="sig-name descname"><span class="pre">Extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sources</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#setuptools.Extension" title="Permalink to this definition">#</a></dt>
+<dd><p>Describes a single extension module.</p>
+<p>This means that all source files will be compiled into a single binary file
+<code class="docutils literal notranslate"><span class="pre">&lt;module</span> <span class="pre">path&gt;.&lt;suffix&gt;</span></code> (with <code class="docutils literal notranslate"><span class="pre">&lt;module</span> <span class="pre">path&gt;</span></code> derived from <code class="docutils literal notranslate"><span class="pre">name</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;suffix&gt;</span></code> defined by one of the values in
+<code class="docutils literal notranslate"><span class="pre">importlib.machinery.EXTENSION_SUFFIXES</span></code>).</p>
+<p>In the case <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files are passed as <code class="docutils literal notranslate"><span class="pre">sources</span> <span class="pre">and</span></code> <code class="docutils literal notranslate"><span class="pre">Cython</span></code> is <strong>not</strong>
+installed in the build environment, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> may also try to look for the
+equivalent <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> or <code class="docutils literal notranslate"><span class="pre">.c</span></code> files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – the full name of the extension, including any packages – ie.
+<em>not</em> a filename or pathname, but Python dotted name</p></li>
+<li><p><strong>sources</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of source filenames, relative to the distribution root
+(where the setup script lives), in Unix form (slash-separated)
+for portability.  Source files may be C, C++, SWIG (.i),
+platform-specific resource files, or whatever else is recognized
+by the “build_ext” command as source for a Python extension.</p></li>
+<li><p><strong>include_dirs</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of directories to search for C/C++ header files (in Unix
+form for portability)</p></li>
+<li><p><strong>define_macros</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>|</em><em>None</em><em>]</em><em>]</em>) – list of macros to define; each macro is defined using a 2-tuple:
+the first item corresponding to the name of the macro and the second
+item either a string with its value or None to
+define it without a particular value (equivalent of “#define
+FOO” in source or -DFOO on Unix C compiler command line)</p></li>
+<li><p><strong>undef_macros</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of macros to undefine explicitly</p></li>
+<li><p><strong>library_dirs</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of directories to search for C/C++ libraries at link time</p></li>
+<li><p><strong>libraries</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of library names (not filenames or paths) to link against</p></li>
+<li><p><strong>runtime_library_dirs</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of directories to search for C/C++ libraries at run time
+(for shared extensions, this is when the extension is loaded).
+Setting this will cause an exception during build on Windows
+platforms.</p></li>
+<li><p><strong>extra_objects</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of extra files to link with (eg. object files not implied
+by ‘sources’, static library that must be explicitly specified,
+binary resource files, etc.)</p></li>
+<li><p><strong>extra_compile_args</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – any extra platform- and compiler-specific information to use
+when compiling the source files in ‘sources’.  For platforms and
+compilers where “command line” makes sense, this is typically a
+list of command-line arguments, but for other platforms it could
+be anything.</p></li>
+<li><p><strong>extra_link_args</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – any extra platform- and compiler-specific information to use
+when linking object files together to create the extension (or
+to create a new static Python interpreter).  Similar
+interpretation as for ‘extra_compile_args’.</p></li>
+<li><p><strong>export_symbols</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of symbols to be exported from a shared extension.  Not
+used on all platforms, and not generally necessary for Python
+extensions, which typically export exactly one symbol: “init” +
+extension_name.</p></li>
+<li><p><strong>swig_opts</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – any extra options to pass to SWIG if a source file has the .i
+extension.</p></li>
+<li><p><strong>depends</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – list of files that the extension depends on</p></li>
+<li><p><strong>language</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – extension language (i.e. “c”, “c++”, “objc”). Will be detected
+from the source extensions if not provided.</p></li>
+<li><p><strong>optional</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – specifies that a build failure in the extension should not abort the
+build process, but simply not install the failing extension.</p></li>
+<li><p><strong>py_limited_api</strong> (<a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – opt-in flag for the usage of <a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/c-api/stable.html" title="(in Python v3.11)"><span class="xref std std-doc">Python’s limited API</span></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>setuptools.errors.PlatformError</strong> – if ‘runtime_library_dirs’ is
+specified on Windows. (since v63)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="distribution.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Specifying Your Project’s Version</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="datafiles.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Data Files Support</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Building Extension Modules</a><ul>
+<li><a class="reference internal" href="#compiler-and-linker-options">Compiler and linker options</a></li>
+<li><a class="reference internal" href="#distributing-extensions-compiled-with-cython">Distributing Extensions compiled with Cython</a></li>
+<li><a class="reference internal" href="#extension-api-reference">Extension API Reference</a><ul>
+<li><a class="reference internal" href="#setuptools.Extension"><code class="docutils literal notranslate"><span class="pre">Extension</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

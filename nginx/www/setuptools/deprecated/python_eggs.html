@@ -1,0 +1,949 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Easy Install" href="easy_install.html" /><link rel="prev" title="Specifying dependencies that aren’t in PyPI via dependency_links" href="dependency_links.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>The Internal Structure of Python Eggs - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../userguide/index.html">User guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Backward compatibility &amp; deprecated practice</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="the-internal-structure-of-python-eggs">
+<h1>The Internal Structure of Python Eggs<a class="headerlink" href="#the-internal-structure-of-python-eggs" title="Permalink to this heading">#</a></h1>
+<p>STOP! This is not the first document you should read!</p>
+<section id="eggs-and-their-formats">
+<h2>Eggs and their Formats<a class="headerlink" href="#eggs-and-their-formats" title="Permalink to this heading">#</a></h2>
+<p>A “Python egg” is a logical structure embodying the release of a
+specific version of a Python project, comprising its code, resources,
+and metadata. There are multiple formats that can be used to physically
+encode a Python egg, and others can be developed. However, a key
+principle of Python eggs is that they should be discoverable and
+importable. That is, it should be possible for a Python application to
+easily and efficiently find out what eggs are present on a system, and
+to ensure that the desired eggs’ contents are importable.</p>
+<p>There are two basic formats currently implemented for Python eggs:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.egg</span></code> format: a directory or zipfile <em>containing</em> the project’s
+code and resources, along with an <code class="docutils literal notranslate"><span class="pre">EGG-INFO</span></code> subdirectory that
+contains the project’s metadata</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format: a file or directory placed <em>adjacent</em> to the
+project’s code and resources, that directly contains the project’s
+metadata.</p></li>
+</ol>
+<p>Both formats can include arbitrary Python code and resources, including
+static data files, package and non-package directories, Python
+modules, C extension modules, and so on.  But each format is optimized
+for different purposes.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.egg</span></code> format is well-suited to distribution and the easy
+uninstallation or upgrades of code, since the project is essentially
+self-contained within a single directory or file, unmingled with any
+other projects’ code or resources.  It also makes it possible to have
+multiple versions of a project simultaneously installed, such that
+individual programs can select the versions they wish to use.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format, on the other hand, was created to support
+backward-compatibility, performance, and ease of installation for system
+packaging tools that expect to install all projects’ code and resources
+to a single directory (e.g. <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>).  Placing the metadata
+in that same directory simplifies the installation process, since it
+isn’t necessary to create <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files or otherwise modify
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code> to include each installed egg.</p>
+<p>Its disadvantage, however, is that it provides no support for clean
+uninstallation or upgrades, and of course only a single version of a
+project can be installed to a given directory. Thus, support from a
+package management tool is required. (This is why setuptools’ “install”
+command refers to this type of egg installation as “single-version,
+externally managed”.)  Also, they lack sufficient data to allow them to
+be copied from their installation source.  easy_install can “ship” an
+application by copying <code class="docutils literal notranslate"><span class="pre">.egg</span></code> files or directories to a target
+location, but it cannot do this for <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> installs, because
+there is no way to tell what code and resources belong to a particular
+egg – there may be several eggs “scrambled” together in a single
+installation location, and the <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format does not currently
+include a way to list the files that were installed.  (This may change
+in a future version.)</p>
+<section id="code-and-resources">
+<h3>Code and Resources<a class="headerlink" href="#code-and-resources" title="Permalink to this heading">#</a></h3>
+<p>The layout of the code and resources is dictated by Python’s normal
+import layout, relative to the egg’s “base location”.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> format, the base location is the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> itself. That
+is, adding the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> filename or directory name to <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>
+makes its contents importable.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format, however, the base location is the
+directory that <em>contains</em> the <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code>, and thus it is the
+directory that must be added to <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> to make the egg importable.
+(Note that this means that the “normal” installation of a package to a
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code> directory is sufficient to make it an “egg” if it has an
+<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> file or directory installed alongside of it.)</p>
+</section>
+<section id="project-metadata">
+<h3>Project Metadata<a class="headerlink" href="#project-metadata" title="Permalink to this heading">#</a></h3>
+<p>If eggs contained only code and resources, there would of course be
+no difference between them and any other directory or zip file on
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.  Thus, metadata must also be included, using a metadata
+file or directory.</p>
+<p>For the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> format, the metadata is placed in an <code class="docutils literal notranslate"><span class="pre">EGG-INFO</span></code>
+subdirectory, directly within the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> file or directory.  For the
+<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format, metadata is stored directly within the
+<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> directory itself.</p>
+<p>The minimum project metadata that all eggs must have is a standard
+Python <code class="docutils literal notranslate"><span class="pre">PKG-INFO</span></code> file, named <code class="docutils literal notranslate"><span class="pre">PKG-INFO</span></code> and placed within the
+metadata directory appropriate to the format.  Because it’s possible for
+this to be the only metadata file included, <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format eggs
+are not required to be a directory; they can just be a <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code>
+file that directly contains the <code class="docutils literal notranslate"><span class="pre">PKG-INFO</span></code> metadata.  This eliminates
+the need to create a directory just to store one file.  This option is
+<em>not</em> available for <code class="docutils literal notranslate"><span class="pre">.egg</span></code> formats, since setuptools always includes
+other metadata.  (In fact, setuptools itself never generates
+<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> files, either; the support for using files was added so
+that the requirement could easily be satisfied by other tools, such
+as distutils).</p>
+<p>In addition to the <code class="docutils literal notranslate"><span class="pre">PKG-INFO</span></code> file, an egg’s metadata directory may
+also include files and directories representing various forms of
+optional standard metadata (see the section on <a class="reference internal" href="#standard-metadata">Standard Metadata</a>,
+below) or user-defined metadata required by the project.  For example,
+some projects may define a metadata format to describe their application
+plugins, and metadata in this format would then be included by plugin
+creators in their projects’ metadata directories.</p>
+</section>
+<section id="filename-embedded-metadata">
+<h3>Filename-Embedded Metadata<a class="headerlink" href="#filename-embedded-metadata" title="Permalink to this heading">#</a></h3>
+<p>To allow introspection of installed projects and runtime resolution of
+inter-project dependencies, a certain amount of information is embedded
+in egg filenames.  At a minimum, this includes the project name, and
+ideally will also include the project version number.  Optionally, it
+can also include the target Python version and required runtime
+platform if platform-specific C code is included.  The syntax of an
+egg filename is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span> <span class="n">version</span> <span class="p">[</span><span class="s2">&quot;-py&quot;</span> <span class="n">pyver</span> <span class="p">[</span><span class="s2">&quot;-&quot;</span> <span class="n">required_platform</span><span class="p">]]]</span> <span class="s2">&quot;.&quot;</span> <span class="n">ext</span>
+</pre></div>
+</div>
+<p>The “name” and “version” should be escaped using the <code class="docutils literal notranslate"><span class="pre">to_filename()</span></code>
+function provided by <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>, after first processing them with
+<code class="docutils literal notranslate"><span class="pre">safe_name()</span></code> and <code class="docutils literal notranslate"><span class="pre">safe_version()</span></code> respectively.  These latter two
+functions can also be used to later “unescape” these parts of the
+filename.  (For a detailed description of these transformations, please
+see the “Parsing Utilities” section of the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> manual.)</p>
+<p>The “pyver” string is the Python major version, as found in the first
+3 characters of <code class="docutils literal notranslate"><span class="pre">sys.version</span></code>.  “required_platform” is essentially
+a distutils <code class="docutils literal notranslate"><span class="pre">get_platform()</span></code> string, but with enhancements to properly
+distinguish Mac OS versions.  (See the <code class="docutils literal notranslate"><span class="pre">get_build_platform()</span></code>
+documentation in the “Platform Utilities” section of the
+<code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> manual for more details.)</p>
+<p>Finally, the “ext” is either <code class="docutils literal notranslate"><span class="pre">.egg</span></code> or <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code>, as appropriate
+for the egg’s format.</p>
+<p>Normally, an egg’s filename should include at least the project name and
+version, as this allows the runtime system to find desired project
+versions without having to read the egg’s PKG-INFO to determine its
+version number.</p>
+<p>Setuptools, however, only includes the version number in the filename
+when an <code class="docutils literal notranslate"><span class="pre">.egg</span></code> file is built using the <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> command, or when
+an <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> directory is being installed by the
+<code class="docutils literal notranslate"><span class="pre">install_egg_info</span></code> command. When generating metadata for use with the
+original source tree, it only includes the project name, so that the
+directory will not have to be renamed each time the project’s version
+changes.</p>
+<p>This is especially important when version numbers change frequently, and
+the source metadata directory is kept under version control with the
+rest of the project.  (As would be the case when the project’s source
+includes project-defined metadata that is not generated from by
+setuptools from data in the setup script.)</p>
+</section>
+<section id="egg-links">
+<h3>Egg Links<a class="headerlink" href="#egg-links" title="Permalink to this heading">#</a></h3>
+<p>In addition to the <code class="docutils literal notranslate"><span class="pre">.egg</span></code> and <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> formats, there is a third
+egg-related extension that you may encounter on occasion: <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code>
+files.</p>
+<p>These files are not eggs, strictly speaking. They simply provide a way
+to reference an egg that is not physically installed in the desired
+location. They exist primarily as a cross-platform alternative to
+symbolic links, to support “installing” code that is being developed in
+a different location than the desired installation location. For
+example, if a user is developing an application plugin in their home
+directory, but the plugin needs to be “installed” in an application
+plugin directory, running “setup.py develop -md /path/to/app/plugins”
+will install an <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> file in <code class="docutils literal notranslate"><span class="pre">/path/to/app/plugins</span></code>, that
+tells the egg runtime system where to find the actual egg (the user’s
+project source directory and its <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> subdirectory).</p>
+<p><code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> files are named following the format for <code class="docutils literal notranslate"><span class="pre">.egg</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> names, but only the project name is included; no version,
+Python version, or platform information is included.  When the runtime
+searches for available eggs, <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> files are opened and the
+actual egg file/directory name is read from them.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> file should contain a single file or directory name,
+with no newlines.  This filename should be the base location of one or
+more eggs.  That is, the name must either end in <code class="docutils literal notranslate"><span class="pre">.egg</span></code>, or else it
+should be the parent directory of one or more <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> format eggs.</p>
+<p>As of setuptools 0.6c6, the path may be specified as a platform-independent
+(i.e. <code class="docutils literal notranslate"><span class="pre">/</span></code>-separated) relative path from the directory containing the
+<code class="docutils literal notranslate"><span class="pre">.egg-link</span></code> file, and a second line may appear in the file, specifying a
+platform-independent relative path from the egg’s base directory to its
+setup script directory.  This allows installation tools such as EasyInstall
+to find the project’s setup directory and build eggs or perform other setup
+commands on it.</p>
+</section>
+</section>
+<section id="standard-metadata">
+<h2>Standard Metadata<a class="headerlink" href="#standard-metadata" title="Permalink to this heading">#</a></h2>
+<p>In addition to the minimum required <code class="docutils literal notranslate"><span class="pre">PKG-INFO</span></code> metadata, projects can
+include a variety of standard metadata files or directories, as
+described below.  Except as otherwise noted, these files and directories
+are automatically generated by setuptools, based on information supplied
+in the setup script or through analysis of the project’s code and
+resources.</p>
+<p>Most of these files and directories are generated via “egg-info
+writers” during execution of the setuptools <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> command, and
+are listed in the <code class="docutils literal notranslate"><span class="pre">egg_info.writers</span></code> entry point group defined by
+setuptools’ own <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file.</p>
+<p>Project authors can register their own metadata writers as entry points
+in this group (as described in the setuptools manual under “Adding new
+EGG-INFO Files”) to cause setuptools to generate project-specific
+metadata files or directories during execution of the <code class="docutils literal notranslate"><span class="pre">egg_info</span></code>
+command.  It is up to project authors to document these new metadata
+formats, if they create any.</p>
+<section id="txt-file-formats">
+<h3><code class="docutils literal notranslate"><span class="pre">.txt</span></code> File Formats<a class="headerlink" href="#txt-file-formats" title="Permalink to this heading">#</a></h3>
+<p>Files described in this section that have <code class="docutils literal notranslate"><span class="pre">.txt</span></code> extensions have a
+simple lexical format consisting of a sequence of text lines, each line
+terminated by a linefeed character (regardless of platform).  Leading
+and trailing whitespace on each line is ignored, as are blank lines and
+lines whose first nonblank character is a <code class="docutils literal notranslate"><span class="pre">#</span></code> (comment symbol).  (This
+is the parsing format defined by the <code class="docutils literal notranslate"><span class="pre">yield_lines()</span></code> function of
+the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> module.)</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">.txt</span></code> files defined by this section follow this format, but some
+are also “sectioned” files, meaning that their contents are divided into
+sections, using square-bracketed section headers akin to Windows
+<code class="docutils literal notranslate"><span class="pre">.ini</span></code> format.  Note that this does <em>not</em> imply that the lines within
+the sections follow an <code class="docutils literal notranslate"><span class="pre">.ini</span></code> format, however.  Please see an
+individual metadata file’s documentation for a description of what the
+lines and section names mean in that particular file.</p>
+<p>Sectioned files can be parsed using the <code class="docutils literal notranslate"><span class="pre">split_sections()</span></code> function;
+see the “Parsing Utilities” section of the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> manual for
+for details.</p>
+</section>
+<section id="dependency-metadata">
+<h3>Dependency Metadata<a class="headerlink" href="#dependency-metadata" title="Permalink to this heading">#</a></h3>
+<section id="requires-txt">
+<h4><code class="docutils literal notranslate"><span class="pre">requires.txt</span></code><a class="headerlink" href="#requires-txt" title="Permalink to this heading">#</a></h4>
+<p>This is a “sectioned” text file.  Each section is a sequence of
+“requirements”, as parsed by the <code class="docutils literal notranslate"><span class="pre">parse_requirements()</span></code> function;
+please see the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> manual for the complete requirement
+parsing syntax.</p>
+<p>The first, unnamed section (i.e., before the first section header) in
+this file is the project’s core requirements, which must be installed
+for the project to function.  (Specified using the <code class="docutils literal notranslate"><span class="pre">install_requires</span></code>
+keyword to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>).</p>
+<p>The remaining (named) sections describe the project’s “extra”
+requirements, as specified using the <code class="docutils literal notranslate"><span class="pre">extras_require</span></code> keyword to
+<code class="docutils literal notranslate"><span class="pre">setup()</span></code>.  The section name is the name of the optional feature, and
+the section body lists that feature’s dependencies.</p>
+<p>Note that it is not normally necessary to inspect this file directly;
+<code class="docutils literal notranslate"><span class="pre">pkg_resources.Distribution</span></code> objects have a <code class="docutils literal notranslate"><span class="pre">requires()</span></code> method
+that can be used to obtain <code class="docutils literal notranslate"><span class="pre">Requirement</span></code> objects describing the
+project’s core and optional dependencies.</p>
+</section>
+<section id="setup-requires-txt">
+<h4><code class="docutils literal notranslate"><span class="pre">setup_requires.txt</span></code><a class="headerlink" href="#setup-requires-txt" title="Permalink to this heading">#</a></h4>
+<p>Much like <code class="docutils literal notranslate"><span class="pre">requires.txt</span></code> except represents the requirements
+specified by the <code class="docutils literal notranslate"><span class="pre">setup_requires</span></code> parameter to the Distribution.</p>
+</section>
+<section id="dependency-links-txt">
+<h4><code class="docutils literal notranslate"><span class="pre">dependency_links.txt</span></code><a class="headerlink" href="#dependency-links-txt" title="Permalink to this heading">#</a></h4>
+<p>A list of dependency URLs, one per line, as specified using the
+<code class="docutils literal notranslate"><span class="pre">dependency_links</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.  These may be direct
+download URLs, or the URLs of web pages containing direct download
+links. Please see the setuptools manual for more information on
+specifying this option.</p>
+</section>
+<section id="depends-txt-obsolete-do-not-create">
+<h4><code class="docutils literal notranslate"><span class="pre">depends.txt</span></code> – Obsolete, do not create!<a class="headerlink" href="#depends-txt-obsolete-do-not-create" title="Permalink to this heading">#</a></h4>
+<p>This file follows an identical format to <code class="docutils literal notranslate"><span class="pre">requires.txt</span></code>, but is
+obsolete and should not be used.  The earliest versions of setuptools
+required users to manually create and maintain this file, so the runtime
+still supports reading it, if it exists.  The new filename was created
+so that it could be automatically generated from <code class="docutils literal notranslate"><span class="pre">setup()</span></code> information
+without overwriting an existing hand-created <code class="docutils literal notranslate"><span class="pre">depends.txt</span></code>, if one
+was already present in the project’s source <code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> directory.</p>
+</section>
+</section>
+<section id="namespace-packages-txt-namespace-package-metadata">
+<h3><code class="docutils literal notranslate"><span class="pre">namespace_packages.txt</span></code> – Namespace Package Metadata<a class="headerlink" href="#namespace-packages-txt-namespace-package-metadata" title="Permalink to this heading">#</a></h3>
+<p>A list of namespace package names, one per line, as supplied to the
+<code class="docutils literal notranslate"><span class="pre">namespace_packages</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.  Please see the manuals
+for setuptools and <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> for more information about
+namespace packages.</p>
+</section>
+<section id="entry-points-txt-entry-point-plugin-metadata">
+<h3><code class="docutils literal notranslate"><span class="pre">entry_points.txt</span></code> – “Entry Point”/Plugin Metadata<a class="headerlink" href="#entry-points-txt-entry-point-plugin-metadata" title="Permalink to this heading">#</a></h3>
+<p>This is a “sectioned” text file, whose contents encode the
+<code class="docutils literal notranslate"><span class="pre">entry_points</span></code> keyword supplied to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.  All sections are
+named, as the section names specify the entry point groups in which the
+corresponding section’s entry points are registered.</p>
+<p>Each section is a sequence of “entry point” lines, each parseable using
+the <code class="docutils literal notranslate"><span class="pre">EntryPoint.parse</span></code> classmethod; please see the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>
+manual for the complete entry point parsing syntax.</p>
+<p>Note that it is not necessary to parse this file directly; the
+<code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> module provides a variety of APIs to locate and load
+entry points automatically.  Please see the setuptools and
+<code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> manuals for details on the nature and uses of entry
+points.</p>
+</section>
+<section id="the-scripts-subdirectory">
+<h3>The <code class="docutils literal notranslate"><span class="pre">scripts</span></code> Subdirectory<a class="headerlink" href="#the-scripts-subdirectory" title="Permalink to this heading">#</a></h3>
+<p>This directory is currently only created for <code class="docutils literal notranslate"><span class="pre">.egg</span></code> files built by
+the setuptools <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> command.  It will contain copies of all
+of the project’s “traditional” scripts (i.e., those specified using the
+<code class="docutils literal notranslate"><span class="pre">scripts</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>).  This is so that they can be
+reconstituted when an <code class="docutils literal notranslate"><span class="pre">.egg</span></code> file is installed.</p>
+<p>The scripts are placed here using the distutils’ standard
+<code class="docutils literal notranslate"><span class="pre">install_scripts</span></code> command, so any <code class="docutils literal notranslate"><span class="pre">#!</span></code> lines reflect the Python
+installation where the egg was built.  But instead of copying the
+scripts to the local script installation directory, EasyInstall writes
+short wrapper scripts that invoke the original scripts from inside the
+egg, after ensuring that sys.path includes the egg and any eggs it
+depends on.  For more about <a class="reference internal" href="#script-wrappers">script wrappers</a>, see the section below on
+<a class="reference internal" href="#installation-and-path-management-issues">Installation and Path Management Issues</a>.</p>
+</section>
+<section id="zip-support-metadata">
+<h3>Zip Support Metadata<a class="headerlink" href="#zip-support-metadata" title="Permalink to this heading">#</a></h3>
+<section id="native-libs-txt">
+<h4><code class="docutils literal notranslate"><span class="pre">native_libs.txt</span></code><a class="headerlink" href="#native-libs-txt" title="Permalink to this heading">#</a></h4>
+<p>A list of C extensions and other dynamic link libraries contained in
+the egg, one per line.  Paths are <code class="docutils literal notranslate"><span class="pre">/</span></code>-separated and relative to the
+egg’s base location.</p>
+<p>This file is generated as part of <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> processing, and as such
+only appears in <code class="docutils literal notranslate"><span class="pre">.egg</span></code> files (and <code class="docutils literal notranslate"><span class="pre">.egg</span></code> directories created by
+unpacking them).  It is used to ensure that all libraries are extracted
+from a zipped egg at the same time, in case there is any direct linkage
+between them.  Please see the <a class="reference internal" href="#zip-file-issues">Zip File Issues</a> section below for more
+information on library and resource extraction from <code class="docutils literal notranslate"><span class="pre">.egg</span></code> files.</p>
+</section>
+<section id="eager-resources-txt">
+<h4><code class="docutils literal notranslate"><span class="pre">eager_resources.txt</span></code><a class="headerlink" href="#eager-resources-txt" title="Permalink to this heading">#</a></h4>
+<p>A list of resource files and/or directories, one per line, as specified
+via the <code class="docutils literal notranslate"><span class="pre">eager_resources</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">setup()</span></code>.  Paths are
+<code class="docutils literal notranslate"><span class="pre">/</span></code>-separated and relative to the egg’s base location.</p>
+<p>Resource files or directories listed here will be extracted
+simultaneously, if any of the named resources are extracted, or if any
+native libraries listed in <code class="docutils literal notranslate"><span class="pre">native_libs.txt</span></code> are extracted.  Please
+see the setuptools manual for details on what this feature is used for
+and how it works, as well as the <a class="reference internal" href="#zip-file-issues">Zip File Issues</a> section below.</p>
+</section>
+<section id="zip-safe-and-not-zip-safe">
+<h4><code class="docutils literal notranslate"><span class="pre">zip-safe</span></code> and <code class="docutils literal notranslate"><span class="pre">not-zip-safe</span></code><a class="headerlink" href="#zip-safe-and-not-zip-safe" title="Permalink to this heading">#</a></h4>
+<p>These are zero-length files, and either one or the other should exist.
+If <code class="docutils literal notranslate"><span class="pre">zip-safe</span></code> exists, it means that the project will work properly
+when installed as an <code class="docutils literal notranslate"><span class="pre">.egg</span></code> zipfile, and conversely the existence of
+<code class="docutils literal notranslate"><span class="pre">not-zip-safe</span></code> means the project should not be installed as an
+<code class="docutils literal notranslate"><span class="pre">.egg</span></code> file.  The <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> option to setuptools’ <code class="docutils literal notranslate"><span class="pre">setup()</span></code>
+determines which file will be written. If the option isn’t provided,
+setuptools attempts to make its own assessment of whether the package
+can work, based on code and content analysis.</p>
+<p>If neither file is present at installation time, EasyInstall defaults
+to assuming that the project should be unzipped.  (Command-line options
+to EasyInstall, however, take precedence even over an existing
+<code class="docutils literal notranslate"><span class="pre">zip-safe</span></code> or <code class="docutils literal notranslate"><span class="pre">not-zip-safe</span></code> file.)</p>
+<p>Note that these flag files appear only in <code class="docutils literal notranslate"><span class="pre">.egg</span></code> files generated by
+<code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code>, and in <code class="docutils literal notranslate"><span class="pre">.egg</span></code> directories created by unpacking such an
+<code class="docutils literal notranslate"><span class="pre">.egg</span></code> file.</p>
+</section>
+</section>
+<section id="top-level-txt-conflict-management-metadata">
+<h3><code class="docutils literal notranslate"><span class="pre">top_level.txt</span></code> – Conflict Management Metadata<a class="headerlink" href="#top-level-txt-conflict-management-metadata" title="Permalink to this heading">#</a></h3>
+<p>This file is a list of the top-level module or package names provided
+by the project, one Python identifier per line.</p>
+<p>Subpackages are not included; a project containing both a <code class="docutils literal notranslate"><span class="pre">foo.bar</span></code>
+and a <code class="docutils literal notranslate"><span class="pre">foo.baz</span></code> would include only one line, <code class="docutils literal notranslate"><span class="pre">foo</span></code>, in its
+<code class="docutils literal notranslate"><span class="pre">top_level.txt</span></code>.</p>
+<p>This data is used by <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> at runtime to issue a warning if
+an egg is added to <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> when its contained packages may have
+already been imported.</p>
+<p>(It was also once used to detect conflicts with non-egg packages at
+installation time, but in more recent versions, setuptools installs eggs
+in such a way that they always override non-egg packages, thus
+preventing a problem from arising.)</p>
+</section>
+<section id="sources-txt-source-files-manifest">
+<h3><code class="docutils literal notranslate"><span class="pre">SOURCES.txt</span></code> – Source Files Manifest<a class="headerlink" href="#sources-txt-source-files-manifest" title="Permalink to this heading">#</a></h3>
+<p>This file is roughly equivalent to the distutils’ <code class="docutils literal notranslate"><span class="pre">MANIFEST</span></code> file.
+The differences are as follows:</p>
+<ul class="simple">
+<li><p>The filenames always use <code class="docutils literal notranslate"><span class="pre">/</span></code> as a path separator, which must be
+converted back to a platform-specific path whenever they are read.</p></li>
+<li><p>The file is automatically generated by setuptools whenever the
+<code class="docutils literal notranslate"><span class="pre">egg_info</span></code> or <code class="docutils literal notranslate"><span class="pre">sdist</span></code> commands are run, and it is <em>not</em>
+user-editable.</p></li>
+</ul>
+<p>Although this metadata is included with distributed eggs, it is not
+actually used at runtime for any purpose.  Its function is to ensure
+that setuptools-built <em>source</em> distributions can correctly discover
+what files are part of the project’s source, even if the list had been
+generated using revision control metadata on the original author’s
+system.</p>
+<p>In other words, <code class="docutils literal notranslate"><span class="pre">SOURCES.txt</span></code> has little or no runtime value for being
+included in distributed eggs, and it is possible that future versions of
+the <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> and <code class="docutils literal notranslate"><span class="pre">install_egg_info</span></code> commands will strip it before
+installation or distribution.  Therefore, do not rely on its being
+available outside of an original source directory or source
+distribution.</p>
+</section>
+</section>
+<section id="other-technical-considerations">
+<h2>Other Technical Considerations<a class="headerlink" href="#other-technical-considerations" title="Permalink to this heading">#</a></h2>
+<section id="zip-file-issues">
+<h3>Zip File Issues<a class="headerlink" href="#zip-file-issues" title="Permalink to this heading">#</a></h3>
+<p>Although zip files resemble directories, they are not fully
+substitutable for them.  Most platforms do not support loading dynamic
+link libraries contained in zipfiles, so it is not possible to directly
+import C extensions from <code class="docutils literal notranslate"><span class="pre">.egg</span></code> zipfiles.  Similarly, there are many
+existing libraries – whether in Python or C – that require actual
+operating system filenames, and do not work with arbitrary “file-like”
+objects or in-memory strings, and thus cannot operate directly on the
+contents of zip files.</p>
+<p>To address these issues, the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> module provides a
+“resource API” to support obtaining either the contents of a resource,
+or a true operating system filename for the resource.  If the egg
+containing the resource is a directory, the resource’s real filename
+is simply returned.  However, if the egg is a zipfile, then the
+resource is first extracted to a cache directory, and the filename
+within the cache is returned.</p>
+<p>The cache directory is determined by the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> API; please
+see the <code class="docutils literal notranslate"><span class="pre">set_cache_path()</span></code> and <code class="docutils literal notranslate"><span class="pre">get_default_cache()</span></code> documentation
+for details.</p>
+<section id="the-extraction-process">
+<h4>The Extraction Process<a class="headerlink" href="#the-extraction-process" title="Permalink to this heading">#</a></h4>
+<p>Resources are extracted to a cache subdirectory whose name is based
+on the enclosing <code class="docutils literal notranslate"><span class="pre">.egg</span></code> filename and the path to the resource.  If
+there is already a file of the correct name, size, and timestamp, its
+filename is returned to the requester.  Otherwise, the desired file is
+extracted first to a temporary name generated using
+<code class="docutils literal notranslate"><span class="pre">mkstemp(&quot;.$extract&quot;,target_dir)</span></code>, and then its timestamp is set to
+match the one in the zip file, before renaming it to its final name.
+(Some collision detection and resolution code is used to handle the
+fact that Windows doesn’t overwrite files when renaming.)</p>
+<p>If a resource directory is requested, all of its contents are
+recursively extracted in this fashion, to ensure that the directory
+name can be used as if it were valid all along.</p>
+<p>If the resource requested for extraction is listed in the
+<code class="docutils literal notranslate"><span class="pre">native_libs.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">eager_resources.txt</span></code> metadata files, then
+<em>all</em> resources listed in <em>either</em> file will be extracted before the
+requested resource’s filename is returned, thus ensuring that all
+C extensions and data used by them will be simultaneously available.</p>
+</section>
+<section id="extension-import-wrappers">
+<h4>Extension Import Wrappers<a class="headerlink" href="#extension-import-wrappers" title="Permalink to this heading">#</a></h4>
+<p>Since Python’s built-in zip import feature does not support loading
+C extension modules from zipfiles, the setuptools <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> command
+generates special import wrappers to make it work.</p>
+<p>The wrappers are <code class="docutils literal notranslate"><span class="pre">.py</span></code> files (along with corresponding <code class="docutils literal notranslate"><span class="pre">.pyc</span></code>
+and/or <code class="docutils literal notranslate"><span class="pre">.pyo</span></code> files) that have the same module name as the
+corresponding C extension.  These wrappers are located in the same
+package directory (or top-level directory) within the zipfile, so that
+say, <code class="docutils literal notranslate"><span class="pre">foomodule.so</span></code> will get a corresponding <code class="docutils literal notranslate"><span class="pre">foo.py</span></code>, while
+<code class="docutils literal notranslate"><span class="pre">bar/baz.pyd</span></code> will get a corresponding <code class="docutils literal notranslate"><span class="pre">bar/baz.py</span></code>.</p>
+<p>These wrapper files contain a short stanza of Python code that asks
+<code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> for the filename of the corresponding C extension,
+then reloads the module using the obtained filename.  This will cause
+<code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> to first ensure that all of the egg’s C extensions
+(and any accompanying “eager resources”) are extracted to the cache
+before attempting to link to the C library.</p>
+<p>Note, by the way, that <code class="docutils literal notranslate"><span class="pre">.egg</span></code> directories will also contain these
+wrapper files.  However, Python’s default import priority is such that
+C extensions take precedence over same-named Python modules, so the
+import wrappers are ignored unless the egg is a zipfile.</p>
+</section>
+</section>
+<section id="installation-and-path-management-issues">
+<h3>Installation and Path Management Issues<a class="headerlink" href="#installation-and-path-management-issues" title="Permalink to this heading">#</a></h3>
+<p>Python’s initial setup of <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> is very dependent on the Python
+version and installation platform, as well as how Python was started
+(i.e., script vs. <code class="docutils literal notranslate"><span class="pre">-c</span></code> vs. <code class="docutils literal notranslate"><span class="pre">-m</span></code> vs. interactive interpreter).
+In fact, Python also provides only two relatively robust ways to affect
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code> outside of direct manipulation in code: the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>
+environment variable, and <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files.</p>
+<p>However, with no cross-platform way to safely and persistently change
+environment variables, this leaves <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files as EasyInstall’s only
+real option for persistent configuration of <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.</p>
+<p>But <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files are rather strictly limited in what they are allowed
+to do normally.  They add directories only to the <em>end</em> of <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>,
+after any locally-installed <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory, and they are
+only processed <em>in</em> the <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directory to start with.</p>
+<p>This is a double whammy for users who lack write access to that
+directory, because they can’t create a <code class="docutils literal notranslate"><span class="pre">.pth</span></code> file that Python will
+read, and even if a sympathetic system administrator adds one for them
+that calls <code class="docutils literal notranslate"><span class="pre">site.addsitedir()</span></code> to allow some other directory to
+contain <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files, they won’t be able to install newer versions of
+anything that’s installed in the systemwide <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>, because
+their paths will still be added <em>after</em> <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>.</p>
+<p>So EasyInstall applies two workarounds to solve these problems.</p>
+<p>The first is that EasyInstall leverages <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files’ “import” feature
+to manipulate <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> and ensure that anything EasyInstall adds
+to a <code class="docutils literal notranslate"><span class="pre">.pth</span></code> file will always appear before both the standard library
+and the local <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> directories.  Thus, it is always
+possible for a user who can write a Python-read <code class="docutils literal notranslate"><span class="pre">.pth</span></code> file to ensure
+that their packages come first in their own environment.</p>
+<p>Second, when installing to a <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> directory (as opposed to
+a “site” directory like <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>) EasyInstall will also install
+a special version of the <code class="docutils literal notranslate"><span class="pre">site</span></code> module.  Because it’s in a
+<code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> directory, this module will get control before the
+standard library version of <code class="docutils literal notranslate"><span class="pre">site</span></code> does.  It will record the state of
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code> before invoking the “real” <code class="docutils literal notranslate"><span class="pre">site</span></code> module, and then
+afterwards it processes any <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files found in <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>
+directories, including all the fixups needed to ensure that eggs always
+appear before the standard library in sys.path, but are in a relative
+order to one another that is defined by their <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.pth</span></code>-prescribed sequence.</p>
+<p>The net result of these changes is that <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> order will be
+as follows at runtime:</p>
+<ol class="arabic simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">sys.argv[0]</span></code> directory, or an empty string if no script
+is being executed.</p></li>
+<li><p>All eggs installed by EasyInstall in any <code class="docutils literal notranslate"><span class="pre">.pth</span></code> file in each
+<code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> directory, in order first by <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> order,
+then normal <code class="docutils literal notranslate"><span class="pre">.pth</span></code> processing order (which is to say alphabetical
+by <code class="docutils literal notranslate"><span class="pre">.pth</span></code> filename, then by the order of listing within each
+<code class="docutils literal notranslate"><span class="pre">.pth</span></code> file).</p></li>
+<li><p>All eggs installed by EasyInstall in any <code class="docutils literal notranslate"><span class="pre">.pth</span></code> file in each “site”
+directory (such as <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>), following the same ordering
+rules as for the ones on <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> directories themselves, in their original order</p></li>
+<li><p>Any paths from <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files found on <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> that were <em>not</em>
+eggs installed by EasyInstall, again following the same relative
+ordering rules.</p></li>
+<li><p>The standard library and “site” directories, along with the contents
+of any <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files found in the “site” directories.</p></li>
+</ol>
+<p>Notice that sections 1, 4, and 6 comprise the “normal” Python setup for
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code>.  Sections 2 and 3 are inserted to support eggs, and
+section 5 emulates what the “normal” semantics of <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files on
+<code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> would be if Python natively supported them.</p>
+<p>For further discussion of the tradeoffs that went into this design, as
+well as notes on the actual magic inserted into <code class="docutils literal notranslate"><span class="pre">.pth</span></code> files to make
+them do these things, please see also the following messages to the
+distutils-SIG mailing list:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://mail.python.org/pipermail/distutils-sig/2006-February/006026.html">http://mail.python.org/pipermail/distutils-sig/2006-February/006026.html</a></p></li>
+<li><p><a class="reference external" href="http://mail.python.org/pipermail/distutils-sig/2006-March/006123.html">http://mail.python.org/pipermail/distutils-sig/2006-March/006123.html</a></p></li>
+</ul>
+<section id="script-wrappers">
+<h4>Script Wrappers<a class="headerlink" href="#script-wrappers" title="Permalink to this heading">#</a></h4>
+<p>EasyInstall never directly installs a project’s original scripts to
+a script installation directory.  Instead, it writes short wrapper
+scripts that first ensure that the project’s dependencies are active
+on sys.path, before invoking the original script.  These wrappers
+have a #! line that points to the version of Python that was used to
+install them, and their second line is always a comment that indicates
+the type of script wrapper, the project version required for the script
+to run, and information identifying the script to be invoked.</p>
+<p>The format of this marker line is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;# EASY-INSTALL-&quot;</span> <span class="n">script_type</span> <span class="s2">&quot;: &quot;</span> <span class="n">tuple_of_strings</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">script_type</span></code> is one of <code class="docutils literal notranslate"><span class="pre">SCRIPT</span></code>, <code class="docutils literal notranslate"><span class="pre">DEV-SCRIPT</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">ENTRY-SCRIPT</span></code>.  The <code class="docutils literal notranslate"><span class="pre">tuple_of_strings</span></code> is a comma-separated
+sequence of Python string constants.  For <code class="docutils literal notranslate"><span class="pre">SCRIPT</span></code> and <code class="docutils literal notranslate"><span class="pre">DEV-SCRIPT</span></code>
+wrappers, there are two strings: the project version requirement, and
+the script name (as a filename within the <code class="docutils literal notranslate"><span class="pre">scripts</span></code> metadata
+directory).  For <code class="docutils literal notranslate"><span class="pre">ENTRY-SCRIPT</span></code> wrappers, there are three:
+the project version requirement, the entry point group name, and the
+entry point name.  (See the “Automatic Script Creation” section in the
+setuptools manual for more information about entry point scripts.)</p>
+<p>In each case, the project version requirement string will be a string
+parseable with the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> modules’ <code class="docutils literal notranslate"><span class="pre">Requirement.parse()</span></code>
+classmethod.  The only difference between a <code class="docutils literal notranslate"><span class="pre">SCRIPT</span></code> wrapper and a
+<code class="docutils literal notranslate"><span class="pre">DEV-SCRIPT</span></code> is that a <code class="docutils literal notranslate"><span class="pre">DEV-SCRIPT</span></code> actually executes the original
+source script in the project’s source tree, and is created when the
+“setup.py develop” command is run.  A <code class="docutils literal notranslate"><span class="pre">SCRIPT</span></code> wrapper, on the other
+hand, uses the “installed” script written to the <code class="docutils literal notranslate"><span class="pre">EGG-INFO/scripts</span></code>
+subdirectory of the corresponding <code class="docutils literal notranslate"><span class="pre">.egg</span></code> zipfile or directory.
+(<code class="docutils literal notranslate"><span class="pre">.egg-info</span></code> eggs do not have script wrappers associated with them,
+except in the “setup.py develop” case.)</p>
+<p>The purpose of including the marker line in generated script wrappers is
+to facilitate introspection of installed scripts, and their relationship
+to installed eggs.  For example, an uninstallation tool could use this
+data to identify what scripts can safely be removed, and/or identify
+what scripts would stop working if a particular egg is uninstalled.</p>
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="easy_install.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Easy Install</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="dependency_links.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">The Internal Structure of Python Eggs</a><ul>
+<li><a class="reference internal" href="#eggs-and-their-formats">Eggs and their Formats</a><ul>
+<li><a class="reference internal" href="#code-and-resources">Code and Resources</a></li>
+<li><a class="reference internal" href="#project-metadata">Project Metadata</a></li>
+<li><a class="reference internal" href="#filename-embedded-metadata">Filename-Embedded Metadata</a></li>
+<li><a class="reference internal" href="#egg-links">Egg Links</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#standard-metadata">Standard Metadata</a><ul>
+<li><a class="reference internal" href="#txt-file-formats"><code class="docutils literal notranslate"><span class="pre">.txt</span></code> File Formats</a></li>
+<li><a class="reference internal" href="#dependency-metadata">Dependency Metadata</a><ul>
+<li><a class="reference internal" href="#requires-txt"><code class="docutils literal notranslate"><span class="pre">requires.txt</span></code></a></li>
+<li><a class="reference internal" href="#setup-requires-txt"><code class="docutils literal notranslate"><span class="pre">setup_requires.txt</span></code></a></li>
+<li><a class="reference internal" href="#dependency-links-txt"><code class="docutils literal notranslate"><span class="pre">dependency_links.txt</span></code></a></li>
+<li><a class="reference internal" href="#depends-txt-obsolete-do-not-create"><code class="docutils literal notranslate"><span class="pre">depends.txt</span></code> – Obsolete, do not create!</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#namespace-packages-txt-namespace-package-metadata"><code class="docutils literal notranslate"><span class="pre">namespace_packages.txt</span></code> – Namespace Package Metadata</a></li>
+<li><a class="reference internal" href="#entry-points-txt-entry-point-plugin-metadata"><code class="docutils literal notranslate"><span class="pre">entry_points.txt</span></code> – “Entry Point”/Plugin Metadata</a></li>
+<li><a class="reference internal" href="#the-scripts-subdirectory">The <code class="docutils literal notranslate"><span class="pre">scripts</span></code> Subdirectory</a></li>
+<li><a class="reference internal" href="#zip-support-metadata">Zip Support Metadata</a><ul>
+<li><a class="reference internal" href="#native-libs-txt"><code class="docutils literal notranslate"><span class="pre">native_libs.txt</span></code></a></li>
+<li><a class="reference internal" href="#eager-resources-txt"><code class="docutils literal notranslate"><span class="pre">eager_resources.txt</span></code></a></li>
+<li><a class="reference internal" href="#zip-safe-and-not-zip-safe"><code class="docutils literal notranslate"><span class="pre">zip-safe</span></code> and <code class="docutils literal notranslate"><span class="pre">not-zip-safe</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#top-level-txt-conflict-management-metadata"><code class="docutils literal notranslate"><span class="pre">top_level.txt</span></code> – Conflict Management Metadata</a></li>
+<li><a class="reference internal" href="#sources-txt-source-files-manifest"><code class="docutils literal notranslate"><span class="pre">SOURCES.txt</span></code> – Source Files Manifest</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-technical-considerations">Other Technical Considerations</a><ul>
+<li><a class="reference internal" href="#zip-file-issues">Zip File Issues</a><ul>
+<li><a class="reference internal" href="#the-extraction-process">The Extraction Process</a></li>
+<li><a class="reference internal" href="#extension-import-wrappers">Extension Import Wrappers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation-and-path-management-issues">Installation and Path Management Issues</a><ul>
+<li><a class="reference internal" href="#script-wrappers">Script Wrappers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

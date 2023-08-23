@@ -1,0 +1,498 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="_static/favicon.svg"><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Roadmap" href="roadmap.html" /><link rel="prev" title="Keywords" href="references/keywords.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Building and Distributing Packages with Setuptools - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="userguide/index.html">User guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="userguide/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="userguide/pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/keywords.html">Keywords</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="building-and-distributing-packages-with-setuptools">
+<h1>Building and Distributing Packages with Setuptools<a class="headerlink" href="#building-and-distributing-packages-with-setuptools" title="Permalink to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Setuptools</span></code> is a collection of enhancements to the Python <code class="docutils literal notranslate"><span class="pre">distutils</span></code>
+that allow developers to more easily build and
+distribute Python packages, especially ones that have dependencies on other
+packages.</p>
+<p>Packages built and distributed using <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> look to the user like
+ordinary Python packages based on the <code class="docutils literal notranslate"><span class="pre">distutils</span></code>.</p>
+<p>Feature Highlights:</p>
+<ul class="simple">
+<li><p>Create <a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a> -
+a single-file importable distribution format</p></li>
+<li><p>Enhanced support for accessing data files hosted in zipped packages.</p></li>
+<li><p>Automatically include all packages in your source tree, without listing them
+individually in setup.py</p></li>
+<li><p>Automatically include all relevant files in your source distributions,
+without needing to create a <a class="reference external" href="https://packaging.python.org/en/latest/guides/using-manifest-in/"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> file, and without having to force
+regeneration of the <code class="docutils literal notranslate"><span class="pre">MANIFEST</span></code> file when your source tree changes
+<a class="footnote-reference brackets" href="#manifest" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
+<li><p>Automatically generate wrapper scripts or Windows (console and GUI) .exe
+files for any number of “main” functions in your project.  (Note: this is not
+a py2exe replacement; the .exe files rely on the local Python installation.)</p></li>
+<li><p>Transparent Cython support, so that your setup.py can list <code class="docutils literal notranslate"><span class="pre">.pyx</span></code> files and
+still work even when the end-user doesn’t have Cython installed (as long as
+you include the Cython-generated C in your source distribution)</p></li>
+<li><p>Command aliases - create project-specific, per-user, or site-wide shortcut
+names for commonly used commands and options</p></li>
+<li><p>Deploy your project in “development mode”, such that it’s available on
+<code class="docutils literal notranslate"><span class="pre">sys.path</span></code>, yet can still be edited directly from its source checkout.</p></li>
+<li><p>Easily extend the distutils with new commands or <code class="docutils literal notranslate"><span class="pre">setup()</span></code> arguments, and
+distribute/reuse your extensions for multiple projects, without copying code.</p></li>
+<li><p>Create extensible applications and frameworks that automatically discover
+extensions, using simple “entry points” declared in a project’s setup script.</p></li>
+<li><p>Full support for PEP 420 via <code class="docutils literal notranslate"><span class="pre">find_namespace_packages()</span></code>, which is also backwards
+compatible to the existing <code class="docutils literal notranslate"><span class="pre">find_packages()</span></code> for Python &gt;= 3.3.</p></li>
+</ul>
+<section id="developer-s-guide">
+<h2>Developer’s Guide<a class="headerlink" href="#developer-s-guide" title="Permalink to this heading">#</a></h2>
+<p>The developer’s guide has been updated. See the <a class="reference internal" href="userguide/index.html"><span class="doc">most recent version</span></a>.</p>
+<section id="transitional-note">
+<h3>TRANSITIONAL NOTE<a class="headerlink" href="#transitional-note" title="Permalink to this heading">#</a></h3>
+<p>Setuptools automatically calls <code class="docutils literal notranslate"><span class="pre">declare_namespace()</span></code> for you at runtime,
+but future versions may <em>not</em>.  This is because the automatic declaration
+feature has some negative side effects, such as needing to import all namespace
+packages during the initialization of the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> runtime, and also
+the need for <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> to be explicitly imported before any namespace
+packages work at all.  In some future releases, you’ll be responsible
+for including your own declaration lines, and the automatic declaration feature
+will be dropped to get rid of the negative side effects.</p>
+<p>During the remainder of the current development cycle, therefore, setuptools
+will warn you about missing <code class="docutils literal notranslate"><span class="pre">declare_namespace()</span></code> calls in your
+<code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> files, and you should correct these as soon as possible
+before the compatibility support is removed.
+Namespace packages without declaration lines will not work
+correctly once a user has upgraded to a later version, so it’s important that
+you make this change now in order to avoid having your code break in the field.
+Our apologies for the inconvenience, and thank you for your patience.</p>
+<section id="setup-cfg-only-projects">
+<h4>setup.cfg-only projects<a class="headerlink" href="#setup-cfg-only-projects" title="Permalink to this heading">#</a></h4>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 40.9.0.</span></p>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> is missing from the project directory when a <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a>
+build is invoked, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> emulates a dummy <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file containing
+only a <code class="docutils literal notranslate"><span class="pre">setuptools.setup()</span></code> call.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a> doesn’t support editable installs so this is currently
+incompatible with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>.</p>
+</div>
+<p>This means that you can have a Python project with all build configuration
+specified in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, without a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file, if you <strong>can rely
+on</strong> your project always being built by a <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a>/<span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0518/"><strong>PEP 518</strong></a> compatible
+frontend.</p>
+<p>To use this feature:</p>
+<ul>
+<li><p>Specify build requirements and <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a> build backend in
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.
+For example:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[build-system]</span>
+<span class="n">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s">&quot;setuptools &gt;= 40.9.0&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">build-backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;setuptools.build_meta&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use a <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a> compatible build frontend, such as <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">&gt;=</span> <span class="pre">19</span></code> or <code class="docutils literal notranslate"><span class="pre">build</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>As <span class="target" id="index-6"></span><a class="pep reference external" href="https://peps.python.org/pep-0517/"><strong>PEP 517</strong></a> is new, support is not universal, and frontends that
+do support it may still have bugs. For compatibility, you may want to
+put a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file containing only a <code class="docutils literal notranslate"><span class="pre">setuptools.setup()</span></code>
+invocation.</p>
+</div>
+</li>
+</ul>
+</section>
+<section id="configuration-api">
+<h4>Configuration API<a class="headerlink" href="#configuration-api" title="Permalink to this heading">#</a></h4>
+<p>Some automation tools may wish to access data from a configuration file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Setuptools</span></code> exposes a <code class="docutils literal notranslate"><span class="pre">read_configuration()</span></code> function for
+parsing <code class="docutils literal notranslate"><span class="pre">metadata</span></code> and <code class="docutils literal notranslate"><span class="pre">options</span></code> sections into a dictionary.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools.config</span> <span class="kn">import</span> <span class="n">read_configuration</span>
+
+<span class="n">conf_dict</span> <span class="o">=</span> <span class="n">read_configuration</span><span class="p">(</span><span class="s2">&quot;/home/user/dev/package/setup.cfg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">read_configuration()</span></code> will read only the file provided
+in the first argument. To include values from other configuration files
+which could be in various places, set the <code class="docutils literal notranslate"><span class="pre">find_others</span></code> keyword argument
+to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>If you have only a configuration file but not the whole package, you can still
+try to get data out of it with the help of the <code class="docutils literal notranslate"><span class="pre">ignore_option_errors</span></code> keyword
+argument. When it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, all options with errors possibly produced
+by directives, such as <code class="docutils literal notranslate"><span class="pre">attr:</span></code> and others, will be silently ignored.
+As a consequence, the resulting dictionary will include no such options.</p>
+</section>
+<section id="forum-and-bug-tracker">
+<h4>Forum and Bug Tracker<a class="headerlink" href="#forum-and-bug-tracker" title="Permalink to this heading">#</a></h4>
+<p>Please use <a class="reference external" href="https://github.com/pypa/setuptools/discussions">GitHub Discussions</a> for questions and discussion about
+setuptools, and the <a class="reference external" href="https://github.com/pypa/setuptools/">setuptools bug tracker</a> ONLY for issues you have
+confirmed via the forum are actual bugs, and which you have reduced to a minimal
+set of steps to reproduce.</p>
+<hr class="docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="manifest" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>The default behaviour for <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will work well for pure
+Python packages, or packages with simple C extensions (that don’t require
+any special C header). See <a class="hxr-hoverxref hxr-tooltip reference internal" href="userguide/miscellaneous.html#controlling-files-in-the-distribution"><span class="std std-ref">Controlling files in the distribution</span></a> and
+<a class="reference internal" href="userguide/datafiles.html"><span class="doc">Data Files Support</span></a> for more information about complex scenarios, if
+you want to include other types of files.</p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="roadmap.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Roadmap</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="references/keywords.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Keywords</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Building and Distributing Packages with Setuptools</a><ul>
+<li><a class="reference internal" href="#developer-s-guide">Developer’s Guide</a><ul>
+<li><a class="reference internal" href="#transitional-note">TRANSITIONAL NOTE</a><ul>
+<li><a class="reference internal" href="#setup-cfg-only-projects">setup.cfg-only projects</a></li>
+<li><a class="reference internal" href="#configuration-api">Configuration API</a></li>
+<li><a class="reference internal" href="#forum-and-bug-tracker">Forum and Bug Tracker</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=704ab38f"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/js/hoverxref.js"></script>
+    <script src="_static/js/tooltipster.bundle.min.js"></script>
+    <script src="_static/js/micromodal.min.js"></script>
+    <script src="_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

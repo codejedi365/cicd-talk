@@ -1,0 +1,781 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Building and Distributing Packages with Setuptools" href="../setuptools.html" /><link rel="prev" title="Package Discovery and Resource Access using pkg_resources" href="../pkg_resources.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Keywords - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../userguide/index.html">User guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../userguide/pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="keywords">
+<h1>Keywords<a class="headerlink" href="#keywords" title="Permalink to this heading">#</a></h1>
+<p>The following are keywords <code class="docutils literal notranslate"><span class="pre">setuptools.setup()</span></code> accepts.
+They allow configuring the build process for a Python distribution or adding
+metadata via a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script placed at the root of your project.
+All of them are optional; you do not have to supply them unless you need the
+associated <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> feature.</p>
+<p>Metadata and configuration supplied via <code class="docutils literal notranslate"><span class="pre">setup()</span></code> is complementary to (and
+may be overwritten by) the information present in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.
+Some important metadata, such as <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code>, may assume
+a default <em>degenerate</em> value if not specified.</p>
+<p>Users are strongly encouraged to use a declarative config either via
+<a class="reference internal" href="../userguide/declarative_config.html"><span class="doc">setup.cfg</span></a> or <a class="reference internal" href="../userguide/pyproject_config.html"><span class="doc">pyproject.toml</span></a> and only rely on <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> if they need to
+tap into special behaviour that requires scripting (such as building C
+extensions).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using declarative configs via <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>
+with <code class="docutils literal notranslate"><span class="pre">setuptools&lt;64.0.0</span></code>, users can still keep a very simple <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>
+just to ensure editable installs are supported, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Versions of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> <code class="docutils literal notranslate"><span class="pre">&gt;=64.0.0</span></code> do not require this extra minimal
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code> file.</p>
+</div>
+<dl class="simple" id="keyword-name">
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>A string specifying the name of the package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-version">
+<dt><code class="docutils literal notranslate"><span class="pre">version</span></code></dt><dd><p>A string specifying the version number of the package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-description">
+<dt><code class="docutils literal notranslate"><span class="pre">description</span></code></dt><dd><p>A string describing the package in a single line.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-long-description">
+<dt><code class="docutils literal notranslate"><span class="pre">long_description</span></code></dt><dd><p>A string providing a longer description of the package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-long-description-content-type">
+<dt><code class="docutils literal notranslate"><span class="pre">long_description_content_type</span></code></dt><dd><p>A string specifying the content type is used for the <code class="docutils literal notranslate"><span class="pre">long_description</span></code>
+(e.g. <code class="docutils literal notranslate"><span class="pre">text/markdown</span></code>)</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-author">
+<dt><code class="docutils literal notranslate"><span class="pre">author</span></code></dt><dd><p>A string specifying the author of the package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-author-email">
+<dt><code class="docutils literal notranslate"><span class="pre">author_email</span></code></dt><dd><p>A string specifying the email address of the package author.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-maintainer">
+<dt><code class="docutils literal notranslate"><span class="pre">maintainer</span></code></dt><dd><p>A string specifying the name of the current maintainer, if different from
+the author. Note that if the maintainer is provided, setuptools will use it
+as the author in <code class="docutils literal notranslate"><span class="pre">PKG-INFO</span></code>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-maintainer-email">
+<dt><code class="docutils literal notranslate"><span class="pre">maintainer_email</span></code></dt><dd><p>A string specifying the email address of the current maintainer, if
+different from the author.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-url">
+<dt><code class="docutils literal notranslate"><span class="pre">url</span></code></dt><dd><p>A string specifying the URL for the package homepage.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-download-url">
+<dt><code class="docutils literal notranslate"><span class="pre">download_url</span></code></dt><dd><p>A string specifying the URL to download the package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-packages">
+<dt><code class="docutils literal notranslate"><span class="pre">packages</span></code></dt><dd><p>A list of strings specifying the packages that setuptools will manipulate.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-py-modules">
+<dt><code class="docutils literal notranslate"><span class="pre">py_modules</span></code></dt><dd><p>A list of strings specifying the modules that setuptools will manipulate.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-scripts">
+<dt><code class="docutils literal notranslate"><span class="pre">scripts</span></code></dt><dd><p>A list of strings specifying the standalone script files to be built and
+installed.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-ext-package">
+<dt><code class="docutils literal notranslate"><span class="pre">ext_package</span></code></dt><dd><p>A string specifying the base package name for the extensions provided by
+this package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-ext-modules">
+<dt><code class="docutils literal notranslate"><span class="pre">ext_modules</span></code></dt><dd><p>A list of instances of <code class="docutils literal notranslate"><span class="pre">setuptools.Extension</span></code> providing the list of
+Python extensions to be built.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-classifiers">
+<dt><code class="docutils literal notranslate"><span class="pre">classifiers</span></code></dt><dd><p>A list of strings describing the categories for the package.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-distclass">
+<dt><code class="docutils literal notranslate"><span class="pre">distclass</span></code></dt><dd><p>A subclass of <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> to use.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-script-name">
+<dt><code class="docutils literal notranslate"><span class="pre">script_name</span></code></dt><dd><p>A string specifying the name of the setup.py script – defaults to
+<code class="docutils literal notranslate"><span class="pre">sys.argv[0]</span></code></p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-script-args">
+<dt><code class="docutils literal notranslate"><span class="pre">script_args</span></code></dt><dd><p>A list of strings defining the arguments to supply to the setup script.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-options">
+<dt><code class="docutils literal notranslate"><span class="pre">options</span></code></dt><dd><p>A dictionary providing the default options for the setup script.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-license">
+<dt><code class="docutils literal notranslate"><span class="pre">license</span></code></dt><dd><p>A string specifying the license of the package.</p>
+</dd>
+</dl>
+<dl id="keyword-license-file">
+<dt><code class="docutils literal notranslate"><span class="pre">license_file</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">license_file</span></code> is deprecated. Use <code class="docutils literal notranslate"><span class="pre">license_files</span></code> instead.</p>
+</div>
+</dd>
+</dl>
+<dl class="simple" id="keyword-license-files">
+<dt><code class="docutils literal notranslate"><span class="pre">license_files</span></code></dt><dd><p>A list of glob patterns for license related files that should be included.
+If neither <code class="docutils literal notranslate"><span class="pre">license_file</span></code> nor <code class="docutils literal notranslate"><span class="pre">license_files</span></code> is specified, this option
+defaults to <code class="docutils literal notranslate"><span class="pre">LICEN[CS]E*</span></code>, <code class="docutils literal notranslate"><span class="pre">COPYING*</span></code>, <code class="docutils literal notranslate"><span class="pre">NOTICE*</span></code>, and <code class="docutils literal notranslate"><span class="pre">AUTHORS*</span></code>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-keywords">
+<dt><code class="docutils literal notranslate"><span class="pre">keywords</span></code></dt><dd><p>A list of strings or a comma-separated string providing descriptive
+meta-data. See: <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata-keywords" title="(in Python Packaging User Guide)"><span class="xref std std-ref">Core Metadata Specifications</span></a>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-platforms">
+<dt><code class="docutils literal notranslate"><span class="pre">platforms</span></code></dt><dd><p>A list of strings or comma-separated string.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-cmdclass">
+<dt><code class="docutils literal notranslate"><span class="pre">cmdclass</span></code></dt><dd><p>A dictionary providing a mapping of command names to <code class="docutils literal notranslate"><span class="pre">Command</span></code>
+subclasses.</p>
+</dd>
+</dl>
+<dl id="keyword-data-files">
+<dt><code class="docutils literal notranslate"><span class="pre">data_files</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">data_files</span></code> is deprecated. It does not work with wheels, so it
+should be avoided.</p>
+</div>
+<p>A list of strings specifying the data files to install.</p>
+</dd>
+</dl>
+<dl id="keyword-package-dir">
+<dt><code class="docutils literal notranslate"><span class="pre">package_dir</span></code></dt><dd><p>A dictionary that maps package names (as they will be
+imported by the end-users) into directory paths (that actually exist in the
+project’s source tree). This configuration has two main purposes:</p>
+<ol class="arabic">
+<li><p>To effectively “rename” paths when building your package.
+For example, <code class="docutils literal notranslate"><span class="pre">package_dir={&quot;mypkg&quot;:</span> <span class="pre">&quot;dir1/dir2/code_for_mypkg&quot;}</span></code>
+will instruct setuptools to copy the <code class="docutils literal notranslate"><span class="pre">dir1/dir2/code_for_mypkg/...</span></code> files
+as <code class="docutils literal notranslate"><span class="pre">mypkg/...</span></code> when building the final <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/glossary/#term-Wheel" title="(in Python Packaging User Guide)"><span class="xref std std-term">wheel distribution</span></a>.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>While it is <em>possible</em> to specify arbitrary mappings, developers are
+<strong>STRONGLY ADVISED AGAINST</strong> that. They should try as much as possible
+to keep the directory names and hierarchy identical to the way they will
+appear in the final wheel, only deviating when absolutely necessary.</p>
+</div>
+</li>
+<li><p>To indicate that the relevant code is entirely contained inside
+a specific directory (instead of directly placed under the project’s root).
+In this case, a special key is required (the empty string, <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>),
+for example: <code class="docutils literal notranslate"><span class="pre">package_dir={&quot;&quot;:</span> <span class="pre">&quot;&lt;name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">container</span> <span class="pre">directory&gt;&quot;}</span></code>.
+All the directories inside the container directory will be copied
+directly into the final <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/glossary/#term-Wheel" title="(in Python Packaging User Guide)"><span class="xref std std-term">wheel distribution</span></a>, but the
+container directory itself will not.</p>
+<p>This practice is very common in the community to help separate the
+package implementation from auxiliary files (e.g. CI configuration files),
+and is referred to as <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/package_discovery.html#src-layout"><span class="std std-ref">src-layout</span></a>, because the container
+directory is commonly named <code class="docutils literal notranslate"><span class="pre">src</span></code>.</p>
+</li>
+</ol>
+<p>All paths in <code class="docutils literal notranslate"><span class="pre">package_dir</span></code> must be relative to the project root directory
+and use a forward slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>) as path separator regardless of the
+operating system.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When using <a class="reference internal" href="../userguide/package_discovery.html"><span class="doc">package discovery</span></a>
+together with <a class="reference internal" href="../userguide/declarative_config.html"><span class="doc">setup.cfg</span></a> or
+<a class="reference internal" href="../userguide/pyproject_config.html"><span class="doc">pyproject.toml</span></a>, it is very likely
+that you don’t need to specify a value for <code class="docutils literal notranslate"><span class="pre">package_dir</span></code>.  Please have
+a look at the definitions of <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/package_discovery.html#src-layout"><span class="std std-ref">src-layout</span></a> and <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/package_discovery.html#flat-layout"><span class="std std-ref">flat-layout</span></a> to
+learn common practices on how to design a project’s directory structure
+and minimise the amount of configuration that is needed.</p>
+</div>
+</dd>
+</dl>
+<dl id="keyword-requires">
+<dt><code class="docutils literal notranslate"><span class="pre">requires</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">requires</span></code> is superseded by <code class="docutils literal notranslate"><span class="pre">install_requires</span></code> and should not be used
+anymore.</p>
+</div>
+</dd>
+</dl>
+<dl id="keyword-obsoletes">
+<dt><code class="docutils literal notranslate"><span class="pre">obsoletes</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">obsoletes</span></code> is currently ignored by <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+</div>
+<p>List of strings describing packages which this package renders obsolete,
+meaning that the two projects should not be installed at the same time.</p>
+<p>Version declarations can be supplied. Version numbers must be in the format
+specified in Version specifiers (e.g. <code class="docutils literal notranslate"><span class="pre">foo</span> <span class="pre">(&lt;3.0)</span></code>).</p>
+<p>This field may be followed by an environment marker after a semicolon (e.g.
+<code class="docutils literal notranslate"><span class="pre">foo;</span> <span class="pre">os_name</span> <span class="pre">==</span> <span class="pre">&quot;posix&quot;</span></code>)</p>
+<p>The most common use of this field will be in case a project name changes,
+e.g. Gorgon 2.3 gets subsumed into Torqued Python 1.0. When you install
+Torqued Python, the Gorgon distribution should be removed.</p>
+</dd>
+</dl>
+<dl id="keyword-provides">
+<dt><code class="docutils literal notranslate"><span class="pre">provides</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">provides</span></code> is currently ignored by <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+</div>
+<p>List of strings describing package- and virtual package names contained
+within this package.</p>
+<p>A package may provide additional names, e.g. to indicate that multiple
+projects have been bundled together. For instance, source distributions of
+the ZODB project have historically included the transaction project, which
+is now available as a separate distribution. Installing such a source
+distribution satisfies requirements for both ZODB and transaction.</p>
+<p>A package may also provide a “virtual” project name, which does not
+correspond to any separately-distributed project: such a name might be used
+to indicate an abstract capability which could be supplied by one of
+multiple projects. E.g., multiple projects might supply RDBMS bindings for
+use by a given ORM: each project might declare that it provides
+ORM-bindings, allowing other projects to depend only on having at most one
+of them installed.</p>
+<p>A version declaration may be supplied and must follow the rules described in
+Version specifiers. The distribution’s version number will be implied if
+none is specified (e.g. <code class="docutils literal notranslate"><span class="pre">foo</span> <span class="pre">(&lt;3.0)</span></code>).</p>
+<p>Each package may be followed by an environment marker after a semicolon
+(e.g. <code class="docutils literal notranslate"><span class="pre">foo;</span> <span class="pre">os_name</span> <span class="pre">==</span> <span class="pre">&quot;posix&quot;</span></code>).</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-include-package-data">
+<dt><code class="docutils literal notranslate"><span class="pre">include_package_data</span></code></dt><dd><p>If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, this tells <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> to automatically include any
+data files it finds inside your package directories that are specified by
+your <code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code> file.  For more information, see the section on
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/quickstart.html#including-data-files"><span class="std std-ref">Including Data Files</span></a>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-exclude-package-data">
+<dt><code class="docutils literal notranslate"><span class="pre">exclude_package_data</span></code></dt><dd><p>A dictionary mapping package names to lists of glob patterns that should
+be <em>excluded</em> from your package directories.  You can use this to trim back
+any excess files included by <code class="docutils literal notranslate"><span class="pre">include_package_data</span></code>.  For a complete
+description and examples, see the section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/quickstart.html#including-data-files"><span class="std std-ref">Including Data Files</span></a>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-package-data">
+<dt><code class="docutils literal notranslate"><span class="pre">package_data</span></code></dt><dd><p>A dictionary mapping package names to lists of glob patterns.  For a
+complete description and examples, see the section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/quickstart.html#including-data-files"><span class="std std-ref">Including Data Files</span></a>.  You do not need to use this option if you are using
+<code class="docutils literal notranslate"><span class="pre">include_package_data</span></code>, unless you need to add e.g. files that are
+generated by your setup script and build process.  (And are therefore not
+in source control or are files that you don’t want to include in your
+source distribution.)</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-zip-safe">
+<dt><code class="docutils literal notranslate"><span class="pre">zip_safe</span></code></dt><dd><p>A boolean (True or False) flag specifying whether the project can be
+safely installed and run from a zip file.  If this argument is not
+supplied, the <code class="docutils literal notranslate"><span class="pre">bdist_egg</span></code> command will have to analyze all of your
+project’s contents for possible problems each time it builds an egg.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-install-requires">
+<dt><code class="docutils literal notranslate"><span class="pre">install_requires</span></code></dt><dd><p>A string or list of strings specifying what other distributions need to
+be installed when this one is.  See the section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/dependency_management.html#declaring-dependencies"><span class="std std-ref">Declaring required dependency</span></a> for details and examples of the format of this argument.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-entry-points">
+<dt><code class="docutils literal notranslate"><span class="pre">entry_points</span></code></dt><dd><p>A dictionary mapping entry point group names to strings or lists of strings
+defining the entry points.  Entry points are used to support dynamic
+discovery of services or plugins provided by a project.  See <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/entry_point.html#dynamic-discovery-of-services-and-plugins"><span class="std std-ref">Advertising Behavior</span></a> for details and examples of the format
+of this argument.  In addition, this keyword is used to support
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/entry_point.html#entry-points"><span class="std std-ref">Automatic Script Creation</span></a>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-extras-require">
+<dt><code class="docutils literal notranslate"><span class="pre">extras_require</span></code></dt><dd><p>A dictionary mapping names of “extras” (optional features of your project)
+to strings or lists of strings specifying what other distributions must be
+installed to support those features.  See the section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/dependency_management.html#declaring-dependencies"><span class="std std-ref">Declaring required dependency</span></a> for details and examples of the format of this argument.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-python-requires">
+<dt><code class="docutils literal notranslate"><span class="pre">python_requires</span></code></dt><dd><p>A string corresponding to a version specifier (as defined in PEP 440) for
+the Python version, used to specify the Requires-Python defined in PEP 345.</p>
+</dd>
+</dl>
+<dl id="keyword-setup-requires">
+<dt><code class="docutils literal notranslate"><span class="pre">setup_requires</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">setup_requires</span></code> is discouraged in favor of <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0518/"><strong>PEP 518</strong></a>.</p>
+</div>
+<p>A string or list of strings specifying what other distributions need to
+be present in order for the <em>setup script</em> to run.  <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will
+attempt to obtain these before processing the
+rest of the setup script or commands.  This argument is needed if you
+are using distutils extensions as part of your build process; for
+example, extensions that process setup() arguments and turn them into
+EGG-INFO metadata files.</p>
+<p>(Note: projects listed in <code class="docutils literal notranslate"><span class="pre">setup_requires</span></code> will NOT be automatically
+installed on the system where the setup script is being run.  They are
+simply downloaded to the ./.eggs directory if they’re not locally available
+already.  If you want them to be installed, as well as being available
+when the setup script is run, you should add them to <code class="docutils literal notranslate"><span class="pre">install_requires</span></code>
+<strong>and</strong> <code class="docutils literal notranslate"><span class="pre">setup_requires</span></code>.)</p>
+</dd>
+</dl>
+<dl id="keyword-dependency-links">
+<dt><code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">dependency_links</span></code> is deprecated. It is not supported anymore by pip.</p>
+</div>
+<p>A list of strings naming URLs to be searched when satisfying dependencies.
+These links will be used if needed to install packages specified by
+<code class="docutils literal notranslate"><span class="pre">setup_requires</span></code> or <code class="docutils literal notranslate"><span class="pre">tests_require</span></code>.  They will also be written into
+the egg’s metadata for use during install by tools that support them.</p>
+</dd>
+</dl>
+<dl id="keyword-namespace-packages">
+<dt><code class="docutils literal notranslate"><span class="pre">namespace_packages</span></code></dt><dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">namespace_packages</span></code> implementation relies on <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code>.
+However, <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> has some undesirable behaviours, and
+Setuptools intends to obviate its usage in the future. Therefore,
+<code class="docutils literal notranslate"><span class="pre">namespace_packages</span></code> was deprecated in favor of native/implicit
+namespaces (<span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>PEP 420</strong></a>). Check <a class="hxr-hoverxref hxr-tooltip reference external" href="https://packaging.python.org/en/latest/guides/packaging-namespace-packages/" title="(in Python Packaging User Guide)"><span class="xref std std-doc">the Python Packaging User Guide</span></a> for more information.</p>
+</div>
+<p>A list of strings naming the project’s “namespace packages”.  A namespace
+package is a package that may be split across multiple project
+distributions.  For example, Zope 3’s <code class="docutils literal notranslate"><span class="pre">zope</span></code> package is a namespace
+package, because subpackages like <code class="docutils literal notranslate"><span class="pre">zope.interface</span></code> and <code class="docutils literal notranslate"><span class="pre">zope.publisher</span></code>
+may be distributed separately.  The egg runtime system can automatically
+merge such subpackages into a single parent package at runtime, as long
+as you declare them in each project that contains any subpackages of the
+namespace package, and as long as the namespace package’s <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>
+does not contain any code other than a namespace declaration.  See the
+section on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../userguide/package_discovery.html#namespace-packages"><span class="std std-ref">Finding namespace packages</span></a> for more information.</p>
+</dd>
+</dl>
+<dl id="keyword-test-suite">
+<dt><code class="docutils literal notranslate"><span class="pre">test_suite</span></code></dt><dd><p>A string naming a <code class="docutils literal notranslate"><span class="pre">unittest.TestCase</span></code> subclass (or a package or module
+containing one or more of them, or a method of such a subclass), or naming
+a function that can be called with no arguments and returns a
+<code class="docutils literal notranslate"><span class="pre">unittest.TestSuite</span></code>.  If the named suite is a module, and the module
+has an <code class="docutils literal notranslate"><span class="pre">additional_tests()</span></code> function, it is called and the results are
+added to the tests to be run.  If the named suite is a package, any
+submodules and subpackages are recursively added to the overall test suite.</p>
+<p>Specifying this argument enables use of the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#test"><span class="std std-ref">test</span></a> command to run the
+specified test suite, e.g. via <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">test</span></code>.  See the section on the
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#test"><span class="std std-ref">test</span></a> command below for more details.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 41.5.0: </span>The test command will be removed in a future version of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>,
+alongside any test configuration parameter.</p>
+</div>
+</div>
+</dd>
+</dl>
+<dl id="keyword-tests-require">
+<dt><code class="docutils literal notranslate"><span class="pre">tests_require</span></code></dt><dd><p>If your project’s tests need one or more additional packages besides those
+needed to install it, you can use this option to specify them.  It should
+be a string or list of strings specifying what other distributions need to
+be present for the package’s tests to run.  When you run the <code class="docutils literal notranslate"><span class="pre">test</span></code>
+command, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> will  attempt to obtain these.
+Note that these required projects will <em>not</em> be installed on
+the system where the tests are run, but only downloaded to the project’s setup
+directory if they’re not already installed locally.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 41.5.0: </span>The test command will be removed in a future version of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>,
+alongside any test configuration parameter.</p>
+</div>
+</div>
+</dd>
+</dl>
+<span id="test-loader"></span><dl id="keyword-test-loader">
+<dt><code class="docutils literal notranslate"><span class="pre">test_loader</span></code></dt><dd><p>If you would like to use a different way of finding tests to run than what
+setuptools normally uses, you can specify a module name and class name in
+this argument.  The named class must be instantiable with no arguments, and
+its instances must support the <code class="docutils literal notranslate"><span class="pre">loadTestsFromNames()</span></code> method as defined
+in the Python <code class="docutils literal notranslate"><span class="pre">unittest</span></code> module’s <code class="docutils literal notranslate"><span class="pre">TestLoader</span></code> class.  Setuptools will
+pass only one test “name” in the <code class="docutils literal notranslate"><span class="pre">names</span></code> argument: the value supplied for
+the <code class="docutils literal notranslate"><span class="pre">test_suite</span></code> argument.  The loader you specify may interpret this
+string in any way it likes, as there are no restrictions on what may be
+contained in a <code class="docutils literal notranslate"><span class="pre">test_suite</span></code> string.</p>
+<p>The module name and class name must be separated by a <code class="docutils literal notranslate"><span class="pre">:</span></code>.  The default
+value of this argument is <code class="docutils literal notranslate"><span class="pre">&quot;setuptools.command.test:ScanningLoader&quot;</span></code>.  If
+you want to use the default <code class="docutils literal notranslate"><span class="pre">unittest</span></code> behavior, you can specify
+<code class="docutils literal notranslate"><span class="pre">&quot;unittest:TestLoader&quot;</span></code> as your <code class="docutils literal notranslate"><span class="pre">test_loader</span></code> argument instead.  This
+will prevent automatic scanning of submodules and subpackages.</p>
+<p>The module and class you specify here may be contained in another package,
+as long as you use the <code class="docutils literal notranslate"><span class="pre">tests_require</span></code> option to ensure that the package
+containing the loader class is available when the <code class="docutils literal notranslate"><span class="pre">test</span></code> command is run.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 41.5.0: </span>The test command will be removed in a future version of <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>,
+alongside any test configuration parameter.</p>
+</div>
+</div>
+</dd>
+</dl>
+<dl id="keyword-eager-resources">
+<dt><code class="docutils literal notranslate"><span class="pre">eager_resources</span></code></dt><dd><p>A list of strings naming resources that should be extracted together, if
+any of them is needed, or if any C extensions included in the project are
+imported.  This argument is only useful if the project will be installed as
+a zipfile, and there is a need to have all of the listed resources be
+extracted to the filesystem <em>as a unit</em>.  Resources listed here
+should be ‘/’-separated paths, relative to the source root, so to list a
+resource <code class="docutils literal notranslate"><span class="pre">foo.png</span></code> in package <code class="docutils literal notranslate"><span class="pre">bar.baz</span></code>, you would include the string
+<code class="docutils literal notranslate"><span class="pre">bar/baz/foo.png</span></code> in this argument.</p>
+<p>If you only need to obtain resources one at a time, or you don’t have any C
+extensions that access other files in the project (such as data files or
+shared libraries), you probably do NOT need this argument and shouldn’t
+mess with it.  For more details on how this argument works, see the section
+below on <a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/resource_extraction.html#automatic-resource-extraction"><span class="std std-ref">Automatic Resource Extraction</span></a>.</p>
+</dd>
+</dl>
+<dl class="simple" id="keyword-project-urls">
+<dt><code class="docutils literal notranslate"><span class="pre">project_urls</span></code></dt><dd><p>An arbitrary map of URL names to hyperlinks, allowing more extensible
+documentation of where various resources can be found than the simple
+<code class="docutils literal notranslate"><span class="pre">url</span></code> and <code class="docutils literal notranslate"><span class="pre">download_url</span></code> options provide.</p>
+</dd>
+</dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="../setuptools.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Building and Distributing Packages with Setuptools</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../pkg_resources.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

@@ -1,0 +1,870 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Building Extension Modules" href="ext_modules.html" /><link rel="prev" title="Entry Points" href="entry_point.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Data Files Support - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_point.html">Entry Points</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribution.html">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="data-files-support">
+<h1>Data Files Support<a class="headerlink" href="#data-files-support" title="Permalink to this heading">#</a></h1>
+<p>Old packaging installation methods in the Python ecosystem
+have traditionally allowed installation of “data files”, which
+are placed in a platform-specific location.  However, the most common use case
+for data files distributed with a package is for use <em>by</em> the package, usually
+by including the data files <strong>inside the package directory</strong>.</p>
+<p>Setuptools focuses on this most common type of data files and offers three ways
+of specifying which files should be included in your packages, as described in
+the following sections.</p>
+<section id="include-package-data">
+<h2>include_package_data<a class="headerlink" href="#include-package-data" title="Permalink to this heading">#</a></h2>
+<p>First, you can simply use the <code class="docutils literal notranslate"><span class="pre">include_package_data</span></code> keyword.
+For example, if the package tree looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── setup.py        # and/or setup.cfg, pyproject.toml
+└── src
+    └── mypkg
+        ├── __init__.py
+        ├── data1.rst
+        ├── data2.rst
+        ├── data1.txt
+        └── data2.txt
+</pre></div>
+</div>
+<p>and you supply this configuration:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1"># ...</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+<span class="na">include_package_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">},</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools]</span>
+<span class="c1"># ...</span>
+<span class="c1"># By default, include-package-data is true in pyproject.toml, so you do</span>
+<span class="c1"># NOT have to specify this line.</span>
+<span class="n">include-package-data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+
+<span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>then all the <code class="docutils literal notranslate"><span class="pre">.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files will be automatically installed with
+your package, provided:</p>
+<ol class="arabic">
+<li><p>These files are included via the <a class="reference external" href="https://packaging.python.org/en/latest/guides/using-manifest-in/"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> file, like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">include</span> <span class="n">src</span><span class="o">/</span><span class="n">mypkg</span><span class="o">/*.</span><span class="n">txt</span>
+<span class="n">include</span> <span class="n">src</span><span class="o">/</span><span class="n">mypkg</span><span class="o">/*.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</li>
+<li><p>OR, they are being tracked by a revision control system such as Git, Mercurial
+or SVN, and you have configured an appropriate plugin such as
+<a class="reference external" href="https://pypi.org/project/setuptools-scm">setuptools-scm</a> or <a class="reference external" href="https://pypi.org/project/setuptools-svn">setuptools-svn</a>.
+(See the section below on <a class="hxr-hoverxref hxr-tooltip reference internal" href="extension.html#adding-support-for-revision-control-systems"><span class="std std-ref">Adding Support for Revision Control Systems</span></a> for information on how to write such plugins.)</p></li>
+</ol>
+</section>
+<section id="package-data">
+<h2>package_data<a class="headerlink" href="#package-data" title="Permalink to this heading">#</a></h2>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">include_package_data</span></code> considers <strong>all</strong> non <code class="docutils literal notranslate"><span class="pre">.py</span></code> files found inside
+the package directory (<code class="docutils literal notranslate"><span class="pre">src/mypkg</span></code> in this case) as data files, and includes those that
+satisfy (at least) one of the above two conditions into the source distribution, and
+consequently in the installation of your package.
+If you want finer-grained control over what files are included, then you can also use
+the <code class="docutils literal notranslate"><span class="pre">package_data</span></code> keyword.
+For example, if the package tree looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── setup.py        # and/or setup.cfg, pyproject.toml
+└── src
+    └── mypkg
+        ├── __init__.py
+        ├── data1.rst
+        ├── data2.rst
+        ├── data1.txt
+        └── data2.txt
+</pre></div>
+</div>
+<p>then you can use the following configuration to capture the <code class="docutils literal notranslate"><span class="pre">.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files as
+data files:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--1-input--1" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1"># ...</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.package_data]</span>
+<span class="na">mypkg</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">*.txt</span>
+<span class="w">    </span><span class="na">*.rst</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">},</span>
+    <span class="n">package_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;mypkg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;*.rst&quot;</span><span class="p">]}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+
+<span class="k">[tool.setuptools.package-data]</span>
+<span class="n">mypkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;*.txt&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;*.rst&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">package_data</span></code> argument is a dictionary that maps from package names to
+lists of glob patterns. Note that the data files specified using the <code class="docutils literal notranslate"><span class="pre">package_data</span></code>
+option neither require to be included within a <a class="reference external" href="https://packaging.python.org/en/latest/guides/using-manifest-in/"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> file, nor
+require to be added by a revision control system plugin.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your glob patterns use paths, you <em>must</em> use a forward slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>) as
+the path separator, even if you are on Windows.  Setuptools automatically
+converts slashes to appropriate platform-specific separators at build time.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Glob patterns do not automatically match dotfiles (directory or file names
+starting with a dot (<code class="docutils literal notranslate"><span class="pre">.</span></code>)). To include such files, you must explicitly start
+the pattern with a dot, e.g. <code class="docutils literal notranslate"><span class="pre">.*</span></code> to match <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>.</p>
+</div>
+<p>If you have multiple top-level packages and a common pattern of data files for all these
+packages, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── setup.py        # and/or setup.cfg, pyproject.toml
+└── src
+    ├── mypkg1
+    │   ├── data1.rst
+    │   ├── data1.txt
+    │   └── __init__.py
+    └── mypkg2
+        ├── data2.txt
+        └── __init__.py
+</pre></div>
+</div>
+<p>Here, both packages <code class="docutils literal notranslate"><span class="pre">mypkg1</span></code> and <code class="docutils literal notranslate"><span class="pre">mypkg2</span></code> share a common pattern of having <code class="docutils literal notranslate"><span class="pre">.txt</span></code>
+data files. However, only <code class="docutils literal notranslate"><span class="pre">mypkg1</span></code> has <code class="docutils literal notranslate"><span class="pre">.rst</span></code> data files. In such a case, if you want to
+use the <code class="docutils literal notranslate"><span class="pre">package_data</span></code> option, the following configuration will work:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.package_data]</span>
+<span class="na">*</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="na">*.txt</span>
+<span class="na">mypkg1</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="na">data1.rst</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">},</span>
+    <span class="n">package_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*.txt&quot;</span><span class="p">],</span> <span class="s2">&quot;mypkg1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;data1.rst&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+
+<span class="k">[tool.setuptools.package-data]</span>
+<span class="s">&quot;*&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;*.txt&quot;</span><span class="p">]</span>
+<span class="n">mypkg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;data1.rst&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that if you list patterns in <code class="docutils literal notranslate"><span class="pre">package_data</span></code> under the empty string <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> in
+<code class="docutils literal notranslate"><span class="pre">setup.py</span></code>, and the asterisk <code class="docutils literal notranslate"><span class="pre">*</span></code> in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, these
+patterns are used to find files in every package. For example, we use <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">*</span></code>
+to indicate that the <code class="docutils literal notranslate"><span class="pre">.txt</span></code> files from all packages should be captured as data files.
+Also note how we can continue to specify patterns for individual packages, i.e.
+we specify that <code class="docutils literal notranslate"><span class="pre">data1.rst</span></code> from <code class="docutils literal notranslate"><span class="pre">mypkg1</span></code> alone should be captured as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When building an <code class="docutils literal notranslate"><span class="pre">sdist</span></code>, the datafiles are also drawn from the
+<code class="docutils literal notranslate"><span class="pre">package_name.egg-info/SOURCES.txt</span></code> file, so make sure that this is removed if
+the <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> <code class="docutils literal notranslate"><span class="pre">package_data</span></code> list is updated before calling <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>.</p>
+</div>
+</section>
+<section id="exclude-package-data">
+<h2>exclude_package_data<a class="headerlink" href="#exclude-package-data" title="Permalink to this heading">#</a></h2>
+<p>Sometimes, the <code class="docutils literal notranslate"><span class="pre">include_package_data</span></code> or <code class="docutils literal notranslate"><span class="pre">package_data</span></code> options alone
+aren’t sufficient to precisely define what files you want included. For example,
+consider a scenario where you have <code class="docutils literal notranslate"><span class="pre">include_package_data=True</span></code>, and you are using
+a revision control system with an appropriate plugin.
+Sometimes developers add directory-specific marker files (such as <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.gitkeep</span></code>, <code class="docutils literal notranslate"><span class="pre">.gitattributes</span></code>, or <code class="docutils literal notranslate"><span class="pre">.hgignore</span></code>), these files are probably being
+tracked by the revision control system, and therefore by default they will be
+included when the package is installed.</p>
+<p>Supposing you want to prevent these files from being included in the
+installation (they are not relevant to Python or the package), then you could
+use the <code class="docutils literal notranslate"><span class="pre">exclude_package_data</span></code> option:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1"># ...</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+<span class="na">include_package_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.exclude_package_data]</span>
+<span class="na">mypkg</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">.gitattributes</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_packages</span>
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">},</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">exclude_package_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;mypkg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;.gitattributes&quot;</span><span class="p">]},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools.packages.find]</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+
+<span class="k">[tool.setuptools.exclude-package-data]</span>
+<span class="n">mypkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;.gitattributes&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">exclude_package_data</span></code> option is a dictionary mapping package names to
+lists of wildcard patterns, just like the <code class="docutils literal notranslate"><span class="pre">package_data</span></code> option.  And, just
+as with that option, you can use the empty string key <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and the
+asterisk <code class="docutils literal notranslate"><span class="pre">*</span></code> in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> and <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to match all top-level packages.</p>
+<p>Any files that match these patterns will be <em>excluded</em> from installation,
+even if they were listed in <code class="docutils literal notranslate"><span class="pre">package_data</span></code> or were included as a result of using
+<code class="docutils literal notranslate"><span class="pre">include_package_data</span></code>.</p>
+</section>
+<section id="subdirectory-for-data-files">
+<h2>Subdirectory for Data Files<a class="headerlink" href="#subdirectory-for-data-files" title="Permalink to this heading">#</a></h2>
+<p>A common pattern is where some (or all) of the data files are placed under
+a separate subdirectory. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── setup.py        # and/or setup.cfg, pyproject.toml
+└── src
+    └── mypkg
+        ├── data
+        │   ├── data1.rst
+        │   └── data2.rst
+        ├── __init__.py
+        ├── data1.txt
+        └── data2.txt
+</pre></div>
+</div>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files are placed under a <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory inside <code class="docutils literal notranslate"><span class="pre">mypkg</span></code>,
+while the <code class="docutils literal notranslate"><span class="pre">.txt</span></code> files are directly under <code class="docutils literal notranslate"><span class="pre">mypkg</span></code>.</p>
+<p>In this case, the recommended approach is to treat <code class="docutils literal notranslate"><span class="pre">data</span></code> as a namespace package
+(refer <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0420/"><strong>PEP 420</strong></a>). With <code class="docutils literal notranslate"><span class="pre">package_data</span></code>,
+the configuration might look like this:</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="c1"># ...</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find_namespace:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+
+<span class="k">[options.package_data]</span>
+<span class="na">mypkg</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">*.txt</span>
+<span class="na">mypkg.data</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">*.rst</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_namespace_packages</span>
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ...,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_namespace_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">},</span>
+    <span class="n">package_data</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;mypkg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*.txt&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;mypkg.data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*.rst&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools.packages.find]</span>
+<span class="c1"># scanning for namespace packages is true by default in pyproject.toml, so</span>
+<span class="c1"># you do NOT need to include the following line.</span>
+<span class="n">namespaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+
+<span class="k">[tool.setuptools.package-data]</span>
+<span class="n">mypkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;*.txt&quot;</span><span class="p">]</span>
+<span class="s">&quot;mypkg.data&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;*.rst&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In other words, we allow Setuptools to scan for namespace packages in the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory,
+which enables the <code class="docutils literal notranslate"><span class="pre">data</span></code> directory to be identified, and then, we separately specify data
+files for the root package <code class="docutils literal notranslate"><span class="pre">mypkg</span></code>, and the namespace package <code class="docutils literal notranslate"><span class="pre">data</span></code> under the package
+<code class="docutils literal notranslate"><span class="pre">mypkg</span></code>.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">include_package_data</span></code> the configuration is simpler: you simply need to enable
+scanning of namespace packages in the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory and the rest is handled by Setuptools.</p>
+<div class="tab-set docutils container">
+<input checked="True" class="tab-input" id="tab-set--5-input--1" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--1">setup.cfg</label><div class="tab-content docutils container">
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[options]</span>
+<span class="na">packages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">find_namespace:</span>
+<span class="na">package_dir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+<span class="na">include_package_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+
+<span class="k">[options.packages.find]</span>
+<span class="na">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">src</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--2" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--2">setup.py</label><div class="tab-content docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span><span class="p">,</span> <span class="n">find_namespace_packages</span>
+<span class="n">setup</span><span class="p">(</span>
+    <span class="c1"># ... ,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">find_namespace_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;src&quot;</span><span class="p">),</span>
+    <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="s2">&quot;src&quot;</span><span class="p">},</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--5-input--3" name="tab-set--5" type="radio"><label class="tab-label" for="tab-set--5-input--3">pyproject.toml</label><div class="tab-content docutils container">
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.setuptools]</span>
+<span class="c1"># ...</span>
+<span class="c1"># By default, include-package-data is true in pyproject.toml, so you do</span>
+<span class="c1"># NOT have to specify this line.</span>
+<span class="n">include-package-data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+
+<span class="k">[tool.setuptools.packages.find]</span>
+<span class="c1"># scanning for namespace packages is true by default in pyproject.toml, so</span>
+<span class="c1"># you need NOT include the following line.</span>
+<span class="n">namespaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="n">where</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<p>In summary, the three options allow you to:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">include_package_data</span></code></dt><dd><p>Accept all data files and directories matched by <a class="reference external" href="https://packaging.python.org/en/latest/guides/using-manifest-in/"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> or added by
+a <a class="hxr-hoverxref hxr-tooltip reference internal" href="extension.html#adding-support-for-revision-control-systems"><span class="std std-ref">plugin</span></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">package_data</span></code></dt><dd><p>Specify additional patterns to match files that may or may
+not be matched by <a class="reference external" href="https://packaging.python.org/en/latest/guides/using-manifest-in/"><code class="docutils literal notranslate"><span class="pre">MANIFEST.in</span></code></a> or added by
+a <a class="hxr-hoverxref hxr-tooltip reference internal" href="extension.html#adding-support-for-revision-control-systems"><span class="std std-ref">plugin</span></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">exclude_package_data</span></code></dt><dd><p>Specify patterns for data files and directories that should <em>not</em> be
+included when a package is installed, even if they would otherwise have
+been included due to the use of the preceding options.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to the way the build process works, a data file that you
+include in your project and then stop including may be “orphaned” in your
+project’s build directories, requiring you to run <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">clean</span> <span class="pre">--all</span></code> to
+fully remove them.  This may also be important for your users and contributors
+if they track intermediate revisions of your project using Subversion; be sure
+to let them know when you make changes that remove files from inclusion so they
+can run <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">clean</span> <span class="pre">--all</span></code>.</p>
+</div>
+</section>
+<section id="accessing-data-files-at-runtime">
+<span id="id1"></span><h2>Accessing Data Files at Runtime<a class="headerlink" href="#accessing-data-files-at-runtime" title="Permalink to this heading">#</a></h2>
+<p>Typically, existing programs manipulate a package’s <code class="docutils literal notranslate"><span class="pre">__file__</span></code> attribute in
+order to find the location of data files. For example, if you have a structure
+like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>project_root_directory
+├── setup.py        # and/or setup.cfg, pyproject.toml
+└── src
+    └── mypkg
+        ├── data
+        │   └── data1.txt
+        ├── __init__.py
+        └── foo.py
+</pre></div>
+</div>
+<p>Then, in <code class="docutils literal notranslate"><span class="pre">mypkg/foo.py</span></code>, you may try something like this in order to access
+<code class="docutils literal notranslate"><span class="pre">mypkg/data/data1.txt</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;data1.txt&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
+     <span class="o">...</span>
+</pre></div>
+</div>
+<p>However, this manipulation isn’t compatible with <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0302/"><strong>PEP 302</strong></a>-based import hooks,
+including importing from zip files and Python Eggs.  It is strongly recommended that,
+if you are using data files, you should use <a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/importlib.resources.html#module-importlib.resources" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources</span></code></a> to access them.
+In this case, you would do something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib.resources</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="n">data_text</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s1">&#39;mypkg.data&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;data1.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><a class="hxr-hoverxref hxr-tooltip reference external" href="https://docs.python.org/3/library/importlib.resources.html#module-importlib.resources" title="(in Python v3.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources</span></code></a> was added to Python 3.7. However, the API illustrated in
+this code (using <code class="docutils literal notranslate"><span class="pre">files()</span></code>) was added only in Python 3.9, <a class="footnote-reference brackets" href="#files-api" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> and support
+for accessing data files via namespace packages was added only in Python 3.10 <a class="footnote-reference brackets" href="#namespace-support" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>
+(the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory is a namespace package under the root package <code class="docutils literal notranslate"><span class="pre">mypkg</span></code>).
+Therefore, you may find this code to work only in Python 3.10 (and above). For other
+versions of Python, you are recommended to use the <a class="reference external" href="https://pypi.org/project/importlib-resources">importlib-resources</a> backport
+which provides the latest version of this library. In this case, the only change that
+has to be made to the above code is to replace <code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> with <code class="docutils literal notranslate"><span class="pre">importlib_resources</span></code>, i.e.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">importlib_resources</span> <span class="kn">import</span> <span class="n">files</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>See <a class="hxr-hoverxref hxr-tooltip reference external" href="https://importlib-resources.readthedocs.io/en/latest/using.html" title="(in importlib-resources v6.0.2.dev1+gd5399ef.d20230807)"><span>Using importlib_resources</span></a> for detailed instructions.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Files inside the package directory should be <em>read-only</em> to avoid a
+series of common problems (e.g. when multiple users share a common Python
+installation, when the package is loaded from a zip file, or when multiple
+instances of a Python application run in parallel).</p>
+<p>If your Python package needs to write to a file for shared data or configuration,
+you can use standard platform/OS-specific system directories, such as
+<code class="docutils literal notranslate"><span class="pre">~/.local/config/$appname</span></code> or <code class="docutils literal notranslate"><span class="pre">/usr/share/$appname/$version</span></code> (Linux specific) <a class="footnote-reference brackets" href="#system-dirs" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
+A common approach is to add a read-only template file to the package
+directory that is then copied to the correct system directory if no
+pre-existing file is found.</p>
+</div>
+</section>
+<section id="non-package-data-files">
+<h2>Non-Package Data Files<a class="headerlink" href="#non-package-data-files" title="Permalink to this heading">#</a></h2>
+<p>Historically, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> by way of <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> would encapsulate data
+files from the distribution into the egg (see <a class="reference external" href="https://github.com/pypa/setuptools/blob/52aacd5b276fedd6849c3a648a0014f5da563e93/docs/setuptools.txt#L970-L1001">the old docs</a>). As eggs are deprecated and pip-based installs
+fall back to the platform-specific location for installing data files, there is
+no supported facility to reliably retrieve these resources.</p>
+<p>Instead, the PyPA recommends that any data files you wish to be accessible at
+run time be included <strong>inside the package</strong>.</p>
+<hr class="docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="system-dirs" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">1</a><span class="fn-bracket">]</span></span>
+<p>These locations can be discovered with the help of
+third-party libraries such as <a class="reference external" href="https://pypi.org/project/platformdirs">platformdirs</a>.</p>
+</aside>
+<aside class="footnote brackets" id="files-api" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Reference: <a class="reference external" href="https://importlib-resources.readthedocs.io/en/latest/using.html#migrating-from-legacy">https://importlib-resources.readthedocs.io/en/latest/using.html#migrating-from-legacy</a></p>
+</aside>
+<aside class="footnote brackets" id="namespace-support" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Reference: <a class="reference external" href="https://github.com/python/importlib_resources/pull/196#issuecomment-734520374">https://github.com/python/importlib_resources/pull/196#issuecomment-734520374</a></p>
+</aside>
+</aside>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="ext_modules.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Building Extension Modules</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="entry_point.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Entry Points</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Data Files Support</a><ul>
+<li><a class="reference internal" href="#include-package-data">include_package_data</a></li>
+<li><a class="reference internal" href="#package-data">package_data</a></li>
+<li><a class="reference internal" href="#exclude-package-data">exclude_package_data</a></li>
+<li><a class="reference internal" href="#subdirectory-for-data-files">Subdirectory for Data Files</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#accessing-data-files-at-runtime">Accessing Data Files at Runtime</a></li>
+<li><a class="reference internal" href="#non-package-data-files">Non-Package Data Files</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>

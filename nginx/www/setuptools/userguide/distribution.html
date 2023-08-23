@@ -1,0 +1,529 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../_static/logo-symbol-only.svg">
+    <link rel="icon" type="image/svg+xml" sizes="16x16 24x24 32x32 48x48" href="../_static/favicon.svg"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Controlling files in the distribution" href="miscellaneous.html" /><link rel="prev" title="Building Extension Modules" href="ext_modules.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+        <title>Specifying Your Project’s Version - setuptools 68.1.2.post20230823 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster.bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-shadow.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-punk.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-noir.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-light.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/tooltipster-sideTip-borderless.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/micromodal.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+
+
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #336790;
+  --color-brand-content: #336790;
+
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #E5B62F;
+  --color-brand-content: #E5B62F;
+
+      }
+    }
+  }
+</style></head>
+  <body>
+
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">setuptools 68.1.2.post20230823 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.svg" alt="Logo"/>
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/pypa/setuptools">Home</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/setuptools">PyPI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="package_discovery.html">Package Discovery and Namespace Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dependency_management.html">Dependencies Management in Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_mode.html">Development Mode (a.k.a. “Editable Installs”)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entry_point.html">Entry Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafiles.html">Data Files Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ext_modules.html">Building Extension Modules</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Specifying Your Project’s Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="miscellaneous.html">Controlling files in the distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extension.html">Extending or Customizing Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="declarative_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyproject_config.html">Configuring setuptools using <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../build_meta.html">Build System Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pkg_resources.html">Package Discovery and Resource Access using <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/keywords.html">Keywords</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setuptools.html">Building and Distributing Packages with Setuptools</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Development guide</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Development guide</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/developer-guide.html">Developer’s Guide for Setuptools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/releases.html">Release Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../deprecated/index.html">Backward compatibility &amp; deprecated practice</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Backward compatibility &amp; deprecated practice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/changed_keywords.html">New and Changed <code class="docutils literal notranslate"><span class="pre">setup()</span></code> Keywords</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/dependency_links.html">Specifying dependencies that aren’t in PyPI via <code class="docutils literal notranslate"><span class="pre">dependency_links</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/python_eggs.html">The Internal Structure of Python Eggs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/easy_install.html">Easy Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/zip_safe.html">Understanding the <code class="docutils literal notranslate"><span class="pre">zip_safe</span></code> flag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/resource_extraction.html">Automatic Resource Extraction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../deprecated/distutils/index.html">Distributing Python Modules (Legacy version)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Distributing Python Modules (Legacy version)</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/introduction.html">1. An Introduction to Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/setupscript.html">2. Writing the Setup Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/configfile.html">3. Writing the Setup Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/sourcedist.html">4. Creating a Source Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/builtdist.html">5. Creating Built Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/examples.html">6. Distutils Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/extending.html">7. Extending Distutils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/commandref.html">8. Command Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../deprecated/distutils/apiref.html">9. API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/distutils-legacy.html">Porting from Distutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/functionalities.html">“Eggsecutable” Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecated/commands.html">Running <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> commands</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#credits">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../artwork.html">Artwork</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="specifying-your-project-s-version">
+<span id="id1"></span><h1>Specifying Your Project’s Version<a class="headerlink" href="#specifying-your-project-s-version" title="Permalink to this heading">#</a></h1>
+<p>Setuptools can work well with most versioning schemes. Over the years,
+setuptools has tried to closely follow the <span class="target" id="index-0"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/"><strong>PEP 440</strong></a> scheme, but it
+also supports legacy versions. There are, however, a
+few special things to watch out for, in order to ensure that setuptools and
+other tools can always tell what version of your package is newer than another
+version.  Knowing these things will also help you correctly specify what
+versions of other projects your project depends on.</p>
+<p>A version consists of an alternating series of release numbers and
+<a class="reference external" href="https://peps.python.org/pep-0440/#pre-releases">pre-release</a>
+or <a class="reference external" href="https://peps.python.org/pep-0440/#post-releases">post-release</a> tags.  A
+release number is a series of digits punctuated by
+dots, such as <code class="docutils literal notranslate"><span class="pre">2.4</span></code> or <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.  Each series of digits is treated
+numerically, so releases <code class="docutils literal notranslate"><span class="pre">2.1</span></code> and <code class="docutils literal notranslate"><span class="pre">2.1.0</span></code> are different ways to spell the
+same release number, denoting the first subrelease of release 2.  But  <code class="docutils literal notranslate"><span class="pre">2.10</span></code>
+is the <em>tenth</em> subrelease of release 2, and so is a different and newer release
+from <code class="docutils literal notranslate"><span class="pre">2.1</span></code> or <code class="docutils literal notranslate"><span class="pre">2.1.0</span></code>.  Leading zeros within a series of digits are also
+ignored, so <code class="docutils literal notranslate"><span class="pre">2.01</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">2.1</span></code>, and different from <code class="docutils literal notranslate"><span class="pre">2.0.1</span></code>.</p>
+<p>Following a release number, you can have either a pre-release or post-release
+tag.  Pre-release tags make a version be considered <em>older</em> than the version
+they are appended to.  So, revision <code class="docutils literal notranslate"><span class="pre">2.4</span></code> is <em>newer</em> than release candidate
+<code class="docutils literal notranslate"><span class="pre">2.4rc1</span></code>, which in turn is newer than beta release <code class="docutils literal notranslate"><span class="pre">2.4b1</span></code> or
+alpha release <code class="docutils literal notranslate"><span class="pre">2.4a1</span></code>.  Postrelease tags make
+a version be considered <em>newer</em> than the version they are appended to.  So,
+revisions like <code class="docutils literal notranslate"><span class="pre">2.4.post1</span></code> are newer than <code class="docutils literal notranslate"><span class="pre">2.4</span></code>, but <em>older</em>
+than <code class="docutils literal notranslate"><span class="pre">2.4.1</span></code> (which has a higher release number).</p>
+<p>In the case of legacy versions (for example, <code class="docutils literal notranslate"><span class="pre">2.4pl1</span></code>), they are considered
+older than non-legacy versions. Taking that in count, a revision <code class="docutils literal notranslate"><span class="pre">2.4pl1</span></code>
+is <em>older</em> than <code class="docutils literal notranslate"><span class="pre">2.4</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">2.4pl1</span></code> is not <span class="target" id="index-1"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/"><strong>PEP 440</strong></a>-compliant.</p>
+<p>A pre-release tag is a series of letters that are alphabetically before
+“final”.  Some examples of prerelease tags would include <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">beta</span></code>,
+<code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code>, <code class="docutils literal notranslate"><span class="pre">dev</span></code>, and so on.  You do not have to place a dot or dash
+before the prerelease tag if it’s immediately after a number, but it’s okay to
+do so if you prefer.  Thus, <code class="docutils literal notranslate"><span class="pre">2.4c1</span></code> and <code class="docutils literal notranslate"><span class="pre">2.4.c1</span></code> and <code class="docutils literal notranslate"><span class="pre">2.4-c1</span></code> all
+represent release candidate 1 of version <code class="docutils literal notranslate"><span class="pre">2.4</span></code>, and are treated as identical
+by setuptools. Note that only <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, and <code class="docutils literal notranslate"><span class="pre">rc</span></code> are <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/"><strong>PEP 440</strong></a>-compliant
+pre-release tags.</p>
+<p>In addition, there are three special prerelease tags that are treated as if
+they were <code class="docutils literal notranslate"><span class="pre">rc</span></code>: <code class="docutils literal notranslate"><span class="pre">c</span></code>, <code class="docutils literal notranslate"><span class="pre">pre</span></code>, and <code class="docutils literal notranslate"><span class="pre">preview</span></code>.  So, version
+<code class="docutils literal notranslate"><span class="pre">2.4c1</span></code>, <code class="docutils literal notranslate"><span class="pre">2.4pre1</span></code> and <code class="docutils literal notranslate"><span class="pre">2.4preview1</span></code> are all the exact same version as
+<code class="docutils literal notranslate"><span class="pre">2.4rc1</span></code>, and are treated as identical by setuptools.</p>
+<p>A post-release tag is the string <code class="docutils literal notranslate"><span class="pre">.post</span></code>, followed by a non-negative integer
+value. Post-release tags are generally used to separate patch numbers, port
+numbers, build numbers, revision numbers, or date stamps from the release
+number.  For example, the version <code class="docutils literal notranslate"><span class="pre">2.4.post1263</span></code> might denote Subversion
+revision 1263 of a post-release patch of version <code class="docutils literal notranslate"><span class="pre">2.4</span></code>. Or you might use
+<code class="docutils literal notranslate"><span class="pre">2.4.post20051127</span></code> to denote a date-stamped post-release. Legacy post-release
+tags could be either a series of letters that are alphabetically greater than or
+equal to “final”, or a dash (<code class="docutils literal notranslate"><span class="pre">-</span></code>) - for example <code class="docutils literal notranslate"><span class="pre">2.4-r1263</span></code> or
+<code class="docutils literal notranslate"><span class="pre">2.4-20051127</span></code>.</p>
+<p>Notice that after each legacy pre or post-release tag, you are free to place
+another release number, followed again by more pre- or post-release tags.  For
+example, <code class="docutils literal notranslate"><span class="pre">0.6a9.dev41475</span></code> could denote Subversion revision 41475 of the
+in-development version of the ninth alpha of release 0.6.  Notice that <code class="docutils literal notranslate"><span class="pre">dev</span></code>
+is a pre-release tag, so this version is a <em>lower</em> version number than
+<code class="docutils literal notranslate"><span class="pre">0.6a9</span></code>, which would be the actual ninth alpha of release 0.6.  But the
+<code class="docutils literal notranslate"><span class="pre">41475</span></code> is a post-release tag, so this version is <em>newer</em> than <code class="docutils literal notranslate"><span class="pre">0.6a9.dev</span></code>.</p>
+<p>For the most part, setuptools’ interpretation of version numbers is intuitive,
+but here are a few tips that will keep you out of trouble in the corner cases:</p>
+<ul>
+<li><p>Don’t stick adjoining pre-release tags together without a dot or number
+between them.  Version <code class="docutils literal notranslate"><span class="pre">1.9adev</span></code> is the <code class="docutils literal notranslate"><span class="pre">adev</span></code> prerelease of <code class="docutils literal notranslate"><span class="pre">1.9</span></code>,
+<em>not</em> a development pre-release of <code class="docutils literal notranslate"><span class="pre">1.9a</span></code>.  Use <code class="docutils literal notranslate"><span class="pre">.dev</span></code> instead, as in
+<code class="docutils literal notranslate"><span class="pre">1.9a.dev</span></code>, or separate the prerelease tags with a number, as in
+<code class="docutils literal notranslate"><span class="pre">1.9a0dev</span></code>.  <code class="docutils literal notranslate"><span class="pre">1.9a.dev</span></code>, <code class="docutils literal notranslate"><span class="pre">1.9a0dev</span></code>, and even <code class="docutils literal notranslate"><span class="pre">1.9a0.dev0</span></code> are
+identical versions from setuptools’ point of view, so you can use whatever
+scheme you prefer. Of these examples, only <code class="docutils literal notranslate"><span class="pre">1.9a0.dev0</span></code> is
+<span class="target" id="index-3"></span><a class="pep reference external" href="https://peps.python.org/pep-0440/"><strong>PEP 440</strong></a>-compliant.</p></li>
+<li><p>If you want to be certain that your chosen numbering scheme works the way
+you think it will, you can use the <code class="docutils literal notranslate"><span class="pre">pkg_resources.parse_version()</span></code> function
+to compare different version numbers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">parse_version</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;1.9.a.dev&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;1.9a0dev&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;2.1-rc2&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;2.1&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;0.6a9dev-r41475&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;0.6a9&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Once you’ve decided on a version numbering scheme for your project, you can
+have setuptools automatically tag your in-development releases with various
+pre- or post-release tags. See the following section for more details.</p>
+<section id="tagging-and-daily-build-or-snapshot-releases">
+<h2>Tagging and “Daily Build” or “Snapshot” Releases<a class="headerlink" href="#tagging-and-daily-build-or-snapshot-releases" title="Permalink to this heading">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">...</span></code> directly is no longer
+considered a good practice and that in the future the commands <code class="docutils literal notranslate"><span class="pre">egg_info</span></code>
+and <code class="docutils literal notranslate"><span class="pre">rotate</span></code> will be deprecated.</p>
+<p>As a result, the instructions and information presented in this section
+should be considered <strong>transitional</strong> while setuptools don’t provide a
+mechanism for tagging releases.</p>
+<p>Meanwhile, if you can also consider using <a class="reference external" href="https://pypi.org/project/setuptools-scm">setuptools-scm</a> to achieve
+similar objectives.</p>
+</div>
+<p>When a set of related projects are under development, it may be important to
+track finer-grained version increments than you would normally use for e.g.
+“stable” releases.  While stable releases might be measured in dotted numbers
+with alpha/beta/etc. status codes, development versions of a project often
+need to be tracked by revision or build number or even build date.  This is
+especially true when projects in development need to refer to one another, and
+therefore may literally need an up-to-the-minute version of something!</p>
+<p>To support these scenarios, <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> allows you to “tag” your source and
+egg distributions by adding one or more of the following to the project’s
+“official” version identifier:</p>
+<ul class="simple">
+<li><p>A manually-specified pre-release tag, such as “build” or “dev”, or a
+manually-specified post-release tag, such as a build or revision number
+(<code class="docutils literal notranslate"><span class="pre">--tag-build=STRING,</span> <span class="pre">-bSTRING</span></code>)</p></li>
+<li><p>An 8-character representation of the build date (<code class="docutils literal notranslate"><span class="pre">--tag-date,</span> <span class="pre">-d</span></code>), as
+a postrelease tag</p></li>
+</ul>
+<p>You can add these tags by adding <code class="docutils literal notranslate"><span class="pre">egg_info</span></code> and the desired options to
+the command line ahead of the <code class="docutils literal notranslate"><span class="pre">sdist</span></code> or <code class="docutils literal notranslate"><span class="pre">bdist</span></code> commands that you want
+to generate a daily build or snapshot for.  See the section below on the
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#egg-info"><span class="std std-ref">egg_info</span></a> command for more details.</p>
+<p>(Also, before you release your project, be sure to see the section on
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="#specifying-your-project-s-version"><span class="std std-ref">Specifying Your Project’s Version</span></a> for more information about how pre- and
+post-release tags affect how version numbers are interpreted.  This is
+important in order to make sure that dependency processing tools will know
+which versions of your project are newer than others).</p>
+<p>Finally, if you are creating builds frequently, and either building them in a
+downloadable location or are copying them to a distribution server, you should
+probably also check out the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#rotate"><span class="std std-ref">rotate</span></a> command, which lets you automatically
+delete all but the N most-recently-modified distributions matching a glob
+pattern.  So, you can use a command line like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">egg_info</span> <span class="o">-</span><span class="n">rbDEV</span> <span class="n">bdist_egg</span> <span class="n">rotate</span> <span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">egg</span> <span class="o">-</span><span class="n">k3</span>
+</pre></div>
+</div>
+<p>to build an egg whose version info includes “DEV-rNNNN” (where NNNN is the
+most recent Subversion revision that affected the source tree), and then
+delete any egg files from the distribution directory except for the three
+that were built most recently.</p>
+<p>If you have to manage automated builds for multiple packages, each with
+different tagging and rotation policies, you may also want to check out the
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#alias"><span class="std std-ref">alias</span></a> command, which would let each package define an alias like <code class="docutils literal notranslate"><span class="pre">daily</span></code>
+that would perform the necessary tag, build, and rotate commands.  Then, a
+simpler script or cron job could just run <code class="docutils literal notranslate"><span class="pre">setup.py</span> <span class="pre">daily</span></code> in each project
+directory.  (And, you could also define sitewide or per-user default versions
+of the <code class="docutils literal notranslate"><span class="pre">daily</span></code> alias, so that projects that didn’t define their own would
+use the appropriate defaults.)</p>
+</section>
+<section id="making-official-non-snapshot-releases">
+<h2>Making “Official” (Non-Snapshot) Releases<a class="headerlink" href="#making-official-non-snapshot-releases" title="Permalink to this heading">#</a></h2>
+<p>When you make an official release, creating source or binary distributions,
+you will need to override the tag settings from <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, so that you
+don’t end up registering versions like <code class="docutils literal notranslate"><span class="pre">foobar-0.7a1.dev-r34832</span></code>.  This is
+easy to do if you are developing on the trunk and using tags or branches for
+your releases - just make the change to <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> after branching or
+tagging the release, so the trunk will still produce development snapshots.</p>
+<p>Alternately, if you are not branching for releases, you can override the
+default version options on the command line, using something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">egg_info</span> <span class="o">-</span><span class="n">Db</span> <span class="s2">&quot;&quot;</span> <span class="n">sdist</span> <span class="n">bdist_egg</span>
+</pre></div>
+</div>
+<p>The first part of this command (<code class="docutils literal notranslate"><span class="pre">egg_info</span> <span class="pre">-Db</span> <span class="pre">&quot;&quot;</span></code>) will override the
+configured tag information, before creating source and binary eggs. Thus, these
+commands will use the plain version from your <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>, without adding the
+build designation string.</p>
+<p>Of course, if you will be doing this a lot, you may wish to create a personal
+alias for this operation, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">alias</span> <span class="o">-</span><span class="n">u</span> <span class="n">release</span> <span class="n">egg_info</span> <span class="o">-</span><span class="n">Db</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+<p>You can then use it like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">release</span> <span class="n">sdist</span> <span class="n">bdist_egg</span>
+</pre></div>
+</div>
+<p>Or of course you can create more elaborate aliases that do all of the above.
+See the sections below on the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#egg-info"><span class="std std-ref">egg_info</span></a> and
+<a class="hxr-hoverxref hxr-tooltip reference internal" href="../deprecated/commands.html#alias"><span class="std std-ref">alias</span></a> commands for more ideas.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+
+        <div class="related-pages">
+          <a class="next-page" href="miscellaneous.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Controlling files in the distribution</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="ext_modules.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+
+                <div class="title">Building Extension Modules</div>
+
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; Python Packaging Authority
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+
+          </div>
+          <div class="right-details">
+
+          </div>
+        </div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+
+
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Specifying Your Project’s Version</a><ul>
+<li><a class="reference internal" href="#tagging-and-daily-build-or-snapshot-releases">Tagging and “Daily Build” or “Snapshot” Releases</a></li>
+<li><a class="reference internal" href="#making-official-non-snapshot-releases">Making “Official” (Non-Snapshot) Releases</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+
+
+    </aside>
+  </div>
+</div><script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=704ab38f"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/js/hoverxref.js"></script>
+    <script src="../_static/js/tooltipster.bundle.min.js"></script>
+    <script src="../_static/js/micromodal.min.js"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script id="MathJax-script" async="async" src="../_static/js/mathjax/tex-chtml.js"></script>
+    </body>
+</html>
